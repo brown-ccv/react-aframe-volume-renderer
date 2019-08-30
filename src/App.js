@@ -9,6 +9,7 @@ import Navbar from 'react-brownccv/dist/components/Navbar'
 import BrownFooter from 'react-brownccv/dist/components/BrownFooter'
 import './App.css'
 import './components/my-loader.js'
+import './components/my-buttons-check.js'
 import VolumeRenderer from './components/VolumeRenderer';
 
 
