@@ -252,23 +252,11 @@ AFRAME.registerComponent('myloader', {
 
 		   
 	       }, function () {} , function () {console.log("Could not load the data, Data not found")});
-        console.log("END INIT");
-        this.camPos = 400.0;
-        var secondCameraEl = document.querySelector('#myCamera');
-        secondCameraEl.setAttribute('camera', 'active', true);
+        
+        
+        var cameraEl = document.querySelector('#myCamera');
+        cameraEl.setAttribute('camera', 'active', true);
 
-        var matches = document.querySelectorAll("[camera]");
-        matches.forEach(function(camera) {
-            
-            console.log(camera.id);
-
-            if(camera.id == "myCamera")
-            {
-                console.log("camera "+camera.id+ " deleted");
-                //camera.   
-            }
-
-          });
     },
   
     update: function () {
@@ -281,13 +269,6 @@ AFRAME.registerComponent('myloader', {
   
     tick: function (time, timeDelta) {
       // Do something on every scene tick or frame.
-      var currentPos = document.querySelector("[camera]").getObject3D('camera').position;
-      if (this.camPos != currentPos)
-      {
-        console.log("camera changed pos");
-        console.log(currentPos);
-        this.camPos = currentPos;
-      }
 			if(this.data.modelLoaded) 
 			{
 				if( this.my2DclipPlaneHandler !== undefined  && !this.isVrModeOn)

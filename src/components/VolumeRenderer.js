@@ -21,10 +21,12 @@ export default class VolumeRenderer extends Component {
             <a-entity id="rhand" mixin="controller-right"></a-entity>
          </a-entity>
 
-            <a-plane id="my2Dclipplane" height="1" width="1" material="color: red ; side:double" ccvclipplane></a-plane>
-            <a-entity id="volumeCube" class="cube" mixin="cube" myloader=" volumeData:./assets/models/nrrd/00.nrrd" position=" 0 0 -2" ></a-entity>
+            {/*
+             <a-plane id="my2Dclipplane" height="1" width="1" material="color: red ; side:double" ccvclipplane></a-plane> 
+             */}  
+            <a-entity id="volumeCube" class="cube" mixin="cube" myloader=" volumeData:./assets/models/nrrd/00.nrrd"  ></a-entity>
             
-         <a-entity id="myCamera" camera="active: true" position="0 0 0"></a-entity>   
+         <a-entity id="myCamera" camera="active: true" look-controls orbit-controls="target: 0 0 0; minDistance: 0.5; maxDistance: 180; initialPosition: 0 0 2" ></a-entity>   
       </a-scene>
       </div>
       
