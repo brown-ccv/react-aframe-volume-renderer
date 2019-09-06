@@ -40,9 +40,9 @@ AFRAME.registerComponent('ccvclipplane', {
    
    tick: function (time, timeDelta) {
         
-          if (this.keys.KeyA || this.keys.ArrowLeft)
+          if (this.keys.KeyA )
           {
-              this.el.object3D.rotateX(0.0174533); // 1 radian
+              //this.el.object3D.rotateX(0.0174533); // 1 radian
           }
    },
    
@@ -82,24 +82,209 @@ AFRAME.registerComponent('ccvclipplane', {
 });	
 
 
+AFRAME.registerComponent('move-cube', {
+	
+    schema: {
+         
+         
+    },
+   
+   init: function () {
+           
+		   console.log("Init Move Cube");
+		   this.active = false;
+           this.isVrModeOn = false;
+           this.keys ={};
+           this.mySpeed = 0.1;
+           this.onKeyDown = this.onKeyDown.bind(this);
+           this.onKeyUp = this.onKeyUp.bind(this);
+           this.activate2DClipPlane = this.activate2DClipPlane.bind(this);
+           
+           window.addEventListener('keydown', this.onKeyDown);
+           window.addEventListener('keyup', this.onKeyUp);
+           
+           
+           this.el.addEventListener('enter-vr', function () {
+               this.isVrModeOn = true;
+           });
+           
+           this.el.addEventListener('exit-vr', function () {
+              this.isVrModeOn = false;
+           });
+           
+   },
+   
+   tick: function (time, timeDelta) {
+		 
+		 if(this.keys.KeyQ && !this.active)
+		 {
+			this.active = true;
+		 }
+		 if(this.keys.KeyS && this.active)
+		 {
+			this.active = false;
+		 }
+
+         if(this.active){
+		   this.el.object3D.translateX(0.0035);
+		   this.el.object3D.translateY(0.0025);
+		 }
+
+
+
+
+          /*if ( this.keys.ArrowLeft)
+          {
+			console.log("this.keys.ArrowLeft1");
+			  var pos = this.el.object3D.position;
+			  pos.x = timeDelta * this.mySpeedy - pos.x;
+			  //this.el.object3D.position.set(pos); 
+			  this.el.object3D.translateX(-0.001);
+			  console.log("this.keys.ArrowLeft2");
+		  }
+		  if( this.keys.ArrowRight)
+		  {
+			console.log("this.keys.ArrowRight1");
+			var pos = this.el.object3D.position;
+			pos.x = timeDelta * this.mySpeed + pos.x;
+			this.el.object3D.translateX(0.001);
+			console.log("this.keys.ArrowRight2");
+		  }
+		  if( this.keys.ArrowUp)
+		  {
+			console.log("this.keys.ArrowUp1");
+			var pos = this.el.object3D.position;
+			pos.y = timeDelta * this.mySpeed + pos.y;
+			//this.el.object3D.position.set(pos); 
+			this.el.object3D.translateY(0.001);
+			console.log("this.keys.ArrowUp2");
+		  }	
+		  if( this.keys.ArrowDown)
+		  {
+			console.log("this.keys.ArrowDown1");
+			var pos = this.el.object3D.position;
+			pos.y = timeDelta * this.mySpeed - pos.y;
+			//this.el.object3D.position.set(pos); 
+			this.el.object3D.translateY(-0.001);
+			console.log("this.keys.ArrowDown2");
+		  }*/
+   },
+   
+   remove: function () {
+    this.removeEventListeners();
+   },
+   
+  onKeyDown: function (event) {
+   var code = event.code;
+   if (this.isVrModeOn) 
+   { 
+     return; 
+   }
+   if (KEYS.indexOf(code) !== -1) 
+   { 
+    this.keys[code] = true; 
+   }
+   
+   
+ },
+
+ onKeyUp: function (event) {
+   
+   var code = event.code;
+   delete this.keys[code];
+ },
+ 
+ activate2DClipPlane : function (event) {
+     this.data.isActive = false;
+ },
+ 
+ removeEventListeners: function () {
+   window.removeEventListener('keydown', this.onKeydown);
+   window.removeEventListener('keyup', this.onKeyUp);
+ }
+ 
+});	
+
+
+/*AFRAME.registerComponent('move-cube', {
+	
+    schema: {
+         
+         
+	},
+	
+	init: function () {
+
+
+	},
+
+});	*/
+
+
+AFRAME.registerComponent('collider-check', {
+	dependencies: ['raycaster'],
+	dependencies: ['my-buttons-check'],
+	
+	schema: {
+		intersecting: {type: 'boolean', default: false },
+	},
+
+	init: function () {
+		
+		this.onCollide = this.onCollide.bind(this);
+		this.el.addEventListener('raycaster-intersection', this.onCollide);
+	},
+
+	onCollide: function (event) {
+		this.data.intersecting = true;
+		//console.log("ENTITY COLLIDED");
+	},
+
+  });
+
+  AFRAME.registerComponent('entity-collider-check', {
+	
+	schema: {
+		intersected: {type: 'boolean', default: false },
+	},
+
+	init: function () {
+		
+		this.onCollide = this.onCollide.bind(this);
+		this.el.addEventListener('raycaster-intersected', this.onCollide);
+	},
+
+	onCollide: function (event) {
+		this.data.intersected = true;
+		console.log("entity-intesercted");
+	},
+
+  });
 
 AFRAME.registerComponent('myloader', {
+	
     schema: {
       volumeData: {type: 'string', default: 'Hello, World!'},
 	  rayCollided: {type: 'boolean', default: false },
 	  modelLoaded: {type: 'boolean', default: false},
     },
-  
+
     init: function () {
-      console.log("data: "+ this.data.volumeData);
-			this.isVrModeOn = false;
-			this.el.addEventListener('enter-vr', function () {
-                this.isVrModeOn = true;
-            });
+
+		this.objectPose = new THREE.Matrix4();
+		this.controllerPose = new THREE.Matrix4();
+		this.onCollide = this.onCollide.bind(this);
+		this.onClearCollide = this.onClearCollide.bind(this);
+		this.el.addEventListener('raycaster-intersected', this.onCollide);
+		this.el.addEventListener('raycaster-intersected-cleared', this.onClearCollide);
+		
 			
-			this.el.addEventListener('exit-vr', function () {
-               this.isVrModeOn = false;
-            });
+		    console.log("data: "+ this.data.volumeData);
+			this.isVrModeOn = false;
+			this.mySpeed = 0.1;
+			
+			this.sceneHandler = this.el.sceneEl;
+			
 			//var controllerPos = document.querySelector('[hand-controls=left]').getAttribute('position');
             this.controllerHandler = document.getElementById('rhand').object3D;//.getAttribute('my-buttons-check');
             var my2DclipPlane = document.getElementById('my2Dclipplane');
@@ -231,7 +416,9 @@ AFRAME.registerComponent('myloader', {
 	        uniforms["P_inv"].value = new THREE.Matrix4();
 			uniforms["depth"].value = null;
 			uniforms["zScale"].value = zScale;
-			
+			uniforms["controllerPoseMatrix"].value = new THREE.Matrix4();
+			uniforms["grabMesh"].value = false;
+	
 		
 			
 			var material = new THREE.ShaderMaterial( {
@@ -257,7 +444,17 @@ AFRAME.registerComponent('myloader', {
         var cameraEl = document.querySelector('#myCamera');
         cameraEl.setAttribute('camera', 'active', true);
 
-    },
+	},
+	
+	onCollide: function (event) {
+		this.data.rayCollided = true;
+		//console.log("entity-intesercted2");
+	},
+
+	onClearCollide:function (event) {
+		this.data.rayCollided = false;
+		//console.log("entity-clear-intesercted2");
+	},
   
     update: function () {
       // Do something when component's data is updated.
@@ -268,23 +465,62 @@ AFRAME.registerComponent('myloader', {
     },
   
     tick: function (time, timeDelta) {
-      // Do something on every scene tick or frame.
+	  // Do something on every scene tick or frame.
+	  
+	  /*if(this.controllerHandler.el.getAttribute('my-buttons-check').grabObject
+				  && this.data.rayCollided)
+				{
+					console.log("GRAB ENTITY2");
+					console.log("vr mode: " + this.sceneHandler.is('vr-mode'));
+					console.log("this.controllerHandler: " +this.controllerHandler );
+				}*/
+			var isVrModeActive = this.sceneHandler.is('vr-mode');
 			if(this.data.modelLoaded) 
 			{
-				if( this.my2DclipPlaneHandler !== undefined  && !this.isVrModeOn)
+				if( this.my2DclipPlaneHandler !== undefined  && !isVrModeActive)
 				{
 					
 				}
-				else if(this.controllerHandler !== undefined && this.isVrModeOn)
+				else if(this.controllerHandler !== undefined && isVrModeActive)
 				{
-					
-			    //material for setting the clipPlane and clipping value
-				var material = this.el.getObject3D("mesh").material;
-				
+			
 				//Input - Controllermatrix
-		        var controllerMatrix = this.controllerHandler.matrixWorld  ;	
+				var controllerMatrix = this.controllerHandler.matrixWorld;	
 				//Input - Volumematrix				
 				var volumeMatrix =  this.el.getObject3D("mesh").matrixWorld;
+
+				// grab mesh
+				if(this.controllerHandler.el.getAttribute('my-buttons-check').grabObject
+				  && this.data.rayCollided)
+				{
+					
+					// THIS IS THE PART TO DO THE GRAB (AND DROP) EVENT
+
+					console.log("GRAB ENTITY");
+					//inverse of the controllermatrix
+					var controllerMatrixInverse =  new THREE.Matrix4();
+					//var myMatrix = new THREE.Matrix4();
+					this.el.getObject3D("mesh").matrixAutoUpdate  = false;  
+					//myMatrix.multiplyMatrices(controllerMatrixInverse.getInverse( controllerMatrix ),volumeMatrix);
+					//console.log(myMatrix.elements);
+					//this.el.getObject3D("mesh").matrix.multiplyMatrices(  controllerMatrixInverse.getInverse(volumeMatrix),controllerMatrixInverse.getInverse( controllerMatrix));
+					//this.el.getObject3D("mesh").matrixWorldNeedsUpdate = true
+					//console.log(this.el.getObject3D("mesh").matrixWorld);
+
+					var newObjectPose = new THREE.Matrix4();
+					var tmpMatrix =new THREE.Matrix4();
+					tmpMatrix.multiplyMatrices(this.controllerPose,volumeMatrix);
+					newObjectPose.multiplyMatrices(controllerMatrix,tmpMatrix);
+					console.log(newObjectPose.elements);
+					this.el.getObject3D("mesh").matrix.set( newObjectPose.elements);
+					this.el.getObject3D("mesh").matrixWorldNeedsUpdate = true
+				    
+				}
+
+				this.controllerPose = controllerMatrix;
+
+			    //material for setting the clipPlane and clipping value
+				var material = this.el.getObject3D("mesh").material;
 				
 				//scalematrix for zscaling
 				var scaleMatrix = new THREE.Matrix4();
@@ -307,6 +543,7 @@ AFRAME.registerComponent('myloader', {
 				//set uniforms of shader
 				material.uniforms.clipPlane.value = clipMatrix;
 				material.uniforms.clipping.value = this.controllerHandler.el.getAttribute('my-buttons-check').clipPlane;
+
 				}
 			}
     }

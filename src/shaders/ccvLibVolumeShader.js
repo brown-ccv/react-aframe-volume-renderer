@@ -17,6 +17,8 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 	"u_data": { value: null },
 	"depth": {value:null},
 	"zScale": {value: 1.0 },
+	"controllerPoseMatrix": {value: new THREE.Matrix4() },
+	"grabMesh": {value: false },
   },
   
   vertexShader: [ 
@@ -45,6 +47,8 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 		//'out mat4 nClipPlane;',
 		'uniform float zScale;',
 		//'uniform mat4 clipPlane;',
+		'uniform mat4 controllerPoseMatrix;',
+		'uniform bool grabMesh;',
 		'void main()',
 		'{',
 			//get the clipspace position 

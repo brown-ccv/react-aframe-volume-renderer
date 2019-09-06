@@ -1,4 +1,5 @@
 import 'aframe'
+import 'super-hands'
 import 'aframe-event-set-component'
 import 'aframe-physics-system'
 import 'aframe-physics-extras'

@@ -10,6 +10,7 @@
     "aframe-orbit-controls": "^1.2.0",
     "aframe-physics-extras": "^0.1.3",
     "aframe-physics-system": "^4.0.1",
+    "aframe-react": "^4.4.0",
     "brown-university-styles": "git+https://bitbucket.brown.edu/scm/react/brown-university-styles.git",
     "react": "^16.9.0",
     "react-brownccv": "git+https://github.com/brown-ccv/react-brownccv.git#feat-babel",
