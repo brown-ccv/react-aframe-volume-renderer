@@ -34,4 +34,10 @@
 
 .aframe-container {
     height: 80vh !important;
+    width: 80vw !important;
+}
+
+.controls-container {
+  height: 80vh !important;
+  width: 20vw !important;
 }

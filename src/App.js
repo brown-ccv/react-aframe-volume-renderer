@@ -12,7 +12,11 @@ import BrownFooter from 'react-brownccv/dist/components/BrownFooter'
 import './App.css'
 import './components/my-loader.js'
 import './components/my-buttons-check.js'
+import './components/render-2d-clipplane'
 import VolumeRenderer from './components/VolumeRenderer';
+import Layout from './components/Layout'
+import {creatStore} from 'redux';
+
 
 
 class App extends Component {
@@ -20,7 +24,7 @@ class App extends Component {
     return (
       <div>
         <Navbar/>
-        <VolumeRenderer/>
+        <Layout/>
         <BrownFooter/>
       </div>
     );

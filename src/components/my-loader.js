@@ -3,7 +3,7 @@ import { NRRDLoader } from '../loader/NRRDLoader.js';
 import '../shaders/ccvLibVolumeShader.js'
 
 var KEYS = [
-    'KeyW', 'KeyA', 'KeyS', 'KeyD','KeyQ',
+    'KeyW', 'KeyA', 'KeyS', 'KeyD','KeyQ','KeyP',
     'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ArrowDown'
   ];
 
@@ -26,15 +26,6 @@ AFRAME.registerComponent('ccvclipplane', {
            
            window.addEventListener('keydown', this.onKeyDown);
            window.addEventListener('keyup', this.onKeyUp);
-           
-           
-           this.el.addEventListener('enter-vr', function () {
-               this.isVrModeOn = true;
-           });
-           
-           this.el.addEventListener('exit-vr', function () {
-              this.isVrModeOn = false;
-           });
            
    },
    
@@ -99,18 +90,11 @@ AFRAME.registerComponent('move-cube', {
            this.onKeyDown = this.onKeyDown.bind(this);
            this.onKeyUp = this.onKeyUp.bind(this);
            this.activate2DClipPlane = this.activate2DClipPlane.bind(this);
-           
+		
+		   
            window.addEventListener('keydown', this.onKeyDown);
            window.addEventListener('keyup', this.onKeyUp);
-           
-           
-           this.el.addEventListener('enter-vr', function () {
-               this.isVrModeOn = true;
-           });
-           
-           this.el.addEventListener('exit-vr', function () {
-              this.isVrModeOn = false;
-           });
+		   
            
    },
    
@@ -129,10 +113,7 @@ AFRAME.registerComponent('move-cube', {
 		   this.el.object3D.translateX(0.0035);
 		   this.el.object3D.translateY(0.0025);
 		 }
-
-
-
-
+		 
           /*if ( this.keys.ArrowLeft)
           {
 			console.log("this.keys.ArrowLeft1");
@@ -193,6 +174,13 @@ AFRAME.registerComponent('move-cube', {
    var code = event.code;
    delete this.keys[code];
  },
+
+ onKeyPress: function (event) {
+   
+	var code = event.code;
+	delete this.keys[code];
+	this.isActive = !this.isActive;
+  },
  
  activate2DClipPlane : function (event) {
      this.data.isActive = false;
@@ -201,24 +189,12 @@ AFRAME.registerComponent('move-cube', {
  removeEventListeners: function () {
    window.removeEventListener('keydown', this.onKeydown);
    window.removeEventListener('keyup', this.onKeyUp);
+
+  
  }
  
 });	
 
-
-/*AFRAME.registerComponent('move-cube', {
-	
-    schema: {
-         
-         
-	},
-	
-	init: function () {
-
-
-	},
-
-});	*/
 
 
 AFRAME.registerComponent('collider-check', {
@@ -273,32 +249,41 @@ AFRAME.registerComponent('myloader', {
 
 		this.objectPose = new THREE.Matrix4();
 		this.controllerPose = new THREE.Matrix4();
+		this.tempMatrix = new THREE.Matrix4();
 		this.onCollide = this.onCollide.bind(this);
+		this.grabbed =false;
+		this.onSelectStart = this.onSelectStart.bind(this);
 		this.onClearCollide = this.onClearCollide.bind(this);
 		this.el.addEventListener('raycaster-intersected', this.onCollide);
 		this.el.addEventListener('raycaster-intersected-cleared', this.onClearCollide);
-		
+		this.group  = new THREE.Group();
+		//this.el.sceneEl.object3D.add(group);
 			
-		    console.log("data: "+ this.data.volumeData);
-			this.isVrModeOn = false;
-			this.mySpeed = 0.1;
+		console.log("data: "+ this.data.volumeData);
+		this.isVrModeOn = false;
+		this.mySpeed = 0.1;
 			
-			this.sceneHandler = this.el.sceneEl;
+		this.sceneHandler = this.el.sceneEl;
 			
-			//var controllerPos = document.querySelector('[hand-controls=left]').getAttribute('position');
-            this.controllerHandler = document.getElementById('rhand').object3D;//.getAttribute('my-buttons-check');
-            var my2DclipPlane = document.getElementById('my2Dclipplane');
-            if(my2DclipPlane != undefined)
-            {
-                this.my2DclipPlaneHandler = my2DclipPlane.object3D;
-            }
+		//var controllerPos = document.querySelector('[hand-controls=left]').getAttribute('position');
+		this.controllerHandler = document.getElementById('rhand').object3D;//.getAttribute('my-buttons-check');
+		this.controllerHandler.el.addEventListener( 'selectstart', this.onSelectStart );
+			
+		this.clipPlaneListenerHandler = document.getElementById('my2DclipplaneListener').object3D;//.getAttribute('my-buttons-check');
+		this.clip2DPlaneRendered = false;
+
+		this.controllerHandler.matrixAutoUpdate = false;
+		this.grabState = this.controllerHandler.el.getAttribute('my-buttons-check').grabObject;
+        var my2DclipPlane = document.getElementById('my2Dclipplane');
+        if(my2DclipPlane != undefined)
+        {
+            this.my2DclipPlaneHandler = my2DclipPlane.object3D;
+        }
 
 			
-			//console.log(this.controllerHandler.el.getAttribute('my-buttons-check').clipPlane);
 			
-			//console.log("this.controllerHandler.data.clipPlane: " + this.controllerHandler.data.clipPlane);
 			
-			var jet_values = [[0, 0, 0.5, 0],
+		var jet_values = [[0, 0, 0.5, 0],
 			                  [0, 0, 1, 0.1],
 							  [0, 0.5, 1, 0.3],
 							  [0, 1, 1, 0.5],
@@ -309,73 +294,73 @@ AFRAME.registerComponent('myloader', {
 							  [0.5, 0, 0, 0.0]
 							 ];
 			
-			var m_dataLength = 0;
-			var pData = [];
-			var indices = [];
-			var zeroArray = [0,0,0,0];
+		var m_dataLength = 0;
+		var pData = [];
+		var indices = [];
+		var zeroArray = [0,0,0,0];
             
-			for (var i = 0; i<9; i++) {
+		for (var i = 0; i<9; i++) {
 		        
-                var index = i * 28;
-				while( pData.length < index )
-				{
-					pData.push(zeroArray);
-				}
+            var index = i * 28;
+			while( pData.length < index )
+			{
+				pData.push(zeroArray);
+			}
                 
                 
-		        pData.push( [jet_values[i][0] * 255 , jet_values[i][1] * 255, jet_values[i][2] * 255 , jet_values[i][3] * 255 ]);
-		        indices.push(index);
+		    pData.push( [jet_values[i][0] * 255 , jet_values[i][1] * 255, jet_values[i][2] * 255 , jet_values[i][3] * 255 ]);
+		    indices.push(index);
 		        
-	        }
+	    }
 
      	
-			for (var j = 0; j<9 - 1; j++)
-	        {
+		for (var j = 0; j<9 - 1; j++)
+	    {
 				
-				var dDataR = (pData[indices[j + 1]][0] - pData[indices[j]][0]);
-		        var dDataG = (pData[indices[j + 1]][1] - pData[indices[j]][1]);
-		        var dDataB = (pData[indices[j + 1]][2] - pData[indices[j]][2]);
-		        var dDataA = (pData[indices[j + 1]][3] - pData[indices[j]][3]);
-		        var dIndex = indices[j + 1] - indices[j];
+			var dDataR = (pData[indices[j + 1]][0] - pData[indices[j]][0]);
+		    var dDataG = (pData[indices[j + 1]][1] - pData[indices[j]][1]);
+		    var dDataB = (pData[indices[j + 1]][2] - pData[indices[j]][2]);
+		    var dDataA = (pData[indices[j + 1]][3] - pData[indices[j]][3]);
+		    var dIndex = indices[j + 1] - indices[j];
 				
-				var dDataIncR = dDataR / dIndex;
-		        var dDataIncG = dDataG / dIndex;
-		        var dDataIncB = dDataB / dIndex;
-		        var dDataIncA = dDataA / dIndex;
+			var dDataIncR = dDataR / dIndex;
+		    var dDataIncG = dDataG / dIndex;
+		    var dDataIncB = dDataB / dIndex;
+		    var dDataIncA = dDataA / dIndex;
 				
-				for (var idx = indices[j] + 1; idx<indices[j + 1]; idx++)
-		        {
-			       var myvector = [pData[idx - 1][0] + dDataIncR ,pData[idx - 1][1] + dDataIncG ,pData[idx - 1][2] + dDataIncB,pData[idx - 1][3] + dDataIncA ];
-                   pData[idx] = myvector;
-		        }
+			for (var idx = indices[j] + 1; idx<indices[j + 1]; idx++)
+		    {
+			   var myvector = [pData[idx - 1][0] + dDataIncR ,pData[idx - 1][1] + dDataIncG ,pData[idx - 1][2] + dDataIncB,pData[idx - 1][3] + dDataIncA ];
+               pData[idx] = myvector;
+		    }
 				
-			}
+		}
 			
 			
-            var newArr = [];
-			for(var i = 0; i < pData.length; i++)
-            {
-              newArr = newArr.concat(pData[i]);
-            }
+        var newArr = [];
+		for(var i = 0; i < pData.length; i++)
+        {
+            newArr = newArr.concat(pData[i]);
+        }
 
-		    var tranferData = new Uint8Array(newArr);
-			var transferTexture = new THREE.DataTexture( tranferData, pData.length  , 1, THREE.RGBAFormat );
-            transferTexture.needsUpdate = true 
+		var tranferData = new Uint8Array(newArr);
+		var transferTexture = new THREE.DataTexture( tranferData, pData.length  , 1, THREE.RGBAFormat );
+        transferTexture.needsUpdate = true 
 			
 			
-		   console.log("INIT component myloader is "+ this.el);
-		   var el = this.el;
-		   var data = this.data; 
-		   var dataPath = this.data.volumeData;
-		   var myCanvas = this.el.sceneEl.canvas;
-		   var myCanvasWidth = myCanvas.width;
-		   var myCanvasHeight = myCanvas.height;
+		console.log("INIT component myloader is "+ this.el);
+		var el = this.el;
+		var data = this.data; 
+		var dataPath = this.data.volumeData;
+		var myCanvas = this.el.sceneEl.canvas;
+		var myCanvasWidth = myCanvas.width;
+		var myCanvasHeight = myCanvas.height;
 		   
-		   this.printedLog = false;
+		this.printedLog = false;
 		   
-		   var volconfig = { clim1: 0, clim2: 1, renderstyle: 'iso', isothreshold: 0.15, colormap: 'viridis' };
+		var volconfig = { clim1: 0, clim2: 1, renderstyle: 'iso', isothreshold: 0.15, colormap: 'viridis' };
 		  
-		  new NRRDLoader().load( this.data.volumeData, function ( volume ) {
+		new NRRDLoader().load( this.data.volumeData, function ( volume ) {
 	       var texture = new THREE.DataTexture3D( volume.data, volume.xLength, volume.yLength, volume.zLength  );
 		   
 		   
@@ -438,7 +423,7 @@ AFRAME.registerComponent('myloader', {
 				
 
 		   
-	       }, function () {} , function () {console.log("Could not load the data, Data not found")});
+	    }, function () {} , function () {console.log("Could not load the data, Data not found")});
         
         
         var cameraEl = document.querySelector('#myCamera');
@@ -455,7 +440,10 @@ AFRAME.registerComponent('myloader', {
 		this.data.rayCollided = false;
 		//console.log("entity-clear-intesercted2");
 	},
-  
+	onSelectStart :function (event) {
+		//this.data.rayCollided = false;
+		console.log("onSelectStart");
+	},
     update: function () {
       // Do something when component's data is updated.
     },
@@ -477,47 +465,159 @@ AFRAME.registerComponent('myloader', {
 			var isVrModeActive = this.sceneHandler.is('vr-mode');
 			if(this.data.modelLoaded) 
 			{
-				if( this.my2DclipPlaneHandler !== undefined  && !isVrModeActive)
+				if( this.clipPlaneListenerHandler !== undefined  && !isVrModeActive)
 				{
-					
+					if(this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane
+					&& !this.clip2DPlaneRendered)
+					{
+						console.log("my-loader render plane");
+						var entity = document.createElement('a-plane');
+						entity.setAttribute('id', 'my2Dclipplane');
+						entity.setAttribute('height', '1');
+						entity.setAttribute('width', '1');
+						entity.setAttribute('material', 'color: red ; side:double');
+						this.el.sceneEl.appendChild(entity);
+
+						this.clip2DPlaneRendered = true;
+					}
+					else if(!this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane
+					&& this.clip2DPlaneRendered){
+						console.log("my-loader remove plane");
+						var entity =  document.querySelector('#my2Dclipplane');
+						this.el.sceneEl.removeChild(entity);
+						this.clip2DPlaneRendered = false;
+					}
 				}
 				else if(this.controllerHandler !== undefined && isVrModeActive)
 				{
 			
+
+				
 				//Input - Controllermatrix
 				var controllerMatrix = this.controllerHandler.matrixWorld;	
+				//console.log(controllerMatrix);
 				//Input - Volumematrix				
 				var volumeMatrix =  this.el.getObject3D("mesh").matrixWorld;
 
-				// grab mesh
-				if(this.controllerHandler.el.getAttribute('my-buttons-check').grabObject
-				  && this.data.rayCollided)
+
+				//console.log("grabbed "+ this.grabbed);
+
+				if(!this.controllerHandler.el.getAttribute('my-buttons-check').grabObject &&
+				    this.grabbed)
 				{
+					/*if(!grab_started){
+
+						//setvcontroller_to_object
+						grab_started = true;
+					}*/
 					
+					console.log("RELEASE");
+					//var entity = document.querySelector('#volumeCube');
+					//entity.flushToDOM();
+					//this.controllerHandler.el.removeChild(this.el);
+					//this.grabbed = false;
+					//this.controllerHandler.el.object3D.remove(this.el.getObject3D("mesh"));
+					this.el.getObject3D("mesh").matrix.premultiply( this.controllerHandler.matrixWorld );
+					this.el.getObject3D("mesh").matrix.decompose( this.el.getObject3D("mesh").position, this.el.getObject3D("mesh").quaternion, this.el.getObject3D("mesh").scale );
+					this.el.sceneEl.object3D.add(this.el.getObject3D("mesh"));
+					this.grabbed = false;
+				}
+
+				// grab mesh
+				 if(this.controllerHandler.el.getAttribute('my-buttons-check').grabObject 
+				  && this.data.rayCollided  
+				  && !this.grabbed)
+				{
+					console.log("GRAB");
 					// THIS IS THE PART TO DO THE GRAB (AND DROP) EVENT
 
-					console.log("GRAB ENTITY");
+					//console.log("GRAB ENTITY");
 					//inverse of the controllermatrix
-					var controllerMatrixInverse =  new THREE.Matrix4();
+					//var controllerMatrixInverse =  new THREE.Matrix4();
+					// meshMatrixInverse =  new THREE.Matrix4();
 					//var myMatrix = new THREE.Matrix4();
-					this.el.getObject3D("mesh").matrixAutoUpdate  = false;  
+					//this.el.getObject3D("mesh").matrixAutoUpdate  = false;  
 					//myMatrix.multiplyMatrices(controllerMatrixInverse.getInverse( controllerMatrix ),volumeMatrix);
 					//console.log(myMatrix.elements);
 					//this.el.getObject3D("mesh").matrix.multiplyMatrices(  controllerMatrixInverse.getInverse(volumeMatrix),controllerMatrixInverse.getInverse( controllerMatrix));
 					//this.el.getObject3D("mesh").matrixWorldNeedsUpdate = true
 					//console.log(this.el.getObject3D("mesh").matrixWorld);
 
-					var newObjectPose = new THREE.Matrix4();
-					var tmpMatrix =new THREE.Matrix4();
-					tmpMatrix.multiplyMatrices(this.controllerPose,volumeMatrix);
-					newObjectPose.multiplyMatrices(controllerMatrix,tmpMatrix);
-					console.log(newObjectPose.elements);
-					this.el.getObject3D("mesh").matrix.set( newObjectPose.elements);
-					this.el.getObject3D("mesh").matrixWorldNeedsUpdate = true
+					this.controllerHandler.updateMatrixWorld();
+				    //console.log(this.el.getObject3D("mesh").position);
+					this.controllerPose.getInverse(this.controllerHandler.matrixWorld);
+					this.el.getObject3D("mesh").matrix.premultiply( this.controllerPose );
+					//console.log("AFTER CALCULATION");
+					//console.log(this.el.getObject3D("mesh").position);
+					this.el.getObject3D("mesh").matrix.decompose( this.el.getObject3D("mesh").position, this.el.getObject3D("mesh").quaternion, this.el.getObject3D("mesh").scale );
+					//console.log("AFTER decompose");
+					//console.log(this.el.getObject3D("mesh").position);
+					this.controllerHandler.add(this.el.getObject3D("mesh"));
+
+
+					//var tmpMatrix =new THREE.Matrix4();
+					//newObjectPose = this.controllerHandler.matrixWorld;
+					//var worldToLocal = new THREE.Matrix4().getInverse(this.controllerHandler.matrixWorld);
+					//this.el.getObject3D("mesh").applyMatrix(worldToLocal);
+
+					//var entity = document.querySelector('#volumeCube');
+					//this.el.flushToDOM();
+					//this.controllerHandler.el.appendChild(this.el);
+					//this.controllerHandler.el.object3D.add(this.el.getObject3D("mesh"));
+					this.grabbed = true;
+					
+					//this.controllerHandler.add(this.el.getObject3D("mesh"));
+					//newParent.appendChild(copy);
+					//this.el.getObject3D("mesh").applyMatrix(worldToLocal);
+					//tmpMatrix.multiplyMatrices( newObjectPose, controllerMatrixInverse.getInverse(this.controllerPose));
+					//tmpMatrix2.multiplyMatrices(newObjectPose, tmpMatrix, );
+					//tmpMatrix2.transpose();
+					//var tmpMatrix2 =new THREE.Matrix4();
+					//tmpMatrix2.multiplyMatrices(tmpMatrix,this.el.getObject3D("mesh").matrix);
+					//console.log(this.controllerPose.elements[3] + " " + this.controllerPose.elements[7] + " " + this.controllerPose.elements[11]);
+
+					//tmpMatrix2.multiplyMatrices(controllerMatrixInverse.getInverse(this.controllerPose),volumeMatrix);
+					//tmpMatrix2.multiply(controllerMatrix);
+                    //console.log(tmpMatrix2.elements[12] + " " + tmpMatrix2.elements[13] + " " + tmpMatrix2.elements[14]);
+
+					//console.log(this.el.getObject3D("mesh").matrix.elements);
+					//var translationPose = new THREE.Matrix4();
+					//translationPose.identity();
+					//translationPose.makeTranslation(0,0,-1);
+					//tmpMatrix.multiplyMatrices( newObjectPose, controllerMatrixInverse.getInverse(this.controllerPose));
+
+					//tmpMatrix.multiplyMatrices(controllerMatrixInverse.getInverse(this.controllerPose),volumeMatrix);
+					/*var currentPos = new THREE.Vector3(newObjectPose.elements[12],newObjectPose.elements[13],newObjectPose.elements[14]);
+					var oldPos = new THREE.Vector3(this.controllerPose.elements[12],this.controllerPose.elements[13],this.controllerPose.elements[14]);
+					var newPos = new THREE.Vector3().subVectors ( currentPos, oldPos);
+					//newPos.subVectors ( currentPos, oldPos);
+					//nuewPos.multiplyScalar(3.0 );
+					if(oldPos.equals(currentPos))
+					{
+						console.log("EQUALS");
+					}
+		    		else
+					{
+						console.log(newPos.x + " " + newPos.y + " " + newPos.z);
+					}*/
+
+					
+					//this.el.getObject3D("mesh").matrix.makeTranslation(nuewPos.x,nuewPos.y,nuewPos.z);
+
+
+					//tmpMatrix.multiplyMatrices(newObjectPose, tmpMatrix);
+					//console.log(tmpMatrix.elements[12] + " " + tmpMatrix.elements[13] + " " + tmpMatrix.elements[14]);
+
+					//this.el.getObject3D("mesh").matrix.multiplyMatrices( controllerMatrix,volumeMatrix);
+					//this.el.getObject3D("mesh").matrix.multiplyMatrices(tmpMatrix,this.el.getObject3D("mesh").matrix );
+					//this.el.getObject3D("mesh").matrixWorldNeedsUpdate = true
+					//console.log("AFTER MATRICES CALCULATION");
+					//console.log(this.el.getObject3D("mesh").matrix.elements);
+					
 				    
 				}
 
-				this.controllerPose = controllerMatrix;
+				//this.controllerPose = controllerMatrix;
 
 			    //material for setting the clipPlane and clipping value
 				var material = this.el.getObject3D("mesh").material;
@@ -542,7 +642,7 @@ AFRAME.registerComponent('myloader', {
 				
 				//set uniforms of shader
 				material.uniforms.clipPlane.value = clipMatrix;
-				material.uniforms.clipping.value = this.controllerHandler.el.getAttribute('my-buttons-check').clipPlane;
+				material.uniforms.clipping.value = this.controllerHandler.el.getAttribute('my-buttons-check').clipPlane && !this.grabbed;
 
 				}
 			}
