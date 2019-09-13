@@ -22,7 +22,9 @@ AFRAME.registerComponent('ccvclipplane', {
            
            this.onKeyDown = this.onKeyDown.bind(this);
            this.onKeyUp = this.onKeyUp.bind(this);
-           this.activate2DClipPlane = this.activate2DClipPlane.bind(this);
+		   this.activate2DClipPlane = this.activate2DClipPlane.bind(this);
+		   
+		   this.updateMeshClipMatrix = this.updateMeshClipMatrix.bind(this);
            
            window.addEventListener('keydown', this.onKeyDown);
            window.addEventListener('keyup', this.onKeyUp);
@@ -272,6 +274,9 @@ AFRAME.registerComponent('myloader', {
 		this.clipPlaneListenerHandler = document.getElementById('my2DclipplaneListener').object3D;//.getAttribute('my-buttons-check');
 		this.clip2DPlaneRendered = false;
 
+		this.clipPlaneHandler = document.getElementById('my2Dclipplane').object3D;//.getAttribute('my-buttons-check');
+		
+
 		this.controllerHandler.matrixAutoUpdate = false;
 		this.grabState = this.controllerHandler.el.getAttribute('my-buttons-check').grabObject;
         var my2DclipPlane = document.getElementById('my2Dclipplane');
@@ -280,7 +285,7 @@ AFRAME.registerComponent('myloader', {
             this.my2DclipPlaneHandler = my2DclipPlane.object3D;
         }
 
-			
+		
 			
 			
 		var jet_values = [[0, 0, 0.5, 0],
@@ -470,35 +475,28 @@ AFRAME.registerComponent('myloader', {
 					if(this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane
 					&& !this.clip2DPlaneRendered)
 					{
-						console.log("my-loader render plane");
-						var entity = document.createElement('a-plane');
-						entity.setAttribute('id', 'my2Dclipplane');
-						entity.setAttribute('height', '1');
-						entity.setAttribute('width', '1');
-						entity.setAttribute('material', 'color: red ; side:double');
-						this.el.sceneEl.appendChild(entity);
-
+						this.clipPlaneHandler.el.setAttribute('visible', true);
 						this.clip2DPlaneRendered = true;
 					}
 					else if(!this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane
 					&& this.clip2DPlaneRendered){
-						console.log("my-loader remove plane");
-						var entity =  document.querySelector('#my2Dclipplane');
-						this.el.sceneEl.removeChild(entity);
+					
+						var currentRot = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').currenAxisAngle;
+                        
+						this.clipPlaneHandler.el.setAttribute('visible', false);
 						this.clip2DPlaneRendered = false;
 					}
 
-					if(this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane 
-					&&  this.clip2DPlaneRendered)
-					{
+					
 						
-						var currentRot = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').currentRotAngle;
-						console.log("ROTATE "+ currentRot.x + " " +currentRot.y + " "+ currentRot.z);
-						var plane3DObject = document.createElement('a-plane').object3D;
-						plane3DObject.rotation.set(
-							currentRot
-						  );
-					}
+					var rotate = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').rotateAngle;
+					var plane3DObject = document.getElementById('my2Dclipplane').object3D;
+					plane3DObject.rotateX(rotate.y * 3.1416/180 );
+					plane3DObject.rotateY(rotate.x * 3.1416/180 );
+					plane3DObject.rotateZ(rotate.z * 3.1416/180 );
+
+					this.updateMeshClipMatrix(plane3DObject.matrixWorld);
+					
 				}
 				else if(this.controllerHandler !== undefined && isVrModeActive)
 				{
@@ -629,8 +627,15 @@ AFRAME.registerComponent('myloader', {
 				    
 				}
 
-				//this.controllerPose = controllerMatrix;
+				this.updateMeshClipMatrix(controllerMatrix);
 
+				}
+			}
+	},
+
+	updateMeshClipMatrix: function (currentSpaceClipMatrix) {
+			
+			    var volumeMatrix =  this.el.getObject3D("mesh").matrixWorld;
 			    //material for setting the clipPlane and clipping value
 				var material = this.el.getObject3D("mesh").material;
 				
@@ -642,21 +647,22 @@ AFRAME.registerComponent('myloader', {
 				var translationMatrix = new THREE.Matrix4();
 				translationMatrix.makeTranslation ( -0.5, -0.5, -0.5 ) ;
 				
-				//inverse of the controllermatrix
-				var controllerMatrix_inverse =  new THREE.Matrix4();
-				controllerMatrix_inverse.getInverse( controllerMatrix );
+				//inverse of the clipMatrix
+				var currentSpaceClipMatrix_inverse =  new THREE.Matrix4();
+				currentSpaceClipMatrix_inverse.getInverse( currentSpaceClipMatrix );
 				
 				//outputmatrix - controller_inverse * volume * scale * translation
 				var clipMatrix = new THREE.Matrix4();
-				clipMatrix.multiplyMatrices(controllerMatrix_inverse,volumeMatrix );
+				clipMatrix.multiplyMatrices(currentSpaceClipMatrix_inverse,volumeMatrix );
 				clipMatrix.multiplyMatrices(clipMatrix,scaleMatrix );
 				clipMatrix.multiplyMatrices(clipMatrix,translationMatrix );
 				
 				//set uniforms of shader
 				material.uniforms.clipPlane.value = clipMatrix;
-				material.uniforms.clipping.value = this.controllerHandler.el.getAttribute('my-buttons-check').clipPlane && !this.grabbed;
+				material.uniforms.clipping.value = ( this.clip2DPlaneRendered || this.controllerHandler.el.getAttribute('my-buttons-check').clipPlane) && !this.grabbed;
+		
+	},
+	
 
-				}
-			}
-    }
+
   });

@@ -7,7 +7,9 @@ import { connect } from "react-redux";
 const mapStateToProps = state => {
   
   return { clipPlane: state.checkBoxValue,
-           xSlideValue: state.xSlideValue
+           xSlideValue: state.xSlideValue,
+           ySlideValue: state.ySlideValue,
+           zSlideValue: state.zSlideValue
   };
 
 };
@@ -67,14 +69,19 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
 
         <Entity id="rhand" laser-controls="hand: right" raycaster="objects: .clickableMesh" my-buttons-check={{clipPlane:false,grabObject:false}} collider-check={{intersecting:false}}/>
           
-       <Entity id="my2DclipplaneListener" render-2d-clipplane={{activateClipPlane:this.props.clipPlane,xCLipPlaneRotation:this.props.xSlideValue, currentRotAngle:"0 0 0"}} />
-               {/*
-             <a-plane id="my2Dclipplane" height="1" width="1" material="color: red ; side:double" ccvclipplane></a-plane> 
-             */}  
+       <Entity id="my2DclipplaneListener" render-2d-clipplane={{activateClipPlane:this.props.clipPlane,xCLipPlaneRotation:this.props.xSlideValue,yCLipPlaneRotation:this.props.ySlideValue,zCLipPlaneRotation:this.props.zSlideValue, currenAxisAngle:"0 0 0",rotateAngle:"0 0 0"}} />
+               
+               
+        <a-plane visible="false" class="clickable" id="my2Dclipplane" height="1" width="1" material="color: red ; side:double; transparent:true;opacity:0.3" cursor-listener rotation="0 0 0"></a-plane> 
+               
 
         <Entity id="volumeCube" class="clickableMesh"   myloader={{volumeData:"./assets/models/nrrd/00.nrrd",rayCollided:false}}   position="0 0 0"/>
+        <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable"></a-entity>
         
-        <Entity id="myCamera" camera="active: true"  look-controls orbit-controls="target: 0 0 0; minDistance: 0.5; maxDistance: 180; initialPosition: 0 0 2"  /> 
+        {/* <Entity id="myCamera" camera="active: true"  look-controls  orbit-controls="target: 0 0 0; minDistance: 0.5; maxDistance: 180; initialPosition: 0 0 2"  /> */}
+        <Entity id="myCamera" camera="active: true"  look-controls  position="0 0 2"  /> 
+       
+        
       </Scene>
       </div>
     

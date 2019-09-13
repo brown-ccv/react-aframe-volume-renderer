@@ -8,14 +8,16 @@ var KEYS = [
 AFRAME.registerComponent('render-2d-clipplane', {
 	schema: {
     activateClipPlane: {type: 'boolean', default: false },
-    xCLipPlaneRotation: {type: 'number', default: 0.0 },
-    currentRotAngle:{type: 'vec3'}
+    xCLipPlaneRotation: {type: 'number', default: 0 },
+    yCLipPlaneRotation: {type: 'number', default: 0 },
+    zCLipPlaneRotation: {type: 'number', default: 0 },
+    currenAxisAngle:{type: 'vec3'},
+    rotateAngle:{type: 'vec3'}
     },
    
    init: function () {
         
-           this.oldxRotation =0.0;
-           this.currentRotation = 0.0;
+           this.tempVec = {x:0,y:0,z:0};
 		       this.active = false;
            this.rendererPlane = false;
            this.keys ={};
@@ -32,10 +34,27 @@ AFRAME.registerComponent('render-2d-clipplane', {
    },
 
    update: function () {
-    var data = this.data;  // Component property values.
-    var el = this.el;  // Reference to the component's entity.
- 
-    this.currentRotation =  data.xCLipPlaneRotation - this.xRotation ;
+    
+    /*var xRot = this.data.xCLipPlaneRotation - this.oldRotation.x ;
+    var yRot = this.data.yCLipPlaneRotation - this.oldRotation.y ;
+    var zRot = this.data.zCLipPlaneRotation - this.oldRotation.z ;
+
+    this.oldRotation.x = this.data.xCLipPlaneRotation;
+    this.oldRotation.y = this.data.yCLipPlaneRotation;
+    this.oldRotation.z = this.data.zCLipPlaneRotation;
+
+    this.data.currentRotAngle = { x: xRot, y:yRot, z:zRot} ;*/
+
+    //this.oldyRotation.y = this.data.yCLipPlaneRotation;
+    //this.oldzRotation.z = this.data.zCLipPlaneRotation;
+
+    
+    //console.log("this.data.currentRotAngle:" +this.data.currentRotAngle.x + " " +this.data.currentRotAngle.y +" "+ this.data.currentRotAngle.z);
+    
+
+    //console.log(data.currentRotAngle);
+
+
     /*if (data.event) {
       // This will log the `message` when the entity emits the `event`.
       el.addEventListener(data.event, function () {
@@ -48,7 +67,27 @@ AFRAME.registerComponent('render-2d-clipplane', {
   },
    
    tick: function (time, timeDelta) {
-		 
+
+    var xRot = this.data.xCLipPlaneRotation - this.tempVec.x ;
+    var yRot = this.data.yCLipPlaneRotation - this.tempVec.y ;
+    var zRot = this.data.zCLipPlaneRotation - this.tempVec.z ;
+    //console.log("xRot: " + (this.data.xCLipPlaneRotation - this.tempVec .x ));
+
+    this.tempVec.x = this.data.xCLipPlaneRotation;
+    this.tempVec.y = this.data.yCLipPlaneRotation;
+    this.tempVec.z = this.data.zCLipPlaneRotation; 
+
+    this.data.rotateAngle = { x: xRot, y:yRot, z:zRot} ;
+
+    // I dont know why I have to save the current angle axis using a temporal variable. Maybe Aframe updates 
+    // data on a asynchronous call
+    this.data.currenAxisAngle.x = this.tempVec.x;
+    this.data.currenAxisAngle.y = this.tempVec.y;
+    this.data.currenAxisAngle.z = this.tempVec.z;
+    
+    //console.log("this.data.rotateAngle " + this.data.rotateAngle.x); 
+    //console.log("this.data.currentRotAngle.x: " + this.data.currenAxisAngle.x);
+    
 		 if(this.keys.KeyQ && !this.active)
 		 {
 			this.active = true;
@@ -69,7 +108,7 @@ AFRAME.registerComponent('render-2d-clipplane', {
 			this.data.activateClipPlane = false;
 			this.rendererPlane = false;
 		 }
-       
+      
    },
    
    remove: function () {

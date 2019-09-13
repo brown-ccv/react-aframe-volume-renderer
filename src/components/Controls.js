@@ -6,22 +6,28 @@ import 'rc-slider/assets/index.css';
 import {connect} from 'react-redux';
 import {myChecButtonAction} from '../redux/AppActions'
 import {myXSlideAction} from '../redux/AppActions'
+import {myYSlideAction} from '../redux/AppActions'
+import {myZSlideAction} from '../redux/AppActions'
 
 
 export default connect(
      null,
-    {myChecButtonAction,myXSlideAction})( class Controls extends Component {
+    {myChecButtonAction,myXSlideAction,myYSlideAction,myZSlideAction})( class Controls extends Component {
   
   constructor(props) {
       super(props);
       this.state = {
         actiavePlane: false,
-        xslideValue: 0
+        xslideValue: 0,
+        yslideValue: 0,
+        zslideValue: 0
       };
   
       this.handleCheckBoxInputChange = this.handleCheckBoxInputChange.bind(this);
       
       this.xSlideHandleChange = this.xSlideHandleChange.bind(this);
+      this.ySlideHandleChange = this.ySlideHandleChange.bind(this);
+      this.zSlideHandleChange = this.zSlideHandleChange.bind(this);
  }
 
 
@@ -36,18 +42,28 @@ export default connect(
 }
 
 
-  componentWillMount()
-  {
-      
-  }
-
-
   xSlideHandleChange = (value) => {
     this.setState({
       xslideValue:value,
     });
    
    this.props.myXSlideAction(value);
+  };
+
+  ySlideHandleChange = (value) => {
+    this.setState({
+      yslideValue:value,
+    });
+   
+   this.props.myYSlideAction(value);
+  };
+
+  zSlideHandleChange = (value) => {
+    this.setState({
+      zslideValue:value,
+    });
+   
+   this.props.myZSlideAction(value);
   };
 
 render () {
@@ -77,13 +93,13 @@ render () {
          <label>
          Y Slide <br/>
          </label>
-         <Slider />
+         <Slider min={0} max={360}  value={this.state.yslideValue} onChange={this.ySlideHandleChange}/>
          <br/>
 
          <label>
          Z Slide <br/>
          </label>
-         <Slider />
+         <Slider min={0} max={360}  value={this.state.zslideValue} onChange={this.zSlideHandleChange}/>
 
       </div>
 

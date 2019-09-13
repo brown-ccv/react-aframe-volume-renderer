@@ -12,3 +12,17 @@ export const myXSlideAction = function fetchXSldie(value){
         payload: value,
     }
 }
+
+export const myYSlideAction = function fetchXSldie(value){
+    return{
+        type:"YSLIDE_CHANGED",
+        payload: value,
+    }
+}
+
+export const myZSlideAction = function fetchXSldie(value){
+    return{
+        type:"ZSLIDE_CHANGED",
+        payload: value,
+    }
+}
