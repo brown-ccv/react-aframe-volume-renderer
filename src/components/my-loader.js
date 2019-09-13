@@ -487,6 +487,18 @@ AFRAME.registerComponent('myloader', {
 						this.el.sceneEl.removeChild(entity);
 						this.clip2DPlaneRendered = false;
 					}
+
+					if(this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane 
+					&&  this.clip2DPlaneRendered)
+					{
+						
+						var currentRot = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').currentRotAngle;
+						console.log("ROTATE "+ currentRot.x + " " +currentRot.y + " "+ currentRot.z);
+						var plane3DObject = document.createElement('a-plane').object3D;
+						plane3DObject.rotation.set(
+							currentRot
+						  );
+					}
 				}
 				else if(this.controllerHandler !== undefined && isVrModeActive)
 				{

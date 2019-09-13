@@ -1,8 +1,6 @@
-import {creatStore} from 'redux';
+import {createStore} from 'redux';
+import {myReducer} from '../redux/AppReducers'
 
-const reducer = function(state,action){
 
-}
-
-export default creatStore(reducer,action);
+export default createStore(myReducer);
 

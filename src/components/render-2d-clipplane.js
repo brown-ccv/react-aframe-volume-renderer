@@ -7,12 +7,16 @@ var KEYS = [
 
 AFRAME.registerComponent('render-2d-clipplane', {
 	schema: {
-		activateClipPlane: {type: 'boolean', default: false },
+    activateClipPlane: {type: 'boolean', default: false },
+    xCLipPlaneRotation: {type: 'number', default: 0.0 },
+    currentRotAngle:{type: 'vec3'}
     },
    
    init: function () {
         
-		   this.active = false;
+           this.oldxRotation =0.0;
+           this.currentRotation = 0.0;
+		       this.active = false;
            this.rendererPlane = false;
            this.keys ={};
            
@@ -26,6 +30,22 @@ AFRAME.registerComponent('render-2d-clipplane', {
 		   
            
    },
+
+   update: function () {
+    var data = this.data;  // Component property values.
+    var el = this.el;  // Reference to the component's entity.
+ 
+    this.currentRotation =  data.xCLipPlaneRotation - this.xRotation ;
+    /*if (data.event) {
+      // This will log the `message` when the entity emits the `event`.
+      el.addEventListener(data.event, function () {
+        console.log(data.message);
+      });
+    } else {
+      // `event` not specified, just log the message.
+      console.log(data.message);
+    }*/
+  },
    
    tick: function (time, timeDelta) {
 		 
@@ -38,22 +58,17 @@ AFRAME.registerComponent('render-2d-clipplane', {
 			this.active = false;
 		 }
 
-         if(this.active && !this.rendererPlane){
-			console.log("ADD PLANE" );
+     if(this.active && !this.rendererPlane){
+			
 			this.data.activateClipPlane = true;
 			this.rendererPlane = true;
 		 }
 		 
 		 if(!this.active && this.rendererPlane){
-			console.log("REMOVEPLANE PLANE" );
+			
 			this.data.activateClipPlane = false;
 			this.rendererPlane = false;
 		 }
-		 
-
-
-
-
        
    },
    
