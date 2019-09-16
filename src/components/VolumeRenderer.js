@@ -9,7 +9,8 @@ const mapStateToProps = state => {
   return { clipPlane: state.checkBoxValue,
            xSlideValue: state.xSlideValue,
            ySlideValue: state.ySlideValue,
-           zSlideValue: state.zSlideValue
+           zSlideValue: state.zSlideValue,
+           volumeData: state.volumeData
   };
 
 };
@@ -75,7 +76,7 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
         <a-plane visible="false" class="clickable" id="my2Dclipplane" height="1" width="1" material="color: red ; side:double; transparent:true;opacity:0.3" cursor-listener rotation="0 0 0"></a-plane> 
                
 
-        <Entity id="volumeCube" class="clickableMesh"   myloader={{volumeData:"./assets/models/nrrd/00.nrrd",rayCollided:false}}   position="0 0 0"/>
+        <Entity id="volumeCube" class="clickableMesh"   myloader={{volumeData:this.props.volumeData,rayCollided:false}}   position="0 0 0"/>
         <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable"></a-entity>
         
         {/* <Entity id="myCamera" camera="active: true"  look-controls  orbit-controls="target: 0 0 0; minDistance: 0.5; maxDistance: 180; initialPosition: 0 0 2"  /> */}

@@ -12,10 +12,12 @@ export default class Layout extends Component {
 
         <div>
             <table>
+              <tbody>
                 <tr>
                     <td> <Controls/> </td>
                     <td><VolumeRenderer/></td>
                 </tr>
+              </tbody>
             </table>
         </div>
     );

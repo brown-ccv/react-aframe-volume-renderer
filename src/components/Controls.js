@@ -4,19 +4,23 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 import {connect} from 'react-redux';
-import {myChecButtonAction} from '../redux/AppActions'
-import {myXSlideAction} from '../redux/AppActions'
-import {myYSlideAction} from '../redux/AppActions'
-import {myZSlideAction} from '../redux/AppActions'
+import {myChecButtonAction,myXSlideAction, myYSlideAction,myZSlideAction,myChangeVolumeAction} from '../redux/AppActions'
+import Select from 'react-select'
 
+const options = [
+  { value: './assets/models/nrrd/00.nrrd', label: 'Spheroid' },
+  { value: './assets/models/nrrd/simulation_data.nrrd', label: 'Simulation' },
+  
+]
 
 export default connect(
      null,
-    {myChecButtonAction,myXSlideAction,myYSlideAction,myZSlideAction})( class Controls extends Component {
+    {myChecButtonAction,myXSlideAction,myYSlideAction,myZSlideAction,myChangeVolumeAction})( class Controls extends Component {
   
   constructor(props) {
       super(props);
       this.state = {
+        currentVolume:"",
         actiavePlane: false,
         xslideValue: 0,
         yslideValue: 0,
@@ -28,6 +32,8 @@ export default connect(
       this.xSlideHandleChange = this.xSlideHandleChange.bind(this);
       this.ySlideHandleChange = this.ySlideHandleChange.bind(this);
       this.zSlideHandleChange = this.zSlideHandleChange.bind(this);
+      this.volumeSelectChanged = this.volumeSelectChanged.bind(this);
+      this.options  = ['one', 'two', 'three'];
  }
 
 
@@ -66,10 +72,22 @@ export default connect(
    this.props.myZSlideAction(value);
   };
 
+  volumeSelectChanged = (selected) =>
+  {
+     this.setState({
+      currentVolume: selected.value
+     });
+     this.props.myChangeVolumeAction(selected.value);
+  };
+
 render () {
   return (
       <div className="controls-container" >
 
+        <label>Volume</label>
+        <br/>
+        <Select options={options} onChange={this.volumeSelectChanged} />
+        <br/>
        <label>
         Enable Slice
         <br/>
