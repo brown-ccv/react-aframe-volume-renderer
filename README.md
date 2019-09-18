@@ -1,68 +1,40 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aframe Volume Rendering
 
-## Available Scripts
+This project is an effor to integrate data visualization on VR and web browser technologies.
+This project was developed using react-js and Aframe (webvr - threejs -webgl2)
 
-In the project directory, you can run:
+## Installation
+
+For local deployment, clone - download the repository and in the project directory run 
+
+### `npm install`
+
+The package manager will install all the depencies. When it is done run:
 
 ### `npm start`
 
-Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
-### `npm test`
+## About this project
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+WebVR Volume Rendering.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Introduction 
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+A web based volume visualizer application to support scientific 3D data built on top of webgl that will facilitate the access from any web browser, plus the benefits of VR.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+It was implemented using A-frame, a javascript framework easy to learn, use and deploy. It sits on top of Three.js, which is the most used library to support 3D rendering on the web, and html which is the common tool to write static web pages. A-frame follows a composed based pattern, common on game and graphics engines. Additionally, it uses node js to easy deploy the modules the application is based on.
 
-### `npm run eject`
+![Application_Arch](./imgs/archit.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+A-Frame Implementation
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Following A-Frame’s philosophy, the application has a custom component that reads, loads and render 3D textures as volume data. This component is attached to an A-Frame entity as follows:
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+---------------------------------------------------------------------------------------------------------------------------------------
+|<a-entity id="volumeCube" class="cube" mixin="cube" myloader="    volumeData:./assets/models/nrrd/00.nrrd " position="0 0 0"  sleepy> |
+---------------------------------------------------------------------------------------------------------------------------------------
