@@ -4,7 +4,8 @@ const initialState = {
     xSlideValue: 0,
     ySlideValue: 0,
     zSlideValue: 0,
-    volumeData:""
+    volumeData:"",
+    transferFunction: false
   };
   
 
@@ -31,7 +32,9 @@ export const myReducer = function readCheckBox(state ={initialState},action){
             }
         case "VOLUME_CHANGED":
             {
-                return { volumeData : action.payload};
+                return { volumeData : action.payload,
+                    transferFunction: action.payload2
+                };
             }                 
                 
     }

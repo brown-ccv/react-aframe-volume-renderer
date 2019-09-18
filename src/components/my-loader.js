@@ -245,6 +245,7 @@ AFRAME.registerComponent('myloader', {
       volumeData: {type: 'string', default: ""},
 	  rayCollided: {type: 'boolean', default: false },
 	  modelLoaded: {type: 'boolean', default: false},
+	  transferFunction: {type: 'string', default: "false"}
     },
 
     init: function () {
@@ -371,6 +372,7 @@ AFRAME.registerComponent('myloader', {
 		var volconfig = { clim1: 0, clim2: 1, renderstyle: 'iso', isothreshold: 0.15, colormap: 'viridis' };
 		  
 		
+		
         var cameraEl = document.querySelector('#myCamera');
         cameraEl.setAttribute('camera', 'active', true);
 
@@ -398,6 +400,16 @@ AFRAME.registerComponent('myloader', {
 			var myWidth = this.myCanvas.width;
 			var myheight = this.myCanvas.height; 
 
+			var useTransferFunction; 
+			console.log(this.data.transferFunction);
+		    if (this.data.transferFunction == "false" ) {
+				console.log("do not use Transferfunction");
+				useTransferFunction = false;
+		    }else{
+			   console.log("use Transferfunction");
+			   useTransferFunction = true;
+		   }
+
 			new NRRDLoader().load( this.data.volumeData, function ( volume ) {
 				var texture = new THREE.DataTexture3D( volume.data, volume.xLength, volume.yLength, volume.zLength  );
 				
@@ -409,9 +421,16 @@ AFRAME.registerComponent('myloader', {
 					 
 				var zScale = volumeScale[0] / volumeScale[2];
 				
-				
-				texture.format =  THREE.RGBAFormat;
-				texture.type = THREE.UnsignedByteType;
+				if(useTransferFunction)
+				{
+					texture.format = THREE.RedFormat;
+					texture.type = THREE.FloatType;
+				}
+				else{
+					texture.format =  THREE.RGBAFormat;
+					texture.type = THREE.UnsignedByteType;
+				}
+			
 				texture.minFilter = texture.magFilter = THREE.LinearFilter;
 				texture.unpackAlignment = 1;
 				texture.needsUpdate = true;
@@ -426,13 +445,20 @@ AFRAME.registerComponent('myloader', {
 				 var shader = THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ];
 				 var uniforms = THREE.UniformsUtils.clone( shader.uniforms );
 				 uniforms["u_data"].value = texture;
-				 uniforms["useLut"].value = true;
+				// uniforms["useLut"].value = true;
 				 uniforms["u_lut"].value = transferTexture ;
 				 uniforms["clipPlane"].value = new THREE.Matrix4();
 				 uniforms["clipping"].value = false ;
 				 uniforms["threshold"].value = 1 ;
 				 uniforms["multiplier"].value = 1 ;
-				 //uniforms["camPos"].value = new THREE.Vector3( 1, 1, 1 );
+				 //uniforms["camPos"].value = new THREE.Vector3( 1, 1, 1 );\
+				 if(useTransferFunction){
+					uniforms["channel"].value = 1 ;
+					uniforms["useLut"].value = true;
+				  }else{
+					uniforms["channel"].value = 6 ;
+					uniforms["useLut"].value = false;
+				 }
 				 uniforms["step_size"].value = new THREE.Vector3( 1/100, 1/100, 1/100 );
 				 uniforms["channel"].value = 1 ;
 				 uniforms["viewPort"].value = new THREE.Vector2(myWidth,myheight) ;
