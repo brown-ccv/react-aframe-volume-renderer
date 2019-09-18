@@ -27,9 +27,10 @@ export const myZSlideAction = function fetchXSldie(value){
     }
 }
 
-export const myChangeVolumeAction = function changeVolume(value){
+export const myChangeVolumeAction = function changeVolume(value1,value2){
     return{
         type:"VOLUME_CHANGED",
-        payload: value,
+        payload: value1,
+        payload2: value2
     }
 }

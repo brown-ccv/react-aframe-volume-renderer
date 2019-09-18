@@ -8,8 +8,8 @@ import {myChecButtonAction,myXSlideAction, myYSlideAction,myZSlideAction,myChang
 import Select from 'react-select'
 
 const options = [
-  { value: './assets/models/nrrd/00.nrrd', label: 'Spheroid' },
-  { value: './assets/models/nrrd/simulation_data.nrrd', label: 'Simulation' },
+  { value: './assets/models/nrrd/00.nrrd:false', label: 'Spheroid' },
+  { value: './assets/models/nrrd/simulation_data.nrrd:true', label: 'Simulation' },
   
 ]
 
@@ -77,7 +77,9 @@ export default connect(
      this.setState({
       currentVolume: selected.value
      });
-     this.props.myChangeVolumeAction(selected.value);
+     var volumeProperties = selected.value.split(":");
+     console.log(volumeProperties)
+     this.props.myChangeVolumeAction(volumeProperties[0],volumeProperties[1]);
   };
 
 render () {
