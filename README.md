@@ -4,9 +4,9 @@ This project is an effor to integrate data visualization on VR and web browser t
 This project was developed using react-js and Aframe (webvr - threejs -webgl2)
 
 ##### Table of Contents  
-[Installation](#Installation)
-[About this project](#About)
-[Enable Mozilla Firefox VR](#FireFoxVR)
+* [Installation](#Installation)
+* [About this project](#About)
+* [Enable Mozilla Firefox VR](#FireFoxVR)
 
 <a name="Installation"/>
 ## Installation
