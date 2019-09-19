@@ -3,21 +3,27 @@ Aframe Volume Rendering
 This project is an effor to integrate data visualization on VR and web browser technologies.
 This project was developed using react-js and Aframe (webvr - threejs -webgl2)
 
+##### Table of Contents  
+[Installation](#Installation)  
+[About this project](#About)
+
+<a name="Installation"/>
 ## Installation
 
 For local deployment, clone - download the repository and in the project directory run 
 
-### `npm install`
+#### `npm install`
 
 The package manager will install all the depencies. When it is done run:
 
-### `npm start`
+##### `npm start`
 
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
+<a name="About"/>
 ## About this project
 
 
