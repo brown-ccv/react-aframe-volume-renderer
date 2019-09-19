@@ -4,8 +4,9 @@ This project is an effor to integrate data visualization on VR and web browser t
 This project was developed using react-js and Aframe (webvr - threejs -webgl2)
 
 ##### Table of Contents  
-[Installation](#Installation)  
+[Installation](#Installation)
 [About this project](#About)
+[Enable Mozilla Firefox VR](#FireFoxVR)
 
 <a name="Installation"/>
 ## Installation
@@ -111,5 +112,19 @@ Once you open the application in a web browser, you can interact with the data i
 Trigger Button: Press it to drag and drop the data from one point to another. Use it to modify its position and rotation.
 Grip Button: It clips the data. Press it and move the controller on any direction to see internal parts of the data from different points of view.
 
+<a name="FireFoxVR"/>
+#### Enable Mozilla Firefox VR
 
+At this moment, VR on web browsers is only supported on Mozilla Firefox. In order to enable this option in your computer,please follow these steps:
 
+1. Right Click onn your Desktop
+
+![Mozilla1](./imgs/mozilla1.png)
+
+2. In the NVIDIA panel window, select the "Program Settings" Tab 
+
+![Mozilla2](./imgs/mozilla2.png)
+
+3. In the 'Select a program' drop list select the Mozilla Firefox (If you dont find it, you will have to click on the 'add' button, look for firefox.exe). In the 'Select the preferred graphics processor for this program' drop list select 'High-Perfomance NVIDIA processor'
+
+![Mozilla2](./imgs/mozilla3.png)
