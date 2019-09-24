@@ -7,9 +7,12 @@ import { connect } from "react-redux";
 const mapStateToProps = state => {
   
   return { clipPlane: state.checkBoxValue,
-           xSlideValue: state.xSlideValue,
-           ySlideValue: state.ySlideValue,
-           zSlideValue: state.zSlideValue,
+           xSlideValueMin: state.xSlideValueMin,
+           xSlideValueMax: state.xSlideValueMax,
+           ySlideValueMin: state.ySlideValueMin,
+           ySlideValueMax: state.ySlideValueMax,
+           zSlideValueMin: state.zSlideValueMin,
+           zSlideValueMax: state.zSlideValueMax,
            volumeData: state.volumeData,
            transferFunction: state.transferFunction
   };
@@ -71,12 +74,17 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
 
         <Entity id="rhand" laser-controls="hand: right" raycaster="objects: .clickableMesh" my-buttons-check={{clipPlane:false,grabObject:false}} collider-check={{intersecting:false}}/>
           
-       <Entity id="my2DclipplaneListener" render-2d-clipplane={{activateClipPlane:this.props.clipPlane,xCLipPlaneRotation:this.props.xSlideValue,yCLipPlaneRotation:this.props.ySlideValue,zCLipPlaneRotation:this.props.zSlideValue, currenAxisAngle:"0 0 0",rotateAngle:"0 0 0"}} />
-               
-               
-        <a-plane visible="false" class="clickable" id="my2Dclipplane" height="1" width="1" material="color: red ; side:double; transparent:true;opacity:0.3" cursor-listener rotation="0 0 0"></a-plane> 
-               
-
+        <Entity id="my2DclipplaneListener" render-2d-clipplane={{activateClipPlane:this.props.clipPlane,
+          xCLipPlaneMin:this.props.xSlideValueMin,
+          xCLipPlaneMax:this.props.xSlideValueMax,
+          yCLipPlaneMin:this.props.ySlideValueMin,
+          yCLipPlaneMax:this.props.ySlideValueMax,
+          zCLipPlaneMin:this.props.zSlideValueMin,
+          zCLipPlaneMax:this.props.zSlideValueMax,
+          currenAxisAngle:"0 0 0",
+          rotateAngle:"0 0 0",
+          clipX:"0 0"} } />
+        <a-plane visible="false" class="clickable" id="my2Dclipplane" height="1" width="1" material="color: red ; side:double; transparent:true;opacity:0.3" cursor-listener ></a-plane> 
         <Entity id="volumeCube" class="clickableMesh"   myloader={{volumeData:this.props.volumeData,rayCollided:false,transferFunction:this.props.transferFunction}}   position="0 0 0"/>
         <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable"></a-entity>
         

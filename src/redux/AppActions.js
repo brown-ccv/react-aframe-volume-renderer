@@ -6,24 +6,27 @@ export const myChecButtonAction = function fetchCheckBox(value){
     }
 }
 
-export const myXSlideAction = function fetchXSldie(value){
+export const myXSlideAction = function fetchXSlide(valueMin,valueMax){
     return{
         type:"XSLIDE_CHANGED",
-        payload: value,
+        payload: valueMin,
+        payload2: valueMax,
     }
 }
 
-export const myYSlideAction = function fetchXSldie(value){
+export const myYSlideAction = function fetchYSlide(valueMin,valueMax){
     return{
         type:"YSLIDE_CHANGED",
-        payload: value,
+        payload: valueMin,
+        payload2: valueMax,
     }
 }
 
-export const myZSlideAction = function fetchXSldie(value){
+export const myZSlideAction = function fetchZSlide(valueMin,valueMax){
     return{
         type:"ZSLIDE_CHANGED",
-        payload: value,
+        payload: valueMin,
+        payload2: valueMax,
     }
 }
 

@@ -467,6 +467,8 @@ AFRAME.registerComponent('myloader', {
 				 uniforms["zScale"].value = zScale;
 				 uniforms["controllerPoseMatrix"].value = new THREE.Matrix4();
 				 uniforms["grabMesh"].value = false;
+				 uniforms["box_min"].value = new THREE.Vector3( 0, 0, 0 );;
+				 uniforms["box_max"].value = new THREE.Vector3( 1, 1, 1 );;
 		 
 			 
 				 
@@ -517,8 +519,11 @@ AFRAME.registerComponent('myloader', {
 	update: function(oldData)
 	{
 		
-		console.log("this.data.volumeData "+this.data.volumeData);
-		this.loadModel();
+		if(oldData.volumeData !==  this.data.volumeData)
+		{
+			this.loadModel();
+		}
+		
 	},
 
     tick: function (time, timeDelta) {
@@ -534,9 +539,9 @@ AFRAME.registerComponent('myloader', {
 			var isVrModeActive = this.sceneHandler.is('vr-mode');
 			if(this.data.modelLoaded) 
 			{
-				if( this.clipPlaneListenerHandler !== undefined  && !isVrModeActive)
+				if( this.clipPlaneListenerHandler != undefined && !isVrModeActive)
 				{
-					if(this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane
+					/*if(this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane
 					&& !this.clip2DPlaneRendered)
 					{
 						this.clipPlaneHandler.el.setAttribute('visible', true);
@@ -549,17 +554,46 @@ AFRAME.registerComponent('myloader', {
                         
 						this.clipPlaneHandler.el.setAttribute('visible', false);
 						this.clip2DPlaneRendered = false;
-					}
+					}*/
 
 					
-						
-					var rotate = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').rotateAngle;
-					var plane3DObject = document.getElementById('my2Dclipplane').object3D;
-					plane3DObject.rotateX(rotate.y * 3.1416/180 );
-					plane3DObject.rotateY(rotate.x * 3.1416/180 );
-					plane3DObject.rotateZ(rotate.z * 3.1416/180 );
+					if(this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane && !this.clip2DPlaneRendered)
+					{
+						this.clip2DPlaneRendered = true;
+					
+					}
+					else if(!this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane
+					&& this.clip2DPlaneRendered)
+					{
+						this.clip2DPlaneRendered = false;
+						var slice = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').rotateAngle;
+					//var plane3DObject = document.getElementById('my2Dclipplane').object3D;
+					//plane3DObject.rotateX(rotate.x * 3.1416/180 );
+					//plane3DObject.rotateY(rotate.y * 3.1416/180 );
+					//plane3DObject.rotateZ(rotate.z * 3.1416/180 );
 
-					this.updateMeshClipMatrix(plane3DObject.matrixWorld);
+					//this.updateMeshClipMatrix(plane3DObject.matrixWorld);
+
+					var material = this.el.getObject3D("mesh").material;
+					material.uniforms.box_min.value = new THREE.Vector3(0,0,0);
+					material.uniforms.box_max.value = new THREE.Vector3(1,1,1);
+					}
+					
+					if(this.clip2DPlaneRendered ){
+						var slice = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').clipX;
+						//var plane3DObject = document.getElementById('my2Dclipplane').object3D;
+						//plane3DObject.rotateX(rotate.x * 3.1416/180 );
+						//plane3DObject.rotateY(rotate.y * 3.1416/180 );
+						//plane3DObject.rotateZ(rotate.z * 3.1416/180 );
+	
+						//this.updateMeshClipMatrix(plane3DObject.matrixWorld);
+	
+						var material = this.el.getObject3D("mesh").material;
+						console.log("slice.x " +slice.x);
+						console.log("slice.y " +slice.y);
+						material.uniforms.box_min.value = new THREE.Vector3(slice.x,0,0);
+						material.uniforms.box_max.value = new THREE.Vector3(slice.y,1,1);
+					}
 					
 				}
 				else if(this.controllerHandler !== undefined && isVrModeActive)
