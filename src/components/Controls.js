@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 
 import Slider from 'rc-slider';
+
 import 'rc-slider/assets/index.css';
 
 import {connect} from 'react-redux';
@@ -12,7 +13,7 @@ const options = [
   { value: './assets/models/nrrd/simulation_data.nrrd:true', label: 'Simulation' },
   
 ]
-
+const Range = Slider.Range;
 export default connect(
      null,
     {myChecButtonAction,myXSlideAction,myYSlideAction,myZSlideAction,myChangeVolumeAction})( class Controls extends Component {
@@ -49,11 +50,12 @@ export default connect(
 
 
   xSlideHandleChange = (value) => {
+    //console.log(value);
     this.setState({
       xslideValue:value,
     });
    
-   this.props.myXSlideAction(value);
+   this.props.myXSlideAction(value[0],value[1]);
   };
 
   ySlideHandleChange = (value) => {
@@ -61,7 +63,7 @@ export default connect(
       yslideValue:value,
     });
    
-   this.props.myYSlideAction(value);
+   this.props.myYSlideAction(value[0],value[1]);
   };
 
   zSlideHandleChange = (value) => {
@@ -69,7 +71,7 @@ export default connect(
       zslideValue:value,
     });
    
-   this.props.myZSlideAction(value);
+   this.props.myZSlideAction(value[0],value[1]);
   };
 
   volumeSelectChanged = (selected) =>
@@ -107,19 +109,21 @@ render () {
             X Slide <br/>
             
          </label>
-         <Slider min={0} max={360}  value={this.state.xslideValue} onChange={this.xSlideHandleChange}/>
+         {/*  <Slider min={0} max={1} step={0.1}  value={this.state.xslideValue} onChange={this.xSlideHandleChange}/> --> */}
+         <Range allowCross={false} step={0.1} defaultValue={[0, 1]} min={0} max={1} onChange={this.xSlideHandleChange}/>
+
          <br/>
 
          <label>
          Y Slide <br/>
          </label>
-         <Slider min={0} max={360}  value={this.state.yslideValue} onChange={this.ySlideHandleChange}/>
+         <Range allowCross={false} step={0.1} defaultValue={[0, 1]} min={0} max={1} onChange={this.ySlideHandleChange}/>
          <br/>
 
          <label>
          Z Slide <br/>
          </label>
-         <Slider min={0} max={360}  value={this.state.zslideValue} onChange={this.zSlideHandleChange}/>
+         <Range allowCross={false} step={0.1} defaultValue={[0, 1]} min={0} max={1} onChange={this.zSlideHandleChange}/>
 
       </div>
 

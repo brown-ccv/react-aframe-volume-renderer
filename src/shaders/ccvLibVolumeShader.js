@@ -19,6 +19,8 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 	"zScale": {value: 1.0 },
 	"controllerPoseMatrix": {value: new THREE.Matrix4() },
 	"grabMesh": {value: false },
+	"box_min":{value: new THREE.Vector3( 0, 0, 0 )},
+	"box_max":{value: new THREE.Vector3( 1,1, 1 )}
   },
   
   vertexShader: [ 
@@ -88,12 +90,12 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
          'return Result;',
         '}',
 		
-		'vec2 intersect_box(vec3 orig, vec3 dir) {',
-		  'const vec3 box_min = vec3(0);',
-		  'const vec3 box_max = vec3(1);',
+		'vec2 intersect_box(vec3 orig, vec3 dir, vec3 minBox, vec3 maxBox ) {',
+		  'vec3 my_box_min = minBox;',
+		  'vec3 my_box_max = maxBox;',
 		  'vec3 inv_dir = 1.0 / dir;',
-		  'vec3 tmin_tmp = (box_min - orig) * inv_dir;',
-		  'vec3 tmax_tmp = (box_max - orig) * inv_dir;',
+		  'vec3 tmin_tmp = (my_box_min - orig) * inv_dir;',
+		  'vec3 tmax_tmp = (my_box_max - orig) * inv_dir;',
 		  'vec3 tmin = min(tmin_tmp, tmax_tmp);',
 		  'vec3 tmax = max(tmin_tmp, tmax_tmp);',
 		  'float t0 = max(tmin.x, max(tmin.y, tmin.z));',
@@ -117,6 +119,8 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 		'uniform sampler2D depth;',
 		'uniform vec2 viewport;',
 		'uniform mat4 P_inv;',
+		'uniform vec3 box_min;',
+		'uniform vec3 box_max;',
 		'vec4 vFragColor;',
 		'in vec3 camPos;',
 		//'in mat4 nClipPlane; ',
@@ -132,7 +136,7 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 		   'vec3 geomDir = normalize( dataPos - camPos);',
 
 		   //get the t values for the intersection with the box"
-		   'vec2 t_hit = intersect_box(camPos, geomDir);',
+		   'vec2 t_hit = intersect_box(camPos, geomDir,box_min,box_max);',
 
 		   //first value should always be lower by definition and this case should never occur. If it does discard the fragment.
 		   'if (t_hit.x > t_hit.y)',
