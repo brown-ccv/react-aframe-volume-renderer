@@ -580,7 +580,9 @@ AFRAME.registerComponent('myloader', {
 					}
 					
 					if(this.clip2DPlaneRendered ){
-						var slice = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').clipX;
+						var sliceX = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').clipX;
+						var sliceY = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').clipY;
+						var sliceZ = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').clipZ;
 						//var plane3DObject = document.getElementById('my2Dclipplane').object3D;
 						//plane3DObject.rotateX(rotate.x * 3.1416/180 );
 						//plane3DObject.rotateY(rotate.y * 3.1416/180 );
@@ -589,10 +591,14 @@ AFRAME.registerComponent('myloader', {
 						//this.updateMeshClipMatrix(plane3DObject.matrixWorld);
 	
 						var material = this.el.getObject3D("mesh").material;
-						console.log("slice.x " +slice.x);
-						console.log("slice.y " +slice.y);
-						material.uniforms.box_min.value = new THREE.Vector3(slice.x,0,0);
-						material.uniforms.box_max.value = new THREE.Vector3(slice.y,1,1);
+						console.log("sliceX.x " +sliceX.x);
+						console.log("sliceX.y " +sliceX.y);
+						console.log("sliceY.x " +sliceX.x);
+						console.log("sliceY.y " +sliceX.y);
+						console.log("sliceZ.x " +sliceX.x);
+						console.log("sliceZ.y " +sliceX.y);
+						material.uniforms.box_min.value = new THREE.Vector3(sliceX.x,sliceY.x,sliceZ.x);
+						material.uniforms.box_max.value = new THREE.Vector3(sliceX.y,sliceY.y,sliceZ.y);
 					}
 					
 				}

@@ -29,13 +29,13 @@ export const myReducer = function readCheckBox(state ={initialState},action){
             }
         case "YSLIDE_CHANGED":
             {
-                return { ySlideValue : action.payload,
+                return { ySlideValueMin : action.payload,
                     ySlideValueMax : action.payload2};
             }
         case "ZSLIDE_CHANGED":
             {
-                return { zSlideValue : action.payload,
-                    ySlideValueMax : action.payload2};
+                return { zSlideValueMin : action.payload,
+                    zSlideValueMax : action.payload2};
             }
         case "VOLUME_CHANGED":
             {

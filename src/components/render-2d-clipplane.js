@@ -9,11 +9,11 @@ AFRAME.registerComponent('render-2d-clipplane', {
 	schema: {
     activateClipPlane: {type: 'boolean', default: false },
     xCLipPlaneMin: {type: 'number', default: 0 },
-    xCLipPlaneMax: {type: 'number', default: 0 },
+    xCLipPlaneMax: {type: 'number', default: 1 },
     yCLipPlaneMin: {type: 'number', default: 0 },
-    yCLipPlaneMax: {type: 'number', default: 0 },
+    yCLipPlaneMax: {type: 'number', default: 1 },
     zCLipPlaneMin: {type: 'number', default: 0 },
-    zCLipPlaneMax: {type: 'number', default: 0 },
+    zCLipPlaneMax: {type: 'number', default: 1 },
     currenAxisAngle:{type: 'vec3'},
     rotateAngle:{type: 'vec3'},
     clipX:{type: 'vec2'},
@@ -84,6 +84,8 @@ AFRAME.registerComponent('render-2d-clipplane', {
     this.tempVec.z = this.data.zCLipPlaneRotation; 
 
     this.data.clipX = { x: this.data.xCLipPlaneMin, y:this.data.xCLipPlaneMax} ;
+    this.data.clipY = { x: this.data.yCLipPlaneMin, y:this.data.yCLipPlaneMax} ;
+    this.data.clipZ = { x: this.data.zCLipPlaneMin, y:this.data.zCLipPlaneMax} ;
 
     // I dont know why I have to save the current angle axis using a temporal variable. Maybe Aframe updates 
     // data on a asynchronous call

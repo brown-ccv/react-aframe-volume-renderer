@@ -117,13 +117,13 @@ render () {
          <label>
          Y Slide <br/>
          </label>
-         <Slider min={0} max={360}  value={this.state.yslideValue} onChange={this.ySlideHandleChange}/>
+         <Range allowCross={false} step={0.1} defaultValue={[0, 1]} min={0} max={1} onChange={this.ySlideHandleChange}/>
          <br/>
 
          <label>
          Z Slide <br/>
          </label>
-         <Slider min={0} max={360}  value={this.state.zslideValue} onChange={this.zSlideHandleChange}/>
+         <Range allowCross={false} step={0.1} defaultValue={[0, 1]} min={0} max={1} onChange={this.zSlideHandleChange}/>
 
       </div>
 
