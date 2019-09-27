@@ -84,7 +84,7 @@ AFRAME.registerComponent('move-cube', {
    
    init: function () {
            
-		   console.log("Init Move Cube");
+		   //console.log("Init Move Cube");
 		   this.active = false;
            this.isVrModeOn = false;
            this.keys ={};
@@ -591,12 +591,12 @@ AFRAME.registerComponent('myloader', {
 						//this.updateMeshClipMatrix(plane3DObject.matrixWorld);
 	
 						var material = this.el.getObject3D("mesh").material;
-						console.log("sliceX.x " +sliceX.x);
-						console.log("sliceX.y " +sliceX.y);
-						console.log("sliceY.x " +sliceX.x);
-						console.log("sliceY.y " +sliceX.y);
-						console.log("sliceZ.x " +sliceX.x);
-						console.log("sliceZ.y " +sliceX.y);
+						//console.log("sliceX.x " +sliceX.x);
+						//console.log("sliceX.y " +sliceX.y);
+						//console.log("sliceY.x " +sliceX.x);
+						//console.log("sliceY.y " +sliceX.y);
+						//console.log("sliceZ.x " +sliceX.x);
+						//console.log("sliceZ.y " +sliceX.y);
 						material.uniforms.box_min.value = new THREE.Vector3(sliceX.x,sliceY.x,sliceZ.x);
 						material.uniforms.box_max.value = new THREE.Vector3(sliceX.y,sliceY.y,sliceZ.y);
 					}
@@ -625,7 +625,7 @@ AFRAME.registerComponent('myloader', {
 						grab_started = true;
 					}*/
 					
-					console.log("RELEASE");
+					//console.log("RELEASE");
 					//var entity = document.querySelector('#volumeCube');
 					//entity.flushToDOM();
 					//this.controllerHandler.el.removeChild(this.el);
@@ -642,7 +642,7 @@ AFRAME.registerComponent('myloader', {
 				  && this.data.rayCollided  
 				  && !this.grabbed)
 				{
-					console.log("GRAB");
+					//console.log("GRAB");
 					// THIS IS THE PART TO DO THE GRAB (AND DROP) EVENT
 
 					//console.log("GRAB ENTITY");
