@@ -1,5 +1,5 @@
 
-import {Entity, Scene} from 'aframe-react';
+
 import React, {Component} from 'react'
 import Controls from './Controls';
 import VolumeRenderer from './VolumeRenderer';

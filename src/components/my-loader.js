@@ -200,8 +200,8 @@ AFRAME.registerComponent('move-cube', {
 
 
 AFRAME.registerComponent('collider-check', {
-	dependencies: ['raycaster'],
-	dependencies: ['my-buttons-check'],
+	dependencies: ['raycaster','my-buttons-check'],
+	
 	
 	schema: {
 		intersecting: {type: 'boolean', default: false },
@@ -303,7 +303,7 @@ AFRAME.registerComponent('myloader', {
 							  [0.5, 0, 0, 0.0]
 							 ];
 			
-		var m_dataLength = 0;
+		
 		var pData = [];
 		var indices = [];
 		var zeroArray = [0,0,0,0];
@@ -347,9 +347,9 @@ AFRAME.registerComponent('myloader', {
 			
 			
         var newArr = [];
-		for(var i = 0; i < pData.length; i++)
+		for(var j = 0; j < pData.length; j++)
         {
-            newArr = newArr.concat(pData[i]);
+            newArr = newArr.concat(pData[j]);
         }
 
 		var tranferData = new Uint8Array(newArr);
@@ -359,9 +359,9 @@ AFRAME.registerComponent('myloader', {
 			
 			
 		console.log("INIT component myloader is "+ this.el);
-		var el = this.el;
-		var data = this.data; 
-		var dataPath = this.data.volumeData;
+		
+		
+		
 		this.myCanvas = this.el.sceneEl.canvas;
 		
 		//var myCanvasWidth = myCanvas.width;
@@ -369,7 +369,7 @@ AFRAME.registerComponent('myloader', {
 		   
 		this.printedLog = false;
 		   
-		var volconfig = { clim1: 0, clim2: 1, renderstyle: 'iso', isothreshold: 0.15, colormap: 'viridis' };
+		
 		  
 		
 		
@@ -482,7 +482,7 @@ AFRAME.registerComponent('myloader', {
 					 var geometry = new THREE.BoxGeometry( 1, 1, 1);
 					 //geometry.translate( -0.5, - 0.5, - 0.5 );
 					 
-					 var mesh = new THREE.Mesh( geometry, material );
+					 
 					 
 					 el.setObject3D('mesh', new THREE.Mesh(geometry, material));
 					 data.modelLoaded = true;
@@ -508,9 +508,7 @@ AFRAME.registerComponent('myloader', {
 		//this.data.rayCollided = false;
 		console.log("onSelectStart");
 	},
-    update: function () {
-      // Do something when component's data is updated.
-    },
+   
   
     remove: function () {
       // Do something the component or its entity is detached.
@@ -566,7 +564,7 @@ AFRAME.registerComponent('myloader', {
 					&& this.clip2DPlaneRendered)
 					{
 						this.clip2DPlaneRendered = false;
-						var slice = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').rotateAngle;
+					//	var slice = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').rotateAngle;
 					//var plane3DObject = document.getElementById('my2Dclipplane').object3D;
 					//plane3DObject.rotateX(rotate.x * 3.1416/180 );
 					//plane3DObject.rotateY(rotate.y * 3.1416/180 );
@@ -611,7 +609,7 @@ AFRAME.registerComponent('myloader', {
 				var controllerMatrix = this.controllerHandler.matrixWorld;	
 				//console.log(controllerMatrix);
 				//Input - Volumematrix				
-				var volumeMatrix =  this.el.getObject3D("mesh").matrixWorld;
+				//var volumeMatrix =  this.el.getObject3D("mesh").matrixWorld;
 
 
 				//console.log("grabbed "+ this.grabbed);

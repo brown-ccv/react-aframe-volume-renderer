@@ -14,9 +14,9 @@ import './components/my-loader.js'
 import './components/my-buttons-check.js'
 import './components/render-2d-clipplane'
 import './components/cursor-listener'
-import VolumeRenderer from './components/VolumeRenderer';
+
 import Layout from './components/Layout'
-import {creatStore} from 'redux';
+
 
 
 

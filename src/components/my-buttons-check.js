@@ -1,5 +1,5 @@
 
-/* globals AFRAME THREE */
+/* globals AFRAME  */
 AFRAME.registerComponent("my-buttons-check", {
 	 schema: {
 		  clipPlane: {type: 'boolean', default: false },

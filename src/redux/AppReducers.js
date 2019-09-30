@@ -43,7 +43,12 @@ export const myReducer = function readCheckBox(state ={initialState},action){
                     transferFunction: action.payload2
                 };
             }                 
-                
+        default:
+            {
+                return { checkBoxValue : false,
+                    transferFunction: action.payload2
+                };
+            }            
     }
-    return state;
+    
 }

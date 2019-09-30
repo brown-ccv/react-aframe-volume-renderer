@@ -1,4 +1,4 @@
-/* globals AFRAME THREE */
+/* globals AFRAME  */
 
 var KEYS = [
     'KeyW', 'KeyA', 'KeyS', 'KeyD','KeyQ','KeyP',
@@ -74,10 +74,6 @@ AFRAME.registerComponent('render-2d-clipplane', {
    
    tick: function (time, timeDelta) {
 
-    //var xclip = {x: this.data.xCLipPlaneMin, y:this.data.xCLipPlaneMax}  ;
-    var yRot = this.data.yCLipPlaneRotation ;
-    var zRot = this.data.zCLipPlaneRotation  ;
-    //console.log("xRot: " + (this.data.xCLipPlaneRotation - this.tempVec .x ));
 
     this.tempVec.x = this.data.xCLipPlaneRotation;
     this.tempVec.y = this.data.yCLipPlaneRotation;

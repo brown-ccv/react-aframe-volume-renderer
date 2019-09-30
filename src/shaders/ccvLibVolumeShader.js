@@ -1,5 +1,5 @@
 
-/* globals AFRAME THREE */
+/* globals  THREE */
 THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
   uniforms: {
 	//"u_mvp": { value: new THREE.Matrix4() },
