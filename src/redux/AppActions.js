@@ -37,3 +37,9 @@ export const myChangeVolumeAction = function changeVolume(value1,value2){
         payload2: value2
     }
 }
+export const myChangeColorMapAction = function changeColorMap(value){
+    return{
+        type:"COLOR_MAP_CHANGED",
+        payload: value,
+    }
+}

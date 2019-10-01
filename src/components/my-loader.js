@@ -245,7 +245,8 @@ AFRAME.registerComponent('myloader', {
       volumeData: {type: 'string', default: ""},
 	  rayCollided: {type: 'boolean', default: false },
 	  modelLoaded: {type: 'boolean', default: false},
-	  transferFunction: {type: 'string', default: "false"}
+	  transferFunction: {type: 'string', default: "false"},
+	  colorMap: {type: 'string', default: "./colormaps/natural.png"}
     },
 
     init: function () {
@@ -258,14 +259,25 @@ AFRAME.registerComponent('myloader', {
 		this.onSelectStart = this.onSelectStart.bind(this);
 		this.onClearCollide = this.onClearCollide.bind(this);
 		this.loadModel = this.loadModel.bind(this);
-
+		this.updateTransfertexture = this.updateTransfertexture.bind(this);
 
 		this.el.addEventListener('raycaster-intersected', this.onCollide);
 		this.el.addEventListener('raycaster-intersected-cleared', this.onClearCollide);
 		this.group  = new THREE.Group();
 		//this.el.sceneEl.object3D.add(group);
-			
+		this.colorMap = {
+		   img: null,
+		   data: null
+		}
+
+		this.colorMap.img = document.createElement("img");
 		console.log("data: "+ this.data.volumeData);
+		var sceneEl = this.el;
+		console.log(sceneEl.canvas);
+		var canvas = document.querySelector('a-canvas');
+		console.log(canvas);
+		this.colorTransfer = new Uint8Array(3*256);
+
 		this.isVrModeOn = false;
 		this.mySpeed = 0.1;
 			
@@ -290,17 +302,17 @@ AFRAME.registerComponent('myloader', {
         }
 
 		
-			
-			
-		var jet_values = [[0, 0, 0.5, 0],
-			                  [0, 0, 1, 0.1],
-							  [0, 0.5, 1, 0.3],
-							  [0, 1, 1, 0.5],
-							  [0.5, 1, 0.5, 0.75],
-							  [1, 1, 0, 0.8],
-							  [1, 0.5, 0, 0.6],
-							  [1, 0, 0, 0.5],
-							  [0.5, 0, 0, 0.0]
+	    this.opacity =[0,0.1,0.3,0.5,0.75,0.8,0.6,0.5,0.0];
+
+		var jet_values = [[0, 0, 0.5],
+			                  [0, 0, 1],
+							  [0, 0.5, 1],
+							  [0, 1, 1],
+							  [0.5, 1, 0.5],
+							  [1, 1, 0],
+							  [1, 0.5, 0],
+							  [1, 0, 0],
+							  [0.5, 0, 0]
 							 ];
 			
 		
@@ -317,7 +329,7 @@ AFRAME.registerComponent('myloader', {
 			}
                 
                 
-		    pData.push( [jet_values[i][0] * 255 , jet_values[i][1] * 255, jet_values[i][2] * 255 , jet_values[i][3] * 255 ]);
+		    pData.push( [jet_values[i][0] * 255 , jet_values[i][1] * 255, jet_values[i][2] * 255 , this.opacity[i] * 255 ]);
 		    indices.push(index);
 		        
 	    }
@@ -378,6 +390,13 @@ AFRAME.registerComponent('myloader', {
 
 	},
 	
+
+	updateTransfertexture: function(data){
+	  console.log("LOL");
+	  console.log(data);
+	 
+	},
+
 	loadModel: function(){
 
 		var currentVolume = this.el.getObject3D('mesh'); 
@@ -460,7 +479,7 @@ AFRAME.registerComponent('myloader', {
 					uniforms["useLut"].value = false;
 				 }
 				 uniforms["step_size"].value = new THREE.Vector3( 1/100, 1/100, 1/100 );
-				 uniforms["channel"].value = 1 ;
+				 //uniforms["channel"].value = 1 ;
 				 uniforms["viewPort"].value = new THREE.Vector2(myWidth,myheight) ;
 				 uniforms["P_inv"].value = new THREE.Matrix4();
 				 uniforms["depth"].value = null;
@@ -516,10 +535,63 @@ AFRAME.registerComponent('myloader', {
   
 	update: function(oldData)
 	{
+		//var sceneEl = this.el;
+		//console.log(sceneEl.canvas);
+		//var canvas = document.querySelector(".a-canvas")
+		//console.log(canvas);
+
+		var imgColorImage = document.querySelector(".colorMapImg");
+		var imgWidth = imgColorImage.width;
+		var imgHeight = imgColorImage.height;
 		
+		//var localColorMap = this.colorMap;
+
+		var colorCanvas = document.createElement("canvas");
+		var el = this.el;
+		this.colorMap.img.onload = function(data){
+			console.log(imgColorImage);
+			colorCanvas.height = imgHeight;
+			colorCanvas.width = imgWidth;
+			var colorContext = colorCanvas.getContext("2d");
+			colorContext.drawImage(imgColorImage, 0, 0);
+			var colorData = colorContext.getImageData(0, 0, imgWidth, imgHeight).data;
+			var colorTransfer = new Uint8Array(3*256);
+			for(var i = 0; i < 256; i++){
+				colorTransfer[i*3  ] = colorData[i*4  ];
+				colorTransfer[i*3+1] = colorData[i*4+1];
+				colorTransfer[i*3+2] = colorData[i*4+2];
+			}
+			
+			this.data = colorTransfer;
+			//console.log("LOAD COLOR MAP this.data ");
+			//console.log(this.data);
+			//mycontext.updateTransfertexture(colorTransfer);
+			if(el.getObject3D("mesh") !== undefined)
+			{
+				console.log(colorTransfer);
+				console.log("CHANGE TEXTURE");
+				var material = el.getObject3D("mesh").material;
+				material.uniforms.u_lut.value = colorTransfer;
+			}
+			
+			//material.uniforms.box_max.value = new THREE.Vector3(1,1,1);
+
+		};
+		this.colorMap.img.src = imgColorImage.src;
+
+		
+		//this.colorTransfer = this.colorMap.onload();
+		//console.log("AFTER LOAD this.colorMap.data");
+		//console.log(this.colorMap.data);
+
 		if(oldData.volumeData !==  this.data.volumeData)
 		{
 			this.loadModel();
+		}
+
+		if(oldData.colorMap !== this.data.volumeData)
+		{
+           
 		}
 		
 	},

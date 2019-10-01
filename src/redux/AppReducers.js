@@ -8,7 +8,8 @@ const initialState = {
     zSlideValueMin: 0,
     zSlideValueMax: 0,
     volumeData:"",
-    transferFunction: false
+    transferFunction: false,
+    colorMap:""
   };
   
 
@@ -43,10 +44,16 @@ export const myReducer = function readCheckBox(state ={initialState},action){
                     transferFunction: action.payload2
                 };
             }                 
+        case "COLOR_MAP_CHANGED":
+            {
+                    return { 
+                        colorMap: action.payload
+                    };
+            }      
         default:
             {
                 return { checkBoxValue : false,
-                    transferFunction: action.payload2
+                    transferFunction: false
                 };
             }            
     }

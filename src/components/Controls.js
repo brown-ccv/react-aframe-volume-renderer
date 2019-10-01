@@ -5,7 +5,7 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 import {connect} from 'react-redux';
-import {myChecButtonAction,myXSlideAction, myYSlideAction,myZSlideAction,myChangeVolumeAction} from '../redux/AppActions'
+import {myChecButtonAction,myXSlideAction, myYSlideAction,myZSlideAction,myChangeVolumeAction,myChangeColorMapAction} from '../redux/AppActions'
 import Select from 'react-select'
 import ReactModal from 'react-modal';
 import DataTable from 'react-data-table-component'
@@ -13,11 +13,15 @@ import DataTable from 'react-data-table-component'
 
 const options = [
   { value: './assets/models/nrrd/00.nrrd:false', label: 'Spheroid' },
-  { value: './assets/models/nrrd/simulation_data.nrrd:true', label: 'Simulation' },
+  { value: './assets/models/nrrd/simulation_data.nrrd:false', label: 'Simulation' },
   
 ];
 
 const data = [
+  { 
+    name: 'default',
+    image: ''
+  },
   { 
     name: 'natural',
     image: './colormaps/natural.png'
@@ -46,7 +50,7 @@ const Range = Slider.Range;
 
 export default connect(
      null,
-    {myChecButtonAction,myXSlideAction,myYSlideAction,myZSlideAction,myChangeVolumeAction})( class Controls extends Component {
+    {myChecButtonAction,myXSlideAction,myYSlideAction,myZSlideAction,myChangeVolumeAction,myChangeColorMapAction})( class Controls extends Component {
   
   constructor(props) {
       super(props);
@@ -57,7 +61,7 @@ export default connect(
         yslideValue: 0,
         zslideValue: 0,
         colorMapModal: false,
-        currentMapColor:"./colormaps/natural.png"
+        currentMapColor:""
       };
   
       this.handleCheckBoxInputChange = this.handleCheckBoxInputChange.bind(this);
@@ -144,16 +148,10 @@ export default connect(
   }
 
   handleDataTableSelected= (state) => { 
-    console.log('Selected Rows: ', state.selectedRows[0].image);
+    //console.log('Selected Rows: ', state.selectedRows[0].image);
     if(state.selectedRows[0] != undefined)
     {
-      var colorCanvas = document.createElement("canvas");
-			colorCanvas.height = iu.height;
-			colorCanvas.width = colorMap.width;
-			var colorContext = colorCanvas.getContext("2d");
-			colorContext.drawImage(colorMap, 0, 0);
-      var colorData = colorContext.getImageData(0, 0, colorMap.width, colorMap.height).data;
-      
+      this.props.myChangeColorMapAction(state.selectedRows[0].image);
       this.setState({
         currentMapColor:state.selectedRows[0].image
        });
@@ -171,7 +169,7 @@ render () {
         <Select options={options} onChange={this.volumeSelectChanged} />
         
         <div className="color-map-control">
-        <img src={this.state.currentMapColor} alt="color map" height="15" width="100"></img>
+        <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width="100"></img>
         <br/>
         <button type= "button" onClick={this.showModal}>
           color map
