@@ -33,11 +33,10 @@
 }
 
 .aframe-container {
-    height: 80vh !important;
-    width: 80vw !important;
+    height: 100% !important;
+    width: 100% !important;
 }
 
-.controls-container {
-  height: 80vh !important;
-  width: 20vw !important;
+.brown-nav {
+  box-shadow: 1px 1px 5px #cecece;
 }

@@ -11,13 +11,13 @@ import Select from 'react-select'
 const options = [
   { value: './assets/models/nrrd/00.nrrd:false', label: 'Spheroid' },
   { value: './assets/models/nrrd/simulation_data.nrrd:true', label: 'Simulation' },
-  
+
 ]
 const Range = Slider.Range;
 export default connect(
      null,
     {myChecButtonAction,myXSlideAction,myYSlideAction,myZSlideAction,myChangeVolumeAction})( class Controls extends Component {
-  
+
   constructor(props) {
       super(props);
       this.state = {
@@ -27,9 +27,9 @@ export default connect(
         yslideValue: 0,
         zslideValue: 0
       };
-  
+
       this.handleCheckBoxInputChange = this.handleCheckBoxInputChange.bind(this);
-      
+
       this.xSlideHandleChange = this.xSlideHandleChange.bind(this);
       this.ySlideHandleChange = this.ySlideHandleChange.bind(this);
       this.zSlideHandleChange = this.zSlideHandleChange.bind(this);
@@ -54,7 +54,7 @@ export default connect(
     this.setState({
       xslideValue:value,
     });
-   
+
    this.props.myXSlideAction(value[0],value[1]);
   };
 
@@ -62,7 +62,7 @@ export default connect(
     this.setState({
       yslideValue:value,
     });
-   
+
    this.props.myYSlideAction(value[0],value[1]);
   };
 
@@ -70,7 +70,7 @@ export default connect(
     this.setState({
       zslideValue:value,
     });
-   
+
    this.props.myZSlideAction(value[0],value[1]);
   };
 
@@ -86,8 +86,7 @@ export default connect(
 
 render () {
   return (
-      <div className="controls-container" >
-
+      <div>
         <label>Volume</label>
         <br/>
         <Select options={options} onChange={this.volumeSelectChanged} />
@@ -103,11 +102,11 @@ render () {
           onChange={this.handleCheckBoxInputChange}
           />
          </label>
-         <br/> 
+         <br/>
 
          <label>
             X Slide <br/>
-            
+
          </label>
          {/*  <Slider min={0} max={1} step={0.1}  value={this.state.xslideValue} onChange={this.xSlideHandleChange}/> --> */}
          <Range allowCross={false} step={0.1} defaultValue={[0, 1]} min={0} max={1} onChange={this.xSlideHandleChange}/>
