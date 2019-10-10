@@ -48,9 +48,11 @@ const columns = [
 ]
 const Range = Slider.Range;
 
+
 export default connect(
      null,
-    {myChecButtonAction,myXSlideAction,myYSlideAction,myZSlideAction,myChangeVolumeAction,myChangeColorMapAction})( class Controls extends Component {
+    {myChecButtonAction,myXSlideAction,myYSlideAction,myZSlideAction,myChangeVolumeAction,myChangeColorMapAction})
+    ( class Controls extends Component {
   
   constructor(props) {
       super(props);
@@ -159,7 +161,9 @@ export default connect(
     
   };
 
-
+  componentWillMount() {
+    ReactModal.setAppElement('body');
+  }
 render () {
   return (
       <div className="controls-container" >

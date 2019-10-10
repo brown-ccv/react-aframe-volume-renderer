@@ -246,7 +246,7 @@ AFRAME.registerComponent('myloader', {
 	  rayCollided: {type: 'boolean', default: false },
 	  modelLoaded: {type: 'boolean', default: false},
 	  transferFunction: {type: 'string', default: "false"},
-	  colorMap: {type: 'string', default: "./colormaps/natural.png"}
+	  colorMap: {type: 'string', default: ""}
     },
 
     init: function () {
@@ -302,7 +302,8 @@ AFRAME.registerComponent('myloader', {
         }
 
 		
-	    this.opacity =[0,0.1,0.3,0.5,0.75,0.8,0.6,0.5,0.0];
+		this.opacityControlPoints =[0,0.1,0.3,0.5,0.75,0.8,0.6,0.5,0.0];
+		
 
 		var jet_values = [[0, 0, 0.5],
 			                  [0, 0, 1],
@@ -317,9 +318,11 @@ AFRAME.registerComponent('myloader', {
 			
 		
 		var pData = [];
+		this.alphaData = [];
 		var indices = [];
 		var zeroArray = [0,0,0,0];
-            
+		
+		//setting up control points
 		for (var i = 0; i<9; i++) {
 		        
             var index = i * 28;
@@ -329,12 +332,26 @@ AFRAME.registerComponent('myloader', {
 			}
                 
                 
-		    pData.push( [jet_values[i][0] * 255 , jet_values[i][1] * 255, jet_values[i][2] * 255 , this.opacity[i] * 255 ]);
+		    pData.push( [jet_values[i][0] * 255 , jet_values[i][1] * 255, jet_values[i][2] * 255 , this.opacityControlPoints[i] * 255 ]);
 		    indices.push(index);
 		        
 	    }
 
-     	
+		//interpolation between opacity control points
+		/*for (var j = 0; j<9 - 1; j++)
+	    {
+			var dDataA = (pData[indices[j + 1]][3] - pData[indices[j]][3]);
+			var dIndex = indices[j + 1] - indices[j];
+			var dDataIncA = dDataA / dIndex;
+			for (var idx = indices[j] + 1; idx<indices[j + 1]; idx++)
+		    {
+				var myAlpha = pData[idx - 1][3] + dDataIncA ;
+                alphaData[idx] = myAlpha;
+			}
+		}*/
+		
+		
+		// interpolation between colors control points
 		for (var j = 0; j<9 - 1; j++)
 	    {
 				
@@ -351,12 +368,18 @@ AFRAME.registerComponent('myloader', {
 				
 			for (var idx = indices[j] + 1; idx<indices[j + 1]; idx++)
 		    {
-			   var myvector = [pData[idx - 1][0] + dDataIncR ,pData[idx - 1][1] + dDataIncG ,pData[idx - 1][2] + dDataIncB,pData[idx - 1][3] + dDataIncA ];
+			   var myAlpha = pData[idx - 1][3] + dDataIncA ;
+               var myvector = [pData[idx - 1][0] + dDataIncR ,pData[idx - 1][1] + dDataIncG ,pData[idx - 1][2] + dDataIncB, myAlpha];
+			   this.alphaData[idx] = myAlpha;
                pData[idx] = myvector;
 		    }
 				
 		}
-			
+		
+		//console.log("alpha data");
+		//console.log(this.alphaData);
+		//console.log("pdata ");
+		//console.log(pData);
 			
         var newArr = [];
 		for(var j = 0; j < pData.length; j++)
@@ -365,6 +388,10 @@ AFRAME.registerComponent('myloader', {
         }
 
 		var tranferData = new Uint8Array(newArr);
+		console.log("tranferData.length");
+		console.log(tranferData.length);
+
+
 		this.transferTexture = new THREE.DataTexture( tranferData, pData.length  , 1, THREE.RGBAFormat );
 
         this.transferTexture.needsUpdate = true 
@@ -540,44 +567,93 @@ AFRAME.registerComponent('myloader', {
 		//var canvas = document.querySelector(".a-canvas")
 		//console.log(canvas);
 
-		var imgColorImage = document.querySelector(".colorMapImg");
-		var imgWidth = imgColorImage.width;
-		var imgHeight = imgColorImage.height;
+		console.log("this.data.colorMap");
+		console.log(this.data.colorMap);
+		console.log("this.data.transferFunction");
+		console.log(this.data.transferFunction);
+	    if(oldData.colorMap !== this.data.colorMap)
+		{
 		
-		//var localColorMap = this.colorMap;
-
-		var colorCanvas = document.createElement("canvas");
-		var el = this.el;
-		this.colorMap.img.onload = function(data){
-			console.log(imgColorImage);
-			colorCanvas.height = imgHeight;
-			colorCanvas.width = imgWidth;
-			var colorContext = colorCanvas.getContext("2d");
-			colorContext.drawImage(imgColorImage, 0, 0);
-			var colorData = colorContext.getImageData(0, 0, imgWidth, imgHeight).data;
-			var colorTransfer = new Uint8Array(3*256);
-			for(var i = 0; i < 256; i++){
-				colorTransfer[i*3  ] = colorData[i*4  ];
-				colorTransfer[i*3+1] = colorData[i*4+1];
-				colorTransfer[i*3+2] = colorData[i*4+2];
-			}
-			
-			this.data = colorTransfer;
-			//console.log("LOAD COLOR MAP this.data ");
-			//console.log(this.data);
-			//mycontext.updateTransfertexture(colorTransfer);
-			if(el.getObject3D("mesh") !== undefined)
+			if(this.data.transferFunction)
 			{
-				console.log(colorTransfer);
-				console.log("CHANGE TEXTURE");
-				var material = el.getObject3D("mesh").material;
-				material.uniforms.u_lut.value = colorTransfer;
-			}
-			
-			//material.uniforms.box_max.value = new THREE.Vector3(1,1,1);
+			 var imgColorImage = document.querySelector(".colorMapImg");
+			 var imgWidth = imgColorImage.width;
+			 var imgHeight = imgColorImage.height;
+			 
+			 //var localColorMap = this.colorMap;
+	 
+			 var colorCanvas = document.createElement("canvas");
+			 var el = this.el;
+			 //var opacities = this.opacity;
+			 var alpha = this.alphaData;
+			 this.colorMap.img.onload = function(data){
+				 console.log(imgColorImage);
+				 colorCanvas.height = imgHeight;
+				 colorCanvas.width = imgWidth;
+				 var colorContext = colorCanvas.getContext("2d");
+				 colorContext.drawImage(imgColorImage, 0, 0);
+				 var colorData = colorContext.getImageData(0, 0, imgWidth, 1).data;
+				 var colorTransfer = new Uint8Array(3*256);
+				 for(var i = 0; i < 256; i++){
+					 
+					 colorTransfer[i*3  ] = colorData[i*4  ];
+					 colorTransfer[i*3+1] = colorData[i*4+1];
+					 colorTransfer[i*3+2] = colorData[i*4+2];
+				 }
+				 
+				 //console.log("opacities");
+				 //console.log(opacities);
+				 var imageTransferData = new Uint8Array(4*256);
+				 for(var i = 0; i < 256; i++){
+	 
+					 var r = colorTransfer[i*3+0]/256;
+					 var g = colorTransfer[i*3+1]/256;
+					 var b = colorTransfer[i*3+2]/256;
+					 var a = alpha[i]/256;
+		 
+					 r = r*r*a;
+					 g = g*g*a;
+					 b = b*b*a;
+					 
+					 imageTransferData[i*4+0] = r*256;
+					 imageTransferData[i*4+1] = g*256;
+					 imageTransferData[i*4+2] = b*256;
+					 
+					 imageTransferData[i*4+3] = a*256;
+				 }
+				 console.log(colorTransfer);
+				 console.log(imageTransferData);
+				 //gl.activeTexture(gl.TEXTURE1);
+				 var transferTexture = new THREE.DataTexture( colorTransfer, colorTransfer.length  , 1, THREE.RGBAFormat );
+				 transferTexture.needsUpdate = true 
+	 
+	 
+				 //console.log("LOAD COLOR MAP this.data ");
+				 //console.log(this.data);
+				 //mycontext.updateTransfertexture(colorTransfer);
+				 if(el.getObject3D("mesh") !== undefined)
+				 {
+					 //console.log(colorTransfer);
+					 console.log("CHANGE TEXTURE");
+					 
+					 var material = el.getObject3D("mesh").material;
 
-		};
-		this.colorMap.img.src = imgColorImage.src;
+					 console.log("material before");
+					 console.log(material);
+					 material.uniforms.u_lut.value = transferTexture;
+					 material.uniforms.channel.value = 1 ;
+					 material.uniforms.useLut.value = true;
+					 material.needsUpdate = true;
+					 console.log("material after");
+					 console.log(material);
+				 }
+				 
+				 //material.uniforms.box_max.value = new THREE.Vector3(1,1,1);
+				
+			 };
+			 this.colorMap.img.src = imgColorImage.src;
+			}
+		}
 
 		
 		//this.colorTransfer = this.colorMap.onload();
@@ -589,10 +665,7 @@ AFRAME.registerComponent('myloader', {
 			this.loadModel();
 		}
 
-		if(oldData.colorMap !== this.data.volumeData)
-		{
-           
-		}
+		
 		
 	},
 

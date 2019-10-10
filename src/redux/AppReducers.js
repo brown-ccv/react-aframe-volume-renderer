@@ -46,9 +46,11 @@ export const myReducer = function readCheckBox(state ={initialState},action){
             }                 
         case "COLOR_MAP_CHANGED":
             {
-                    return { 
-                        colorMap: action.payload
-                    };
+                
+                return { 
+                        colorMap: action.payload,
+                        transferFunction: (action.payload !="" ? true:false)
+                };
             }      
         default:
             {
