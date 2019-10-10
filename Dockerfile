@@ -1,17 +1,14 @@
-FROM node:alpine
+# build environment
+FROM node:alpine as build
+RUN apk add --no-cache git
 
-RUN apk add --update git
-
-
-RUN mkdir /usr/local/src
-COPY . /usr/local/src
-WORKDIR /usr/local/src
-
-
+WORKDIR /app
+COPY . /app
 RUN npm install
-RUN npm install eslint@5.16.0
+RUN npm run build
 
-
-EXPOSE 3000
-
-CMD [ "npm", "start" ]
+# production environment
+FROM nginx:1.16.0-alpine
+COPY --from=build /app/build /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
