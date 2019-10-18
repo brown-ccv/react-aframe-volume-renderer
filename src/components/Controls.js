@@ -10,7 +10,7 @@ import Select from 'react-select'
 import ReactModal from 'react-modal';
 import DataTable from 'react-data-table-component'
 //import {Modal} from './ColorMapControl'
-
+import OpacityControl from './OpacityControl'
 const options = [
   { value: './assets/models/nrrd/00.nrrd:false', label: 'Spheroid' },
   { value: './assets/models/nrrd/simulation_data.nrrd:false', label: 'Simulation' },
@@ -161,7 +161,12 @@ export default connect(
     //console.log('Selected Rows: ', state.selectedRows[0].image);
     if(state.selectedRows[0] != undefined)
     {
+      
+      console.log("state.selectedRows[0].image " +state.selectedRows[0].image);
+      
+      
       this.props.myChangeColorMapAction(state.selectedRows[0].image);
+
       this.setState({
         currentMapColor:state.selectedRows[0].image
        });
@@ -173,22 +178,37 @@ export default connect(
     ReactModal.setAppElement('body');
   }
 render () {
+  let colorMapSelection;
+  if(this.state.currentMapColor != '')  
+  {
+    colorMapSelection = <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width="100"></img>       
+  }
+  else{
+    colorMapSelection = ''; 
+  }
+
   return (
-      <div className="controls-container" >
+      <div id="controls" className="controls-container" >
        
         <label>Volume</label>
         <br/>
         <Select options={options} onChange={this.volumeSelectChanged} />
         
         <div className="color-map-control">
-        <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width="100"></img> 
-        {/*<img className="colorMapImg" src="" alt="color map" height="15" width="100"></img> */}
+        
+        {
+          /*<img className="colorMapImg" src="" alt="color map" height="15" width="100"></img> */
+          colorMapSelection
+        }
+        
         <br/>
         <button type= "button" onClick={this.showModal}>
           color map
         </button>
         <br/>
         </div>
+        <br/>
+        <OpacityControl/>
        <label>
        <br/>
         Enable Slice &nbsp;

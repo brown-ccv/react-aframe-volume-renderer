@@ -397,22 +397,22 @@ AFRAME.registerComponent('myloader', {
        // this.transferTexture.needsUpdate = true 
 			
 			
-		var imgColorImage = document.querySelector(".colorMapImg");
-		var imgWidth = imgColorImage.width;
-		var imgHeight = imgColorImage.height;
+		//var imgColorImage = document.querySelector(".colorMapImg");
+		//var imgWidth = imgColorImage.width;
+		//var imgHeight = imgColorImage.height;
 		
 		//var localColorMap = this.colorMap;
 
-		var colorCanvas = document.createElement("canvas");
-		var el = this.el;
+		//var colorCanvas = document.createElement("canvas");
+		//var el = this.el;
 		//var opacities = this.opacity;
-		var alpha = this.alphaData;
+		//var alpha = this.alphaData;
 
-		this.imageColorTexture  = null;
+		//this.imageColorTexture  = null;
   
-		var mycontext = this;
-		console.log("LOAD IMAGE");
-		this.colorMap.img.onload = function(data){
+		//var mycontext = this;
+		//console.log("LOAD IMAGE");
+		/*this.colorMap.img.onload = function(data){
 			console.log(imgColorImage);
 			colorCanvas.height = imgHeight;
 			colorCanvas.width = imgWidth;
@@ -473,12 +473,12 @@ AFRAME.registerComponent('myloader', {
 				material.needsUpdate = true;
 				console.log("material after");
 				console.log(material);
-			}*/
+			}
 			
 			//material.uniforms.box_max.value = new THREE.Vector3(1,1,1);
 		   
-		};
-		this.colorMap.img.src = imgColorImage.src;
+		};*/
+		//this.colorMap.img.src = imgColorImage.src;
 		
 		
 		
@@ -663,7 +663,7 @@ AFRAME.registerComponent('myloader', {
 	    if(oldData.colorMap !== undefined && (oldData.colorMap !== this.data.colorMap))
 		{
 		
-			console.log("ENTER COLOR MAPPING CHANGE");
+			//console.log("ENTER COLOR MAPPING CHANGE");
 			if(this.data.transferFunction)
 			//if(false)
 			{
