@@ -30,6 +30,14 @@ const data = [
     name: 'viridis',
     image: './colormaps/viridis.png'
   },
+  {
+    name: 'colors',
+    image: './colormaps/colors.png'
+  },
+  {
+    name: 'white black',
+    image: './colormaps/whiteblack.png'
+  },
 
 ];
 
@@ -173,8 +181,8 @@ render () {
         <Select options={options} onChange={this.volumeSelectChanged} />
         
         <div className="color-map-control">
-        {/* <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width="100"></img> */}
-        <img className="colorMapImg" src="./colormaps/natural.png" alt="color map" height="15" width="100"></img> 
+        <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width="100"></img> 
+        {/*<img className="colorMapImg" src="" alt="color map" height="15" width="100"></img> */}
         <br/>
         <button type= "button" onClick={this.showModal}>
           color map
