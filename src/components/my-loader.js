@@ -246,7 +246,7 @@ AFRAME.registerComponent('myloader', {
 	  rayCollided: {type: 'boolean', default: false },
 	  modelLoaded: {type: 'boolean', default: false},
 	  transferFunction: {type: 'string', default: "false"},
-	  colorMap: {type: 'string', default: "./colormaps/natural.png"}
+	  colorMap: {type: 'string', default: ""}
     },
 
     init: function () {
@@ -305,7 +305,7 @@ AFRAME.registerComponent('myloader', {
 		this.opacityControlPoints =[0,0.1,0.3,0.5,0.75,0.8,0.6,0.5,0.0];
 		
 
-		/*var jet_values = [[0, 0, 0.5],
+		var jet_values = [[0, 0, 0.5],
 			                  [0, 0, 1],
 							  [0, 0.5, 1],
 							  [0, 1, 1],
@@ -314,7 +314,7 @@ AFRAME.registerComponent('myloader', {
 							  [1, 0.5, 0],
 							  [1, 0, 0],
 							  [0.5, 0, 0]
-							 ];*/
+							 ];
 			
 		
 		var pData = [];
@@ -322,7 +322,7 @@ AFRAME.registerComponent('myloader', {
 		var indices = [];
 		var zeroArray = [0,0,0,0];
 		
-		/*//setting up control points
+		//setting up control points
 		for (var i = 0; i<9; i++) {
 		        
             var index = i * 28;
@@ -335,10 +335,10 @@ AFRAME.registerComponent('myloader', {
 		    pData.push( [jet_values[i][0] * 255 , jet_values[i][1] * 255, jet_values[i][2] * 255 , this.opacityControlPoints[i] * 255 ]);
 		    indices.push(index);
 		        
-	    }*/
+	    }
 
 		//interpolation between opacity control points
-		/*for (var j = 0; j<9 - 1; j++)
+		for (var j = 0; j<9 - 1; j++)
 	    {
 			var dDataA = (pData[indices[j + 1]][3] - pData[indices[j]][3]);
 			var dIndex = indices[j + 1] - indices[j];
@@ -346,13 +346,13 @@ AFRAME.registerComponent('myloader', {
 			for (var idx = indices[j] + 1; idx<indices[j + 1]; idx++)
 		    {
 				var myAlpha = pData[idx - 1][3] + dDataIncA ;
-                alphaData[idx] = myAlpha;
+                this.alphaData[idx] = myAlpha;
 			}
-		}*/
+		}
 		
 		
 		// interpolation between colors control points
-		/*for (var j = 0; j<9 - 1; j++)
+		for (var j = 0; j<9 - 1; j++)
 	    {
 				
 			var dDataR = (pData[indices[j + 1]][0] - pData[indices[j]][0]);
@@ -374,7 +374,7 @@ AFRAME.registerComponent('myloader', {
                pData[idx] = myvector;
 		    }
 				
-		}*/
+		}
 		
 		//console.log("alpha data");
 		//console.log(this.alphaData);
@@ -531,14 +531,14 @@ AFRAME.registerComponent('myloader', {
 			var colorMap =  null;
 			var useTransferFunction; 
 			console.log(this.data.transferFunction);
-		   /* if (this.data.transferFunction == "false" ) {
+		    if (this.data.transferFunction == "false" ) {
 				console.log("do not use Transferfunction");
 				useTransferFunction = false;
 		    }else{
 			   console.log("use Transferfunction");
 			   useTransferFunction = true;
-		   }*/
-		   useTransferFunction = true;
+		   }
+		   //useTransferFunction = true;
 			new NRRDLoader().load( this.data.volumeData, function ( volume ) {
 				var texture = new THREE.DataTexture3D( volume.data, volume.xLength, volume.yLength, volume.zLength  );
 				
@@ -583,16 +583,18 @@ AFRAME.registerComponent('myloader', {
 				 uniforms["clipping"].value = false ;
 				 uniforms["threshold"].value = 1 ;
 				 uniforms["multiplier"].value = 1 ;
-				 //uniforms["camPos"].value = new THREE.Vector3( 1, 1, 1 );\
-				 if(useTransferFunction){
+				 
+				 if(!useTransferFunction){
+					 console.log("NOT USING LUT");
 					uniforms["channel"].value = 1 ;
-					uniforms["useLut"].value = true;
+					uniforms["useLut"].value = false;
 				  }else{
+					console.log("USING LUT");
 					uniforms["channel"].value = 6 ;
 					uniforms["useLut"].value = false;
 				 }
 				 uniforms["step_size"].value = new THREE.Vector3( 1/100, 1/100, 1/100 );
-				 //uniforms["channel"].value = 1 ;
+				 
 				 uniforms["viewPort"].value = new THREE.Vector2(myWidth,myheight) ;
 				 uniforms["P_inv"].value = new THREE.Matrix4();
 				 uniforms["depth"].value = null;
@@ -657,11 +659,13 @@ AFRAME.registerComponent('myloader', {
 		console.log(this.data.colorMap);
 		console.log("this.data.transferFunction");
 		console.log(this.data.transferFunction);
-	    if(oldData.colorMap !== this.data.colorMap)
+
+	    if(oldData.colorMap !== undefined && (oldData.colorMap !== this.data.colorMap))
 		{
 		
-			//if(this.data.transferFunction)
-			if(false)
+			console.log("ENTER COLOR MAPPING CHANGE");
+			if(this.data.transferFunction)
+			//if(false)
 			{
 			 var imgColorImage = document.querySelector(".colorMapImg");
 			 var imgWidth = imgColorImage.width;
@@ -708,10 +712,14 @@ AFRAME.registerComponent('myloader', {
 					 
 					 imageTransferData[i*4+3] = a*256;
 				 }
-				 console.log(colorTransfer);
-				 console.log(imageTransferData);
+				 console.log("colorTransfer.length");
+				 console.log(colorTransfer.length);
+				 console.log("colorTransfer");
+				 console.log("colorTransfer");
+				 console.log("imageTransferData");
+				 console.log(imageTransferData.length);
 				 //gl.activeTexture(gl.TEXTURE1);
-				 var transferTexture = new THREE.DataTexture( imageTransferData, imageTransferData.length  , 1, THREE.RGBAFormat );
+				 var transferTexture = new THREE.DataTexture( imageTransferData, 256  , 1, THREE.RGBAFormat );
 				 transferTexture.needsUpdate = true
 	 
 	 
@@ -727,8 +735,8 @@ AFRAME.registerComponent('myloader', {
 					 
 					 console.log("material before");
 					 console.log(material);
-					 material.uniforms.u_lut.value = null;
-					 material.uniforms.channel.value = 1 ;
+					 material.uniforms.u_lut.value = transferTexture;
+					 //material.uniforms.channel.value = 1 ;
 					 material.uniforms.useLut.value = true;
 					 material.needsUpdate = true;
 					 console.log("material after");
