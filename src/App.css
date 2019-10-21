@@ -46,3 +46,7 @@
   height: 30vh !important;
   width: 20vw !important;
 }
+
+#opacityControls.pointer{
+	cursor: pointer;
+}
