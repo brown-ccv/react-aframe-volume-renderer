@@ -1,0 +1,9 @@
+repo:             react-aframe-volume-renderer
+site_name:        "Volume Renderer"
+authors:
+ - name:
+   github_user: 
+repo_url:         https://github.com/brown-ccv/react-aframe-volume-renderer
+site_description: "This site describes the acquisition and use of the nmrdock docker image containing a variety of tools for analyzing NMR data both from the command line and via GUI. The site contains screenshots and video in addition to the standard narrative documentation.."
+docs_url:         
+type:             software    # required. choose one of [software, tutorial, workshop, documentation]
