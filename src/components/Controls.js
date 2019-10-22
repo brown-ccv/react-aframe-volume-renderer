@@ -109,7 +109,7 @@ export default connect(
   }
 
   xSlideHandleChange = (value) => {
-    //console.log(value);
+    
     this.setState({
       xslideValue:value,
     });
@@ -139,7 +139,7 @@ export default connect(
       currentVolume: selected.value
      });
      var volumeProperties = selected.value.split(":");
-     console.log(volumeProperties)
+     
      this.props.myChangeVolumeAction(volumeProperties[0],volumeProperties[1]);
   };
 

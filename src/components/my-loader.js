@@ -246,7 +246,11 @@ AFRAME.registerComponent('myloader', {
 	  rayCollided: {type: 'boolean', default: false },
 	  modelLoaded: {type: 'boolean', default: false},
 	  transferFunction: {type: 'string', default: "false"},
-	  colorMap: {type: 'string', default: ""}
+	  colorMap: {type: 'string', default: ""},
+	  opacity1:{type:'number', default:0},
+	  opacity2:{type:'number', default:0},
+	  lowNode:{type:'number', default:0},
+	  highNode:{type:'number', default:0}
     },
 
     init: function () {
@@ -655,10 +659,34 @@ AFRAME.registerComponent('myloader', {
 		//var canvas = document.querySelector(".a-canvas")
 		//console.log(canvas);
 
-		console.log("this.data.colorMap");
-		console.log(this.data.colorMap);
-		console.log("this.data.transferFunction");
-		console.log(this.data.transferFunction);
+		//console.log("this.data.colorMap");
+		//console.log(this.data.colorMap);
+		//console.log("this.data.transferFunction");
+		//console.log(this.data.transferFunction);
+
+		//console.log("opacity1: " +this.data.opacity1);
+		//console.log("opacity2 " +this.data.opacity2);
+
+		if((oldData.opacity1 != this.data.opacity1) || (oldData.opacity2 != this.data.opacity2))
+		{
+			var min = Math.pow(this.data.opacity1, 2);
+			var max = Math.pow(this.data.opacity2, 2);
+
+			for(var i = 0; i <  this.alphaData.length; i++){
+				var px = i/ this.alphaData.length;
+				px = px*px;
+				
+				if(px <= this.data.lowNode){
+					this.alphaData[i] = min*255;
+				} else if(px > this.data.highNode){
+					this.alphaData[i] = max*255;
+				} else {
+					var ratio = (px-this.data.lowNode)/(this.data.highNode-this.data.lowNode);
+					this.alphaData[i] = (min*(1-ratio) + max*ratio)*255;
+				}
+			}
+		}
+		
 
 	    if(oldData.colorMap !== undefined && (oldData.colorMap !== this.data.colorMap))
 		{
@@ -691,9 +719,7 @@ AFRAME.registerComponent('myloader', {
 					 colorTransfer[i*3+1] = colorData[i*4+1];
 					 colorTransfer[i*3+2] = colorData[i*4+2];
 				 }
-				 
-				 //console.log("opacities");
-				 //console.log(opacities);
+			
 				 var imageTransferData = new Uint8Array(4*256);
 				 for(var i = 0; i < 256; i++){
 	 
@@ -718,33 +744,24 @@ AFRAME.registerComponent('myloader', {
 				 console.log("colorTransfer");
 				 console.log("imageTransferData");
 				 console.log(imageTransferData.length);
-				 //gl.activeTexture(gl.TEXTURE1);
 				 var transferTexture = new THREE.DataTexture( imageTransferData, 256  , 1, THREE.RGBAFormat );
 				 transferTexture.needsUpdate = true
 	 
-	 
-				 //console.log("LOAD COLOR MAP this.data ");
-				 //console.log(this.data);
-				 //mycontext.updateTransfertexture(colorTransfer);
 				 if(el.getObject3D("mesh") !== undefined)
 				 {
-					 //console.log(colorTransfer);
-					 console.log("CHANGE TEXTURE");
+	
 					 
 					 var material = el.getObject3D("mesh").material;
 					 
 					 console.log("material before");
 					 console.log(material);
 					 material.uniforms.u_lut.value = transferTexture;
-					 //material.uniforms.channel.value = 1 ;
 					 material.uniforms.useLut.value = true;
 					 material.needsUpdate = true;
 					 console.log("material after");
 					 console.log(material);
 				 }
 				 
-				 //material.uniforms.box_max.value = new THREE.Vector3(1,1,1);
-				
 			 };
 			 this.colorMap.img.src = imgColorImage.src;
 			}

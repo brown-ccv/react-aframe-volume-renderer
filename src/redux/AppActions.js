@@ -43,3 +43,28 @@ export const myChangeColorMapAction = function changeColorMap(value){
         payload: value,
     }
 }
+export const myChangePoint1 = function changePoint1(value){
+    return{
+        type:"OPACITY1_CHANGED",
+        payload: value,
+    }
+}
+export const myChangePoint2 = function changePoint2(value){
+    return{
+        type:"OPACITY2_CHANGED",
+        payload: value,
+    }
+}
+
+export const myChangeLowNode = function changeLowNode(value){
+    return{
+        type:"LOW_NODE_CHANGED",
+        payload: value,
+    }
+}
+export const myChangeHighNode = function changeHighNode(value){
+    return{
+        type:"HIGH_NODE_CHANGED",
+        payload: value,
+    }
+}
