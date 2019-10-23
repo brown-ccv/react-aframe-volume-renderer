@@ -38,7 +38,7 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
       
         <Entity id="rhand" laser-controls="hand: right" raycaster="objects: .clickableMesh" my-buttons-check={{clipPlane:false,grabObject:false}} collider-check={{intersecting:false}}/>
 
-        <Entity id="my2DclipplaneListener" render-2d-clipplane={{activateClipPlane:this.props.clipPlane,
+        <Entity id="my2DclipplaneListener" render-2d-clipplane={{activateClipPlane:true,
           xCLipPlaneMin:this.props.xSlideValueMin,
           xCLipPlaneMax:this.props.xSlideValueMax,
           yCLipPlaneMin:this.props.ySlideValueMin,

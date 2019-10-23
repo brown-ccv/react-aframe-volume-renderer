@@ -209,6 +209,7 @@ render () {
         </div>
         <br/>
         <OpacityControl/>
+       {/*
        <label>
        <br/>
         Enable Slice &nbsp;
@@ -218,7 +219,8 @@ render () {
           checked={this.state.actiavePlane}
           onChange={this.handleCheckBoxInputChange}
           />
-         </label>
+       </label>
+       */}
          <br/> 
          <div className="slices-container" >
          <label>
