@@ -34,11 +34,11 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
 
         <div className="aframe-container" > 
 
-        <Scene id="myScene" embedded >
+        <Scene id="myScene" background="color: black" embedded >
       
         <Entity id="rhand" laser-controls="hand: right" raycaster="objects: .clickableMesh" my-buttons-check={{clipPlane:false,grabObject:false}} collider-check={{intersecting:false}}/>
 
-        <Entity id="my2DclipplaneListener" render-2d-clipplane={{activateClipPlane:this.props.clipPlane,
+        <Entity id="my2DclipplaneListener" render-2d-clipplane={{activateClipPlane:true,
           xCLipPlaneMin:this.props.xSlideValueMin,
           xCLipPlaneMax:this.props.xSlideValueMax,
           yCLipPlaneMin:this.props.ySlideValueMin,
@@ -55,7 +55,7 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
                lowNode:this.props.lowNode,highNode:this.props.highNode}}   position="0 0 0"/>
         <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable"></a-entity>
 
-        <Entity id="myCamera" camera="active: true"  look-controls  orbit-controls="target: 0 0 0; minDistance: 0.5; maxDistance: 180; initialPosition: 0 0 2"  />
+        <Entity id="myCamera" camera="active: true"  look-controls  orbit-controls="target: 0 0 0; minDistance: 0.0; maxDistance: 180; initialPosition: 0 0 2"  />
         {/* <Entity id="myCamera" camera="active: true"  look-controls  position="0 0 2"  /> */}
 
 

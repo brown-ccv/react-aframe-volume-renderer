@@ -209,6 +209,7 @@ render () {
         </div>
         <br/>
         <OpacityControl/>
+       {/*
        <label>
        <br/>
         Enable Slice &nbsp;
@@ -218,7 +219,8 @@ render () {
           checked={this.state.actiavePlane}
           onChange={this.handleCheckBoxInputChange}
           />
-         </label>
+       </label>
+       */}
          <br/> 
          <div className="slices-container" >
          <label>
@@ -226,20 +228,20 @@ render () {
 
          </label>
          {/*  <Slider min={0} max={1} step={0.1}  value={this.state.xslideValue} onChange={this.xSlideHandleChange}/> --> */}
-         <Range allowCross={false} step={0.1} defaultValue={[0, 1]} min={0} max={1} onChange={this.xSlideHandleChange}/>
+         <Range allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.xSlideHandleChange}/>
 
          <br/>
 
          <label>
          Y Slide <br/>
          </label>
-         <Range allowCross={false} step={0.1} defaultValue={[0, 1]} min={0} max={1} onChange={this.ySlideHandleChange}/>
+         <Range allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.ySlideHandleChange}/>
          <br/>
 
          <label>
          Z Slide <br/>
          </label>
-         <Range allowCross={false} step={0.1} defaultValue={[0, 1]} min={0} max={1} onChange={this.zSlideHandleChange}/>
+         <Range allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.zSlideHandleChange}/>
          </div>
 
          <ReactModal 
