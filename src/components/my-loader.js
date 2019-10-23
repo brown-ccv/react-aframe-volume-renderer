@@ -289,7 +289,7 @@ AFRAME.registerComponent('myloader', {
 			
 		this.sceneHandler = this.el.sceneEl;
 			
-		//var controllerPos = document.querySelector('[hand-controls=left]').getAttribute('position');
+		
 		this.controllerHandler = document.getElementById('rhand').object3D;//.getAttribute('my-buttons-check');
 		this.controllerHandler.el.addEventListener( 'selectstart', this.onSelectStart );
 			
@@ -387,26 +387,16 @@ AFRAME.registerComponent('myloader', {
 		this.printedLog = false;
 	
         var cameraEl = document.querySelector('#myCamera');
-        cameraEl.setAttribute('camera', 'active', true);
+		cameraEl.setAttribute('camera', 'active', true);
+		
+		console.log("this.alphaData INIT");
+		console.log(this.alphaData);
 
 	},
 	
 
-	updateTransfertexture: function(data){
-	  console.log("LOL");
-	  /*if(this.colorTransfer.length == 0)
-	  {
-		  console.log("EMPTY");
-	  }
-	  else{
-		console.log(this.colorTransfer);
-	  }*/
-	  
-	  this.colorTransfer = data;
-	  console.log("this.colorTransfer");
-	  console.log(this.colorTransfer);
-
-	  //this.imageColorTexture = data;
+	updateTransfertexture: function(){
+	
 		var imageTransferData = new Uint8Array(4 * 256);
 		for (var i = 0; i < 256; i++) {
 
@@ -425,12 +415,7 @@ AFRAME.registerComponent('myloader', {
 
 			imageTransferData[i * 4 + 3] = a * 256;
 		}
-		// console.log("colorTransfer.length");
-		// console.log(colorTransfer.length);
-		//// console.log("colorTransfer");
-		// console.log("colorTransfer");
-		// console.log("imageTransferData");
-		// console.log(imageTransferData.length);
+		
 		var transferTexture = new THREE.DataTexture(imageTransferData, 256, 1, THREE.RGBAFormat);
 		transferTexture.needsUpdate = true
 
@@ -594,20 +579,12 @@ AFRAME.registerComponent('myloader', {
   
 	update: function(oldData)
 	{
-		//var sceneEl = this.el;
-		//console.log(sceneEl.canvas);
-		//var canvas = document.querySelector(".a-canvas")
-		//console.log(canvas);
-
-		//console.log("this.data.colorMap");
-		//console.log(this.data.colorMap);
-		//console.log("this.data.transferFunction");
-		//console.log(this.data.transferFunction);
-
-		//console.log("opacity1: " +this.data.opacity1);
-		//console.log("opacity2 " +this.data.opacity2);
-
-		if((oldData.opacity1 != this.data.opacity1) || (oldData.opacity2 != this.data.opacity2))
+	
+		console.log("opacity1: " +this.data.opacity1);
+		console.log("opacity2 " +this.data.opacity2);
+  
+		if((oldData.opacity1 !== undefined && oldData.opacity1 != this.data.opacity1) 
+		|| (oldData.opacity2 !== undefined && oldData.opacity2 != this.data.opacity2))
 		{
 			var min = Math.pow(this.data.opacity1, 2);
 			var max = Math.pow(this.data.opacity2, 2);
@@ -625,6 +602,8 @@ AFRAME.registerComponent('myloader', {
 					this.alphaData[i] = (min*(1-ratio) + max*ratio)*255;
 				}
 			}
+
+			this.updateTransfertexture();
 		}
 		
 
@@ -661,8 +640,8 @@ AFRAME.registerComponent('myloader', {
 					colorTransfer[i*3+1] = colorData[i*4+1];
 					colorTransfer[i*3+2] = colorData[i*4+2];
 				 }
-			
-                 iam.updateTransfertexture(colorTransfer);
+				 iam.colorTransfer = colorTransfer;
+                 iam.updateTransfertexture();
 
 				/* var imageTransferData = new Uint8Array(4*256);
 				 for(var i = 0; i < 256; i++){
@@ -782,20 +761,10 @@ AFRAME.registerComponent('myloader', {
 						var sliceX = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').clipX;
 						var sliceY = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').clipY;
 						var sliceZ = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').clipZ;
-						//var plane3DObject = document.getElementById('my2Dclipplane').object3D;
-						//plane3DObject.rotateX(rotate.x * 3.1416/180 );
-						//plane3DObject.rotateY(rotate.y * 3.1416/180 );
-						//plane3DObject.rotateZ(rotate.z * 3.1416/180 );
-	
-						//this.updateMeshClipMatrix(plane3DObject.matrixWorld);
+					
 	
 						var material = this.el.getObject3D("mesh").material;
-						//console.log("sliceX.x " +sliceX.x);
-						//console.log("sliceX.y " +sliceX.y);
-						//console.log("sliceY.x " +sliceX.x);
-						//console.log("sliceY.y " +sliceX.y);
-						//console.log("sliceZ.x " +sliceX.x);
-						//console.log("sliceZ.y " +sliceX.y);
+					
 						material.uniforms.box_min.value = new THREE.Vector3(sliceX.x,sliceY.x,sliceZ.x);
 						material.uniforms.box_max.value = new THREE.Vector3(sliceX.y,sliceY.y,sliceZ.y);
 					}
@@ -818,18 +787,7 @@ AFRAME.registerComponent('myloader', {
 				if(!this.controllerHandler.el.getAttribute('my-buttons-check').grabObject &&
 				    this.grabbed)
 				{
-					/*if(!grab_started){
-
-						//setvcontroller_to_object
-						grab_started = true;
-					}*/
-					
-					//console.log("RELEASE");
-					//var entity = document.querySelector('#volumeCube');
-					//entity.flushToDOM();
-					//this.controllerHandler.el.removeChild(this.el);
-					//this.grabbed = false;
-					//this.controllerHandler.el.object3D.remove(this.el.getObject3D("mesh"));
+				
 					this.el.getObject3D("mesh").matrix.premultiply( this.controllerHandler.matrixWorld );
 					this.el.getObject3D("mesh").matrix.decompose( this.el.getObject3D("mesh").position, this.el.getObject3D("mesh").quaternion, this.el.getObject3D("mesh").scale );
 					this.el.sceneEl.object3D.add(this.el.getObject3D("mesh"));
@@ -841,42 +799,19 @@ AFRAME.registerComponent('myloader', {
 				  && this.data.rayCollided  
 				  && !this.grabbed)
 				{
-					//console.log("GRAB");
-					// THIS IS THE PART TO DO THE GRAB (AND DROP) EVENT
-
-					//console.log("GRAB ENTITY");
-					//inverse of the controllermatrix
-					//var controllerMatrixInverse =  new THREE.Matrix4();
-					// meshMatrixInverse =  new THREE.Matrix4();
-					//var myMatrix = new THREE.Matrix4();
-					//this.el.getObject3D("mesh").matrixAutoUpdate  = false;  
-					//myMatrix.multiplyMatrices(controllerMatrixInverse.getInverse( controllerMatrix ),volumeMatrix);
-					//console.log(myMatrix.elements);
-					//this.el.getObject3D("mesh").matrix.multiplyMatrices(  controllerMatrixInverse.getInverse(volumeMatrix),controllerMatrixInverse.getInverse( controllerMatrix));
-					//this.el.getObject3D("mesh").matrixWorldNeedsUpdate = true
-					//console.log(this.el.getObject3D("mesh").matrixWorld);
+				
 
 					this.controllerHandler.updateMatrixWorld();
-				    //console.log(this.el.getObject3D("mesh").position);
+				   
 					this.controllerPose.getInverse(this.controllerHandler.matrixWorld);
 					this.el.getObject3D("mesh").matrix.premultiply( this.controllerPose );
-					//console.log("AFTER CALCULATION");
-					//console.log(this.el.getObject3D("mesh").position);
+				
 					this.el.getObject3D("mesh").matrix.decompose( this.el.getObject3D("mesh").position, this.el.getObject3D("mesh").quaternion, this.el.getObject3D("mesh").scale );
-					//console.log("AFTER decompose");
-					//console.log(this.el.getObject3D("mesh").position);
+				
 					this.controllerHandler.add(this.el.getObject3D("mesh"));
 
 
-					//var tmpMatrix =new THREE.Matrix4();
-					//newObjectPose = this.controllerHandler.matrixWorld;
-					//var worldToLocal = new THREE.Matrix4().getInverse(this.controllerHandler.matrixWorld);
-					//this.el.getObject3D("mesh").applyMatrix(worldToLocal);
-
-					//var entity = document.querySelector('#volumeCube');
-					//this.el.flushToDOM();
-					//this.controllerHandler.el.appendChild(this.el);
-					//this.controllerHandler.el.object3D.add(this.el.getObject3D("mesh"));
+				
 					this.grabbed = true;
 					
 					//this.controllerHandler.add(this.el.getObject3D("mesh"));
