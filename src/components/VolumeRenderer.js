@@ -55,7 +55,7 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
                lowNode:this.props.lowNode,highNode:this.props.highNode}}   position="0 0 0"/>
         <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable"></a-entity>
 
-        <Entity id="myCamera" camera="active: true"  look-controls  orbit-controls="target: 0 0 0; minDistance: 0.5; maxDistance: 180; initialPosition: 0 0 2"  />
+        <Entity id="myCamera" camera="active: true"  look-controls  orbit-controls="target: 0 0 0; minDistance: 0.0; maxDistance: 180; initialPosition: 0 0 2"  />
         {/* <Entity id="myCamera" camera="active: true"  look-controls  position="0 0 2"  /> */}
 
 
