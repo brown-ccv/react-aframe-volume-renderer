@@ -34,7 +34,7 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
 
         <div className="aframe-container" > 
 
-        <Scene id="myScene" embedded >
+        <Scene id="myScene" background="color: black" embedded >
       
         <Entity id="rhand" laser-controls="hand: right" raycaster="objects: .clickableMesh" my-buttons-check={{clipPlane:false,grabObject:false}} collider-check={{intersecting:false}}/>
 
