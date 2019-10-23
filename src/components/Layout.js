@@ -10,15 +10,13 @@ export default class Layout extends Component {
   render () {
     return (
 
-        <div>
-            <table>
-              <tbody>
-                <tr>
-                    <td> <Controls/> </td>
-                    <td><VolumeRenderer/></td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="d-flex flex-row justify-content-around mb-5 pb-5 mt-5">
+          <div class="col-md-3 mt-5">
+            <Controls/>
+          </div>
+          <div class="col-md-6">
+            <VolumeRenderer/>
+          </div>
         </div>
     );
 

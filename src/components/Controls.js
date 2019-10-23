@@ -73,9 +73,9 @@ export default connect(
         colorMapModal: false,
         currentMapColor:""
       };
-  
+
       this.handleCheckBoxInputChange = this.handleCheckBoxInputChange.bind(this);
-      
+
       this.xSlideHandleChange = this.xSlideHandleChange.bind(this);
       this.ySlideHandleChange = this.ySlideHandleChange.bind(this);
       this.zSlideHandleChange = this.zSlideHandleChange.bind(this);
@@ -113,7 +113,7 @@ export default connect(
     this.setState({
       xslideValue:value,
     });
-   
+
    this.props.myXSlideAction(value[0],value[1]);
   };
 
@@ -121,7 +121,7 @@ export default connect(
     this.setState({
       yslideValue:value,
     });
-   
+
    this.props.myYSlideAction(value[0],value[1]);
   };
 
@@ -129,7 +129,7 @@ export default connect(
     this.setState({
       zslideValue:value,
     });
-   
+
    this.props.myZSlideAction(value[0],value[1]);
   };
 
@@ -223,7 +223,7 @@ render () {
          <div className="slices-container" >
          <label>
             X Slide <br/>
-            
+
          </label>
          {/*  <Slider min={0} max={1} step={0.1}  value={this.state.xslideValue} onChange={this.xSlideHandleChange}/> --> */}
          <Range allowCross={false} step={0.1} defaultValue={[0, 1]} min={0} max={1} onChange={this.xSlideHandleChange}/>

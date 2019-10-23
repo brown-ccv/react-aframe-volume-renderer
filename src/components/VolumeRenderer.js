@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 
 const mapStateToProps = state => {
-  
+
   return { clipPlane: state.checkBoxValue,
            xSlideValueMin: state.xSlideValueMin,
            xSlideValueMax: state.xSlideValueMax,
@@ -27,17 +27,17 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps)(class VolumeRenderer extends Component {
   render () {
-    
+
     return (
 
 
-        
+
         <div className="aframe-container" > 
-        
+
         <Scene id="myScene" embedded >
       
         <Entity id="rhand" laser-controls="hand: right" raycaster="objects: .clickableMesh" my-buttons-check={{clipPlane:false,grabObject:false}} collider-check={{intersecting:false}}/>
-          
+
         <Entity id="my2DclipplaneListener" render-2d-clipplane={{activateClipPlane:this.props.clipPlane,
           xCLipPlaneMin:this.props.xSlideValueMin,
           xCLipPlaneMax:this.props.xSlideValueMax,
@@ -54,14 +54,14 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
                opacity1:this.props.opacity1,opacity2:this.props.opacity2,
                lowNode:this.props.lowNode,highNode:this.props.highNode}}   position="0 0 0"/>
         <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable"></a-entity>
-        
-        <Entity id="myCamera" camera="active: true"  look-controls  orbit-controls="target: 0 0 0; minDistance: 0.5; maxDistance: 180; initialPosition: 0 0 2"  /> 
+
+        <Entity id="myCamera" camera="active: true"  look-controls  orbit-controls="target: 0 0 0; minDistance: 0.5; maxDistance: 180; initialPosition: 0 0 2"  />
         {/* <Entity id="myCamera" camera="active: true"  look-controls  position="0 0 2"  /> */}
-       
-        
+
+
       </Scene>
       </div>
-    
+
     );
   }
 }
