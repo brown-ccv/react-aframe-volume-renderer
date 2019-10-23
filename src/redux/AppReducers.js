@@ -8,7 +8,12 @@ const initialState = {
     zSlideValueMin: 0,
     zSlideValueMax: 0,
     volumeData:"",
-    transferFunction: false
+    transferFunction: false,
+    colorMap:"",
+    opacity1:0,
+    opacity2:1,
+    lowNode:0,
+    highNode:1
   };
   
 
@@ -43,10 +48,42 @@ export const myReducer = function readCheckBox(state ={initialState},action){
                     transferFunction: action.payload2
                 };
             }                 
+        case "COLOR_MAP_CHANGED":
+            {
+                
+                return { 
+                        colorMap: action.payload,
+                        transferFunction: (action.payload !="" ? true:false)
+                };
+            }
+        case "OPACITY1_CHANGED":
+            {
+                return { 
+                    opacity1: action.payload,
+                 };
+            }
+        case "OPACITY2_CHANGED":
+            {
+                return { 
+                    opacity2: action.payload,
+                 };
+            }   
+        case "LOW_NODE_CHANGED":
+            {
+                return { 
+                    lowNode: action.payload,
+                };
+            }
+        case "HIGH_NODE_CHANGED":
+            {
+                return { 
+                    highNode: action.payload,
+                };
+            }        
         default:
             {
                 return { checkBoxValue : false,
-                    transferFunction: action.payload2
+                    transferFunction: false
                 };
             }            
     }

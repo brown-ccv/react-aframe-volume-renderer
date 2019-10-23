@@ -196,7 +196,7 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 		        // data fetching from the red channel of volume texture
 				'vec4 smple;',
 				'if (channel == 1){ ',
-					'smple = texture(u_data, dataPos).rgba;',
+					'smple = texture(u_data, dataPos).rrrr;',
 				'}else if (channel == 2){ ',
 					'smple = texture(u_data, dataPos).gggg; ',
 				'}else if (channel == 3){',
@@ -209,10 +209,10 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 					'smple = texture(u_data, dataPos);',
 					'smple.a = max(smple.r, max(smple.g,smple.b)) ; ',
 				'}',
-				'smple.a = max(smple.r, max(smple.g,smple.b)) ; ',
-				'smple.a = 0.1*smple.a;',
-                //'if(useLut)',
-				//	'smple = texture2D(u_lut, vec2(smple.a,0.5));',
+				//'smple.a = max(smple.r, max(smple.g,smple.b)) ; ',
+				//'smple.a = 0.1*smple.a;',
+                'if(useLut)',
+					'smple = texture2D(u_lut, vec2(smple.a,0.5));',
 				
 				//assume alpha is the highest channel and gamma correction
 				//"sample.a = pow(sample.a , multiplier); \n"  ///needs changing

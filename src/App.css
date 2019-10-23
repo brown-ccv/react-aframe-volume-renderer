@@ -37,6 +37,20 @@
     width: 100% !important;
 }
 
+.controls-container {
+  height: 80vh !important;
+  width: 20vw !important;
+}
+
+.slices-container{
+  height: 30vh !important;
+  width: 20vw !important;
+}
+
+#opacityControls.pointer{
+  cursor: pointer;
+}
+
 .brown-nav {
   box-shadow: 1px 1px 5px #cecece;
 }
