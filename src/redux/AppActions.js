@@ -68,3 +68,12 @@ export const myChangeHighNode = function changeHighNode(value){
         payload: value,
     }
 }
+
+export const mySendAlphaPoints = function mySendAlphaPoints(xPosArray, yPosArray)
+{
+    return{
+        type:"UPDATED_APLHA_DATA",
+        payload: xPosArray,
+        payload2: yPosArray
+    }
+}

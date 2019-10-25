@@ -1,11 +1,11 @@
 import React, {Component} from 'react'
 import '../App.css'
 import { connect } from "react-redux";
-import {myChangePoint1,myChangePoint2,myChangeLowNode,myChangeHighNode} from '../redux/AppActions'
+import {myChangePoint1,myChangePoint2,myChangeLowNode,myChangeHighNode,mySendAlphaPoints} from '../redux/AppActions'
 
 export default connect(
     null,
-   {myChangePoint1,myChangePoint2,myChangeLowNode,myChangeHighNode})
+   {myChangePoint1,myChangePoint2,myChangeLowNode,myChangeHighNode,mySendAlphaPoints})
    ( class OpcacityControl extends Component {
 
     constructor(props) {
@@ -37,8 +37,10 @@ export default connect(
 		this.minLevelY = ~~(this.height-(this.minLevel*this.height))+this.padding;
         this.maxLevelY = ~~(this.height-(this.maxLevel*this.height))+this.padding;
 
-        this.nodes =[{x:10,y:0},{x:45,y:35},{x:81,y:21},{x:160,y:70}];
+        this.nodes =[{x:0,y:0},{x:45,y:35},{x:81,y:21},{x:180,y:70}];
         this.nodesCanvasSpace = [];
+        this.normalizedXCanvasSpace = [];
+        this.normalizedYCanvasSpace = [];
 
         this.changePointer = this.changePointer.bind(this);
         this.onMouseDown = this.onMouseDown.bind(this);
@@ -46,6 +48,7 @@ export default connect(
         this.draggPointer = this.draggPointer.bind(this);
         this.addPoint = this.addPoint.bind(this);
         this.removePoint = this.removePoint.bind(this);
+        this.sendAlphaData = this.sendAlphaData.bind(this);
     }
 
 
@@ -138,7 +141,29 @@ export default connect(
             this.opContext.fill();
         };
        
-			
+        this.sendAlphaData();	
+    }
+
+    sendAlphaData()
+    {
+        this.normalizedXCanvasSpace = [];
+        this.normalizedYCanvasSpace = [];
+        for(var i = 0; i< this.nodesCanvasSpace.length; i++)
+        {  
+            this.normalizedXCanvasSpace.push( (this.nodesCanvasSpace[i].x - this.padding )/this.width);
+            this.normalizedYCanvasSpace.push( 1-((this.nodesCanvasSpace[i].y - this.padding)/this.height) );
+        }
+        
+        this.props.mySendAlphaPoints(this.normalizedXCanvasSpace,this.normalizedYCanvasSpace);
+
+      //  console.log("sendAlphaData");
+      //  console.log("this.nodesCanvasSpace.lengt: "+ this.nodesCanvasSpace.length);
+        
+      //  console.log(this.normalizedXCanvasSpace);
+      //  console.log(this.normalizedYCanvasSpace);
+      //
+      //  console.log("this.nodesCanvasSpace: ");
+        
     }
 
     removePoint(evt)
@@ -228,7 +253,11 @@ export default connect(
             var diffX = this.dragStart[0]- e.screenX;
             var diffY = this.dragStart[1]- e.screenY;
             
-            if(this.nodeDragged != -1)
+            if(this.nodeDragged == 0 || this.nodeDragged == this.nodes.length - 1)  
+            {
+                this.nodes[this.nodeDragged].y = Math.max(this.minLevel, Math.min(this.height, this.startPos[1] +diffY));  
+            }
+            else if(this.nodeDragged != -1)
             {
                 this.nodes[this.nodeDragged].x = Math.max(this.minLevel, Math.min(this.width, this.startPos[0]-diffX));
                 this.nodes[this.nodeDragged].y = Math.max(this.minLevel, Math.min(this.height, this.startPos[1] +diffY));
@@ -242,6 +271,7 @@ export default connect(
         if(this.hovering && e.target != this.opCanvas){
             this.opCanvas.className = "";
             this.hovering = false;
+            this.nodeHovered = -1;
            this.updateCanvas();
         }
     }

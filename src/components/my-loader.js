@@ -58,7 +58,9 @@ AFRAME.registerComponent('myloader', {
 	  opacity1:{type:'number', default:0},
 	  opacity2:{type:'number', default:0},
 	  lowNode:{type:'number', default:0},
-	  highNode:{type:'number', default:0}
+	  highNode:{type:'number', default:0},
+	  alphaXDataArray:{type:'array'},
+	  alphaYDataArray:{type:'array'}
     },
 
     init: function () {
@@ -146,7 +148,9 @@ AFRAME.registerComponent('myloader', {
 			}
                 
                 
-		    pData.push( [jet_values[i][0] * 255 , jet_values[i][1] * 255, jet_values[i][2] * 255 , this.opacityControlPoints[i] * 255 ]);
+			pData.push( [jet_values[i][0] * 255 ,
+				 jet_values[i][1] * 255, jet_values[i][2] * 255 ,
+				  this.opacityControlPoints[i] * 255 ]);
 		    indices.push(index);
 		        
 	    }
@@ -197,8 +201,8 @@ AFRAME.registerComponent('myloader', {
         var cameraEl = document.querySelector('#myCamera');
 		cameraEl.setAttribute('camera', 'active', true);
 		
-		console.log("this.alphaData INIT");
-		console.log(this.alphaData);
+		//console.log("this.alphaData INIT");
+		//console.log(this.alphaData);
 
 	},
 	
@@ -388,30 +392,33 @@ AFRAME.registerComponent('myloader', {
 	update: function(oldData)
 	{
 	
-		console.log("opacity1: " +this.data.opacity1);
-		console.log("opacity2 " +this.data.opacity2);
-  
-		if((oldData.opacity1 !== undefined && oldData.opacity1 != this.data.opacity1) 
-		|| (oldData.opacity2 !== undefined && oldData.opacity2 != this.data.opacity2))
+		if((this.data.alphaXDataArray !== undefined && oldData.alphaXDataArray !==this.data.alphaXDataArray
+			) || (this.data.alphaYDataArray !== undefined && oldData.alphaYDataArray !==this.data.alphaYDataArray ))
 		{
-			var min = Math.pow(this.data.opacity1, 2);
-			var max = Math.pow(this.data.opacity2, 2);
+		
+			this.newAlphaData = [];
+			//console.log("this.data.alphaXDataArray");
+			//console.log(this.data.alphaXDataArray);
 
-			for(var i = 0; i <  this.alphaData.length; i++){
-				var px = i/ this.alphaData.length;
-				px = px*px;
+			for(var i = 0; i <= this.data.alphaXDataArray.length - 2 ;i++)
+			{
+				var scaledColorinit = this.data.alphaXDataArray[i  ] * 255;
+				var scaledColorend = this.data.alphaXDataArray[i +1] * 255;
+
+				var scaledAplhainit = this.data.alphaYDataArray[i ] * 255;
+				var scaledAlphaend = this.data.alphaYDataArray[i  +1] * 255;
+
+				var deltaX = scaledColorend - scaledColorinit;
 				
-				if(px <= this.data.lowNode){
-					this.alphaData[i] = min*255;
-				} else if(px > this.data.highNode){
-					this.alphaData[i] = max*255;
-				} else {
-					var ratio = (px-this.data.lowNode)/(this.data.highNode-this.data.lowNode);
-					this.alphaData[i] = (min*(1-ratio) + max*ratio)*255;
+			
+				for(var j = 1/deltaX ; j < 1 ; j+= 1/deltaX)
+				{
+			
+					  this.newAlphaData.push((scaledAplhainit * (1 - j ) )+ (scaledAlphaend * j));
 				}
 			}
-
-			this.updateTransfertexture();
+			
+			
 		}
 		
 

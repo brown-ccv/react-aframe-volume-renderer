@@ -19,7 +19,9 @@ const mapStateToProps = state => {
            opacity1: state.opacity1,
            opacity2: state.opacity2,
            lowNode: state.lowNode,
-           highNode: state.highNode
+           highNode: state.highNode,
+           alphaXDataArray: state.alphaXDataArray,
+           alphaYDataArray: state.alphaYDataArray
   };
 
 };
@@ -54,7 +56,9 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
         <Entity id="volumeCube" class="clickableMesh"   myloader={{volumeData:this.props.volumeData,rayCollided:false,
                transferFunction:this.props.transferFunction,colorMap:this.props.colorMap,
                opacity1:this.props.opacity1,opacity2:this.props.opacity2,
-               lowNode:this.props.lowNode,highNode:this.props.highNode}}   position="0 0 0"/>
+               lowNode:this.props.lowNode,highNode:this.props.highNode,
+               alphaXDataArray:this.props.alphaXDataArray,
+               alphaYDataArray:this.props.alphaYDataArray}}   position="0 0 0"/>
         <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable"></a-entity>
 
         <Entity id="myCamera" camera="active: true"  look-controls  orbit-controls="target: 0 0 0; minDistance: 0.0; maxDistance: 180; initialPosition: 0 0 2"  />

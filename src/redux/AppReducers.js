@@ -13,7 +13,9 @@ const initialState = {
     opacity1:0,
     opacity2:1,
     lowNode:0,
-    highNode:1
+    highNode:1,
+    alphaXDataArray: null,
+    alphaYDataArray: null
   };
   
 
@@ -80,6 +82,13 @@ export const myReducer = function readCheckBox(state ={initialState},action){
                     highNode: action.payload,
                 };
             }        
+        case "UPDATED_APLHA_DATA":
+            {
+                return { 
+                    alphaXDataArray: action.payload,
+                    alphaYDataArray: action.payload2
+                };
+            }    
         default:
             {
                 return { checkBoxValue : false,
