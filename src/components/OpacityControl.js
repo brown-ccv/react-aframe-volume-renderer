@@ -10,8 +10,8 @@ export default connect(
 
     constructor(props) {
         super(props);
-        this.lowNode = 0.7;
-        this.highNode = 0.95;
+        this.lowNode = 0;
+        this.highNode = 1;
         this.minLevel = 0;
         this.maxLevel = 1;
         this.opCanvas = null;
@@ -77,10 +77,7 @@ export default connect(
         this.opCanvas.width = 200; 
         this.width = this.opCanvas.width-2*this.padding;
 
-        this.lowNodeX = ~~(this.width*this.lowNode)+this.padding;
-		this.highNodeX = ~~(this.width*this.highNode)+this.padding;
-		this.minLevelY = ~~(this.height-(this.minLevel*this.height))+this.padding;
-        this.maxLevelY = ~~(this.height-(this.maxLevel*this.height))+this.padding;
+ 
         
         this.opCanvas.style.border = "1px solid";
         this.opContext.clearRect(0, 0, this.opCanvas.width, this.opCanvas.height);
@@ -88,7 +85,7 @@ export default connect(
 		
 			
 		this.opContext.strokeStyle = "rgba(128, 128, 128, 0.8)";
-		this.opContext.lineWidth = 0.5;
+		this.opContext.lineWidth = 2;
         //this.opContext.beginPath();
         
         /*
@@ -103,7 +100,7 @@ export default connect(
 
         
         
-        this.opContext.stroke();
+        /*this.opContext.stroke();
 			
 		this.opContext.strokeStyle = "#AAAAAA";
 		this.opContext.lineWidth = 2;
@@ -132,15 +129,29 @@ export default connect(
 
         this.opContext.beginPath();
 		this.opContext.arc(this.highNodeX, this.maxLevelY, 5, 0, 2*Math.PI);
-        this.opContext.fill();
+        this.opContext.fill();*/
         
-        //sort array of points
+        //for(var i = 0; i< this.nodes.length; i++)
+        //{
+            this.nodes[0].x = ~~(this.width*this.nodes[0].x)+this.padding;
+            this.nodes[0].y = ~~(this.height-(this.nodes[0].y*this.height))+this.padding;
 
+            this.nodes[1].x = ~~(this.width*this.nodes[1].x)+this.padding;
+            this.nodes[1].y = ~~(this.height-(this.nodes[1].y*this.height))+this.padding;
+        //}
+
+
+        this.lowNodeX = ~~(this.width*this.lowNode)+this.padding;
+		this.highNodeX = ~~(this.width*this.highNode)+this.padding;
+		this.minLevelY = ~~(this.height-(this.minLevel*this.height))+this.padding;
+        this.maxLevelY = ~~(this.height-(this.maxLevel*this.height))+this.padding;
+        this.nodes =[{x:this.lowNodeX,y:this.minLevelY},{x:this.highNodeX,y:this.maxLevelY}];
         if(this.nodes.length > 1 )
         {
           
             this.opContext.beginPath();
-           
+            this.opContext.moveTo(this.padding, this.minLevelY);
+            this.opContext.lineTo(this.nodes[0].x, this.nodes[0].y);
             for(var i = 0; i <= this.nodes.length - 2; i++)
             {
              
@@ -148,6 +159,9 @@ export default connect(
                 this.opContext.lineTo(this.nodes[i + 1].x, this.nodes[i + 1].y);
                 this.opContext.stroke();
             }
+
+            this.opContext.lineTo(this.width+this.padding, this.maxLevelY);
+            this.opContext.stroke();
         }
         
       
