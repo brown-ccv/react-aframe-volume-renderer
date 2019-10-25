@@ -16,7 +16,6 @@
     "babel-loader": "^8.0.6",
     "bootstrap": "^4.3.1",
     "eslint": "^6.1.0",
-    "jest": "^24.8.0",
     "node-sass": "^4.12.0",
     "rc-slider": "^8.7.1",
     "rc-tooltip": "^3.7.3",
@@ -31,8 +30,7 @@
     "react-select": "^3.0.4",
     "redux": "^4.0.4",
     "styled-components": "^4.4.0",
-    "super-hands": "^3.0.0",
-    "webpack": "^4.39.1"
+    "super-hands": "^3.0.0"
   },
   "optionalDependency": {
     "brown-university-styles": "git+https://bitbucket.brown.edu/scm/react/brown-university-styles.git"

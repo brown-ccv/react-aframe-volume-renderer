@@ -48,7 +48,9 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
           currenAxisAngle:"0 0 0",
           rotateAngle:"0 0 0",
           clipX:"0 0"} } />
-        <a-plane visible="false" class="clickable" id="my2Dclipplane" height="1" width="1" material="color: red ; side:double; transparent:true;opacity:0.3" cursor-listener ></a-plane> 
+        <a-plane visible="false" class="clickable" id="my2Dclipplane" height="1" 
+            width="1" material="color: red ; side:double; transparent:true;opacity:0.3" 
+            cursor-listener ></a-plane> 
         <Entity id="volumeCube" class="clickableMesh"   myloader={{volumeData:this.props.volumeData,rayCollided:false,
                transferFunction:this.props.transferFunction,colorMap:this.props.colorMap,
                opacity1:this.props.opacity1,opacity2:this.props.opacity2,

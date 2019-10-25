@@ -19,8 +19,8 @@ export default connect(
 
         this.dragging = false;
 		this.hovering = false;
-		this.nodeDragged = 0;
-		this.nodeHovered = 0;
+		this.nodeDragged = -1;
+		this.nodeHovered = -1;
 		this.dragStart = [0, 0];
 		this.startPos = [0, 0];
         this.height = 70;
@@ -29,15 +29,21 @@ export default connect(
         this.hoverRadius = 15;
         this.width = 0
 
+       
+        //this.nodesY =[];
+
         this.lowNodeX = ~~(this.width*this.lowNode)+this.padding;
 		this.highNodeX = ~~(this.width*this.highNode)+this.padding;
 		this.minLevelY = ~~(this.height-(this.minLevel*this.height))+this.padding;
         this.maxLevelY = ~~(this.height-(this.maxLevel*this.height))+this.padding;
 
+        this.nodes =[{x:this.lowNodeX,y:this.minLevelY},{x:this.highNodeX,y:this.maxLevelY}];
+
         this.changePointer = this.changePointer.bind(this);
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseUp = this.onMouseUp.bind(this);
         this.draggPointer = this.draggPointer.bind(this);
+        this.doubleClick = this.doubleClick.bind(this);
     }
 
 
@@ -48,6 +54,7 @@ export default connect(
         document.addEventListener("mousemove", this.draggPointer);
         this.opCanvas.addEventListener("mousedown",this.onMouseDown);
         document.addEventListener("mouseup", this.onMouseUp);
+        this.opCanvas.addEventListener("dblclick",this.doubleClick);
     }
 
     componentWillUnmount() {
@@ -55,6 +62,7 @@ export default connect(
         document.removeEventListener("mousemove", this.draggPointer);
         this.opCanvas.removeEventListener("mousedown",this.onMouseDown);
         document.removeEventListener("mouseup", this.onMouseUp);
+        this.opCanvas.removeEventListener("dblclick",this.doubleClick);
     }
 
     updateCanvas() {
@@ -74,22 +82,27 @@ export default connect(
 		this.minLevelY = ~~(this.height-(this.minLevel*this.height))+this.padding;
         this.maxLevelY = ~~(this.height-(this.maxLevel*this.height))+this.padding;
         
+        this.opCanvas.style.border = "1px solid";
         this.opContext.clearRect(0, 0, this.opCanvas.width, this.opCanvas.height);
         
-		var linesCount = 10;
+		
 			
 		this.opContext.strokeStyle = "rgba(128, 128, 128, 0.8)";
 		this.opContext.lineWidth = 0.5;
-        this.opContext.beginPath();
+        //this.opContext.beginPath();
         
+        /*
+        var linesCount = 10;
         for(var i = 0; i < linesCount; i++){
             var y = 1-Math.pow(i/(linesCount-1), 2);
             var y = this.padding + (this.height)*y;
             y = ~~y+0.5;
             this.opContext.moveTo(this.padding, y);
             this.opContext.lineTo(this.width+this.padding, y);
-        }
+        }*/
 
+        
+        
         this.opContext.stroke();
 			
 		this.opContext.strokeStyle = "#AAAAAA";
@@ -121,15 +134,79 @@ export default connect(
 		this.opContext.arc(this.highNodeX, this.maxLevelY, 5, 0, 2*Math.PI);
         this.opContext.fill();
         
+        //sort array of points
+
+        if(this.nodes.length > 1 )
+        {
+          
+            this.opContext.beginPath();
+           
+            for(var i = 0; i <= this.nodes.length - 2; i++)
+            {
+             
+                this.opContext.moveTo(this.nodes[i].x, this.nodes[i].y);
+                this.opContext.lineTo(this.nodes[i + 1].x, this.nodes[i + 1].y);
+                this.opContext.stroke();
+            }
+        }
+        
+      
+        this.opContext.strokeStyle = "#AAAAAA";
+        this.opContext.lineWidth = 2;
+       
+        for(var i = 0; i< this.nodes.length; i++)
+        {
+            if(this.nodeHovered == i)
+            {
+                this.opContext.fillStyle = "#FFFF55";
+            }
+            else
+            {
+                this.opContext.fillStyle = "#FFAA00";
+            }
+            this.opContext.beginPath();
+            this.opContext.arc(this.nodes[i].x, this.nodes[i].y, 5, 0, 2*Math.PI);
+            this.opContext.fill();
+        };
        
 			
     }
+
+    
  
+    doubleClick(evt)
+    {
+     
+     var newPoint = {x: evt.offsetX, y: evt.offsetY}
+     
+
+     var indexToBeInserted = - 1;
+     for(var i = 0; i< this.nodes.length; i++)
+     {
+         if(this.nodes[i].x > newPoint.x)
+         {
+                indexToBeInserted = i;
+                break;  
+         }
+     }
+     
+     if(indexToBeInserted == -1)
+     {
+        this.nodes.push(newPoint);
+     }
+     else{
+        this.nodes.splice(indexToBeInserted, 0, newPoint);
+     }
+     
+     this.updateCanvas();
+
+    }
+
     changePointer(e)
     {
       
         
-        if(Math.sqrt(Math.pow(e.offsetX-this.lowNodeX, 2)+Math.pow(e.offsetY-this.minLevelY, 2)) <= this.hoverRadius){
+       /* if(Math.sqrt(Math.pow(e.offsetX-this.lowNodeX, 2)+Math.pow(e.offsetY-this.minLevelY, 2)) <= this.hoverRadius){
           
             if(!this.hovering){
                 this.opCanvas.className = "pointer";
@@ -152,7 +229,34 @@ export default connect(
                 this.hovering = false;
                 this.updateCanvas();
             }
+        }*/
+
+        var hitPoint = false;
+        for(var i = 0; i< this.nodes.length; i++)
+        {
+            if(Math.sqrt(Math.pow(e.offsetX-this.nodes[i].x, 2)+Math.pow(e.offsetY-this.nodes[i].y, 2)) <= this.hoverRadius)
+            {
+                this.opCanvas.className = "pointer";
+                this.nodeHovered = i;
+                hitPoint = true;
+                this.hovering = true;
+                this.updateCanvas();
+                break;
+            }
         }
+ 
+        if(!hitPoint)
+        {
+            this.nodeHovered = -1;
+            if(this.hovering)
+            {
+                    this.opCanvas.className = "";
+                    this.hovering = false;
+                    this.updateCanvas();
+            }
+        }
+       
+
     }
 
     draggPointer(e)
@@ -162,7 +266,7 @@ export default connect(
             var diffX = this.dragStart[0]-e.screenX;
             var diffY = this.dragStart[1]-e.screenY;
             
-            if(this.nodeDragged == 0){
+           /*if(this.nodeDragged == 0){
                 this.lowNodeX = Math.max(this.padding, Math.min(this.width+this.padding, this.startPos[0]-diffX));
                 this.minLevelY = Math.max(this.padding, Math.min(this.height+this.padding, this.startPos[1]-diffY));
 
@@ -184,6 +288,19 @@ export default connect(
                 this.props.myChangeHighNode(this.highNode);
                 this.props.myChangePoint2(this.maxLevel);
                 //console.log("maxLevel " +this.maxLevel);
+            }*/
+
+            if(this.nodeDragged != -1)
+            {
+                this.nodes[this.nodeDragged].x = Math.max(this.padding, Math.min(this.width+this.padding, this.startPos[0]-diffX));
+                this.nodes[this.nodeDragged].y = Math.max(this.padding, Math.min(this.height+this.padding, this.startPos[1]-diffY));
+
+                //this.lowNode = (this.lowNodeX-this.padding)/this.width;
+               // this.lowNode = Math.min(this.lowNode, this.highNode);
+                //this.minLevel = 1-(this.minLevelY-this.padding)/this.height;
+
+               // this.props.myChangeLowNode(this.lowNode);
+              //  this.props.myChangePoint1(this.minLevel);
             }
             
             this.updateCanvas();
@@ -200,7 +317,7 @@ export default connect(
     onMouseDown(e)
     {
       
-        if(Math.sqrt(Math.pow(e.offsetX-this.lowNodeX, 2)+Math.pow(e.offsetY-this.minLevelY, 2)) <= this.hoverRadius){
+       /* if(Math.sqrt(Math.pow(e.offsetX-this.lowNodeX, 2)+Math.pow(e.offsetY-this.minLevelY, 2)) <= this.hoverRadius){
         
             this.dragging = true;
             this.nodeDragged = 0;
@@ -212,7 +329,19 @@ export default connect(
             this.nodeDragged = 1;
             this.dragStart = [e.screenX, e.screenY];
             this.startPos = [this.highNodeX, this.maxLevelY];
+        }*/
+        
+        for(var i = 0; i< this.nodes.length; i++)
+        {
+            if(Math.sqrt(Math.pow(e.offsetX-this.nodes[i].x, 2)+Math.pow(e.offsetY-this.nodes[i].y, 2)) <= this.hoverRadius)
+            {
+                this.dragging = true;
+                this.nodeDragged = i;
+                this.dragStart = [e.screenX, e.screenY];
+                this.startPos = [this.nodes[i].x, this.nodes[i].y];
+            }
         }
+
     }
 
   
@@ -220,6 +349,7 @@ export default connect(
     onMouseUp(e)
     { 
         this.dragging = false;
+        this.nodeDragged = -1;
     }
 
     render() {
