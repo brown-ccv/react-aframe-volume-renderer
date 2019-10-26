@@ -212,20 +212,26 @@ AFRAME.registerComponent('myloader', {
 		var imageTransferData = new Uint8Array(4 * 256);
 		for (var i = 0; i < 256; i++) {
 
-			var r = this.colorTransfer[i * 3 + 0] / 256;
-			var g = this.colorTransfer[i * 3 + 1] / 256;
-			var b = this.colorTransfer[i * 3 + 2] / 256;
-			var a = this.alphaData[i] / 256;
+			//var r = this.colorTransfer[i * 3 + 0] / 256;
+			//var g = this.colorTransfer[i * 3 + 1] / 256;
+			//var b = this.colorTransfer[i * 3 + 2] / 256;
+			//var a = this.alphaData[i] / 256;
 
 			//r = r * r * a;
 			//g = g * g * a;
 			//b = b * b * a;
 
-			imageTransferData[i * 4 + 0] = r * 256;
-			imageTransferData[i * 4 + 1] = g * 256;
-			imageTransferData[i * 4 + 2] = b * 256;
+			//imageTransferData[i * 4 + 0] = r * 256;
+			//imageTransferData[i * 4 + 1] = g * 256;
+			//imageTransferData[i * 4 + 2] = b * 256;
 
-			imageTransferData[i * 4 + 3] = a * 256;
+			//imageTransferData[i * 4 + 3] = a * 256;
+
+		    imageTransferData[i * 4 + 0] = this.colorTransfer[i * 3 + 0] * 256;
+			imageTransferData[i * 4 + 1] = this.colorTransfer[i * 3 + 1] * 256;
+			imageTransferData[i * 4 + 2] = this.colorTransfer[i * 3 + 2] * 256;
+            imageTransferData[i * 4 + 3] = this.alphaData[i] * 256;
+
 		}
 		
 		var transferTexture = new THREE.DataTexture(imageTransferData, 256, 1, THREE.RGBAFormat);
@@ -402,21 +408,24 @@ AFRAME.registerComponent('myloader', {
 
 			for(var i = 0; i <= this.data.alphaXDataArray.length - 2 ;i++)
 			{
-				var scaledColorinit = this.data.alphaXDataArray[i  ] * 255;
-				var scaledColorend = this.data.alphaXDataArray[i +1] * 255;
+				var scaledColorInit = this.data.alphaXDataArray[i  ] * 255;
+				var scaledColorEnd = this.data.alphaXDataArray[i +1] * 255;
 
-				var scaledAplhainit = this.data.alphaYDataArray[i ] * 255;
-				var scaledAlphaend = this.data.alphaYDataArray[i  +1] * 255;
+				var scaledAplhaInit = this.data.alphaYDataArray[i ] * 255;
+				var scaledAlphaEnd = this.data.alphaYDataArray[i  +1] * 255;
 
-				var deltaX = scaledColorend - scaledColorinit;
+				var deltaX = scaledColorEnd - scaledColorInit;
 				
 			
 				for(var j = 1/deltaX ; j < 1 ; j+= 1/deltaX)
 				{
-			
-					  this.newAlphaData.push((scaledAplhainit * (1 - j ) )+ (scaledAlphaend * j));
+					  // linear interpolation
+					  this.newAlphaData.push((scaledAplhaInit * (1 - j ) )+ (scaledAlphaEnd * j));
 				}
+
 			}
+			
+			this.updateTransfertexture();
 			
 			
 		}

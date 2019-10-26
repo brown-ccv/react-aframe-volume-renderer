@@ -94,7 +94,7 @@ export default connect(
   const target = event.target;
   const value = target.type === 'checkbox' ? target.checked : target.value;
   const name = target.name;
-  this.props.myChecButtonAction(value);
+  //this.props.myChecButtonAction(value);
   this.setState({
     [name]: value
   });
@@ -193,7 +193,19 @@ render () {
         <label>Volume</label>
         <br/>
         <Select options={options} onChange={this.volumeSelectChanged} />
-        
+        <div> 
+       
+       <label>
+        <br/>
+          Enable Color Map &nbsp;
+         <input
+           name="activateColorMapping"
+           type="checkbox"
+           checked={this.state.actiavePlane}
+           onChange={this.handleCheckBoxInputChange}
+           />
+         </label>
+       
         <div className="color-map-control">
         
         {
@@ -209,6 +221,8 @@ render () {
         </div>
         <br/>
         <OpacityControl/>
+       </div>
+       
        {/*
        <label>
        <br/>
