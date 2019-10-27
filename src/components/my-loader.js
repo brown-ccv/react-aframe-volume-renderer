@@ -61,7 +61,8 @@ AFRAME.registerComponent('myloader', {
 	  highNode:{type:'number', default:0},
 	  alphaXDataArray:{type:'array'},
 	  alphaYDataArray:{type:'array'},
-	  colorMapping:{type:'boolean',default:false}
+	  colorMapping:{type:'boolean',default:false},
+	  channel:{type:'number', default:6}
     },
 
     init: function () {
@@ -420,7 +421,22 @@ AFRAME.registerComponent('myloader', {
   
 	update: function(oldData)
 	{
-	    //console.log("this.data.colorMapping "+this.data.colorMapping);
+		//console.log("this.data.colorMapping "+this.data.colorMapping);
+		console.log("this.data.channel "+this.data.channel);
+		if(oldData.channel !== undefined && oldData.channel !== this.data.channel )
+		{
+			if (this.el.getObject3D("mesh") !== undefined) {
+
+				//		console.log("this.data.colorMapping HERE 2");
+						var material = this.el.getObject3D("mesh").material;
+						material.uniforms.u_lut.value = null;
+						material.uniforms.useLut.value = false;
+						material.uniforms.channel.value = this.data.channel;
+						material.needsUpdate = true;		
+			}
+			return;
+		}
+
 		if(oldData.colorMapping !== undefined && oldData.colorMapping !== this.data.colorMapping)
 		{
 		//	console.log("this.data.colorMapping HERE");
@@ -436,7 +452,7 @@ AFRAME.registerComponent('myloader', {
 					var material = this.el.getObject3D("mesh").material;
 					material.uniforms.u_lut.value = null;
 					material.uniforms.useLut.value = false;
-					material.uniforms.channel.value = 6;
+					material.uniforms.channel.value = this.data.channel;
 					material.needsUpdate = true;
 					
 				}

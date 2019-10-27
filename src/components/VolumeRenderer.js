@@ -21,7 +21,8 @@ const mapStateToProps = state => {
            lowNode: state.lowNode,
            highNode: state.highNode,
            alphaXDataArray: state.alphaXDataArray,
-           alphaYDataArray: state.alphaYDataArray
+           alphaYDataArray: state.alphaYDataArray,
+           channel: state.channel
   };
 
 };
@@ -59,7 +60,8 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
                lowNode:this.props.lowNode,highNode:this.props.highNode,
                alphaXDataArray:this.props.alphaXDataArray,
                alphaYDataArray:this.props.alphaYDataArray,
-               colorMapping:this.props.colorMapping}}   position="0 0 0"/>
+               colorMapping:this.props.colorMapping,
+               channel:this.props.channel}}   position="0 0 0"/>
         <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable"></a-entity>
 
         <Entity id="myCamera" camera="active: true"  look-controls  orbit-controls="target: 0 0 0; minDistance: 0.0; maxDistance: 180; initialPosition: 0 0 2"  />

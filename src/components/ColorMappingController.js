@@ -1,31 +1,48 @@
 import React, {Component} from 'react'
 import '../App.css'
 import ReactModal from 'react-modal';
-import DataTable from 'react-data-table-component'
+//import DataTable from 'react-data-table-component'
 import {connect} from 'react-redux';
 import {myChangeColorMapAction, mySaveColorMappingState} from '../redux/AppActions'
+import {DataTable} from 'primereact/datatable'
+import {Column} from 'primereact/column';
+import 'primereact/resources/themes/nova-light/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+
+const customStyles = {
+    content : {
+      top                   : '50%',
+      left                  : '50%',
+      right                 : 'auto',
+      bottom                : 'auto',
+      marginRight           : '-50%',
+      transform             : 'translate(-50%, -50%)'
+    }
+  };
 
 const data = [
     { 
       name: 'viridis',
-      image: './colormaps/viridis.png'
+      image: <img height="15x" width="100px"  src='./colormaps/viridis.png' />
     },
     { 
       name: 'natural',
-      image: './colormaps/natural.png'
+      image: <img height="15x" width="100px"  src='./colormaps/natural.png' />
     },
     {
       name: 'colors',
-      image: './colormaps/colors.png'
+      image: <img height="15x" width="100px"  src='./colormaps/colors.png' /> 
     },
     {
       name: 'white black',
-      image: './colormaps/whiteblack.png'
+      image: <img height="15x" width="100px"  src='./colormaps/whiteblack.png' /> 
     },
   
   ];
 
-  const columns = [
+
+  const columnsData = [
     {
       name: 'Color Map',
       selector: 'colormap',
@@ -49,6 +66,7 @@ export default connect(
         super(props);
 
         this.state = {
+            colorMapSelected:'',
             colorMapModal: false,
             currentMapColor:"./colormaps/viridis.png"
           };
@@ -75,37 +93,31 @@ export default connect(
      };
 
      handleCloseModal () {
+
+        this.props.myChangeColorMapAction(this.state.currentMapColor);
         this.setState({ colorMapModal: false });
       }
 
      datatable ()
      {
+
        return  (
-         <DataTable
-         title="Color Maps"
-         columns={columns}
-         data={data}
-         highlightOnHover
-         selectableRows
-         onRowSelected={this.handleDataTableSelected}
-         />
+         
+         <DataTable  value={data} style={{width: '350px'}}
+            selection={this.state.colorMapSelected} onSelectionChange={this.handleDataTableSelected}>
+            <Column selectionMode="single" />
+           <Column field="image" header="Color" />
+           <Column field="name" header="Name" />
+         </DataTable>
        );
      }
 
      handleDataTableSelected= (state) => { 
-        //console.log('Selected Rows: ', state.selectedRows[0].image);
-        if(state.selectedRows[0] != undefined)
-        {
-          
-          console.log("state.selectedRows[0].image " +state.selectedRows[0].image);
-          
-          
-          this.props.myChangeColorMapAction(state.selectedRows[0].image);
-    
-          this.setState({
-            currentMapColor:state.selectedRows[0].image
+     
+        this.setState({
+            colorMapSelected:state.value,
+            currentMapColor:state.value.image.props.src
            });
-        }
         
       };
 
@@ -113,7 +125,7 @@ export default connect(
         let colorMapSelection;
         if(this.state.currentMapColor != '')  
         {
-          colorMapSelection = <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width="200"></img>       
+          colorMapSelection = <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width="400"></img>       
         }
         else{
           colorMapSelection = ''; 
@@ -129,13 +141,14 @@ export default connect(
             }
             <ReactModal 
             isOpen={this.state.colorMapModal}
+            style={customStyles}
             contentLabel="Minimal Modal Example"
            >
     
            { this.BasicSelectable  = this.datatable()
            }
            
-           
+           <br/>
            <button onClick={this.handleCloseModal}>Apply</button>
          </ReactModal>
          </div>);

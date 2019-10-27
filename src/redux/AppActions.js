@@ -86,3 +86,11 @@ export const mySaveColorMappingState = function mySaveColorMappingState(colorMap
      payload:colorMap
    }
 }
+
+export const myChannelChanged= function myChannelChanged(channel)
+{
+    return {
+        type:"CHANNEL_CHANGED",
+        payload:channel
+      }
+}

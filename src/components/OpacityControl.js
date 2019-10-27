@@ -37,7 +37,7 @@ export default connect(
 		this.minLevelY = ~~(this.height-(this.minLevel*this.height))+this.padding;
         this.maxLevelY = ~~(this.height-(this.maxLevel*this.height))+this.padding;
 
-        this.nodes =[{x:0,y:0},{x:45,y:15},{x:130,y:35},{x:180,y:70}];
+        this.nodes =[{x:0,y:0},{x:45,y:15},{x:130,y:35},{x:380,y:70}];
         this.nodesCanvasSpace = [];
         this.normalizedXCanvasSpace = [];
         this.normalizedYCanvasSpace = [];
@@ -84,7 +84,7 @@ export default connect(
         this.opCanvas.width = controlsContainer.clientWidth - 2*this.padding -2; 
         this.opCanvas.height = this.height+this.padding*2;
         
-        this.opCanvas.width = 200; 
+        this.opCanvas.width = 400; 
         this.width = this.opCanvas.width-2*this.padding;
 
  
@@ -163,7 +163,7 @@ export default connect(
 
     resetOpacityPoints()
     {
-        this.nodes =[{x:0,y:0},{x:45,y:15},{x:130,y:35},{x:180,y:70}];
+        this.nodes =[{x:0,y:0},{x:45,y:15},{x:130,y:35},{x:380,y:70}];
         this.updateCanvas();
     }
 

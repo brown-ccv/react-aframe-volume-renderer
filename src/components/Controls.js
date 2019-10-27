@@ -5,7 +5,7 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 import {connect} from 'react-redux';
-import {myCheckButtonAction,myXSlideAction, myYSlideAction,myZSlideAction,myChangeVolumeAction} from '../redux/AppActions'
+import {myCheckButtonAction,myXSlideAction, myYSlideAction,myZSlideAction,myChangeVolumeAction,myChannelChanged} from '../redux/AppActions'
 import Select from 'react-select'
 import OpacityControl from './OpacityControl'
 import ColorMapControl from './ColorMappingController'
@@ -15,6 +15,13 @@ const options = [
   
 ];
 
+const channelOptions = [
+  { value: 6, label: 'Default' },
+  { value: 1, label: 'Red' },
+  { value: 2, label: 'Green' },
+  { value: 3, label: 'Blue' },
+  { value: 4, label: 'Alpha' },
+];
 
 const Range = Slider.Range;
 
@@ -26,7 +33,7 @@ const mapStateToProps = state => {
 
 export default connect(
      mapStateToProps,
-    {myCheckButtonAction,myXSlideAction,myYSlideAction,myZSlideAction,myChangeVolumeAction})
+    {myCheckButtonAction,myXSlideAction,myYSlideAction,myZSlideAction,myChangeVolumeAction,myChannelChanged})
     ( class Controls extends Component {
   
   constructor(props) {
@@ -37,6 +44,7 @@ export default connect(
         yslideValue: 0,
         zslideValue: 0,
         activateColorMapping: false,
+        currentChannel: 6
         
       };
 
@@ -46,10 +54,8 @@ export default connect(
       this.ySlideHandleChange = this.ySlideHandleChange.bind(this);
       this.zSlideHandleChange = this.zSlideHandleChange.bind(this);
       this.volumeSelectChanged = this.volumeSelectChanged.bind(this);
-   
-      this.options  = ['one', 'two', 'three'];
-
-      
+      this.channelSelectChanged = this.channelSelectChanged.bind(this);
+    
  }
 
 
@@ -99,12 +105,22 @@ export default connect(
      this.props.myChangeVolumeAction(volumeProperties[0],volumeProperties[1]);
   };
 
+  channelSelectChanged = (selected) =>
+  {
+    this.setState({
+      currentChannel: selected.value
+     });
+     this.props.myChannelChanged(selected.value);
+  }
 
   componentWillMount() {
 
   }
-render () {
-  console.log("this.state.currentVolume "+ this.state.currentVolume);
+
+
+  
+  render () {
+ 
   return (
       
       <div id="controls" className="controls-container" >
@@ -113,7 +129,18 @@ render () {
         <br/>
         <Select options={options} onChange={this.volumeSelectChanged} />
         <div> 
-       
+        
+        <br/> 
+        <div  style={(this.state.currentVolume != "") ? {} : { display: 'none' }} >
+
+          <label>Channel</label>
+          <Select  options={channelOptions} onChange={this.channelSelectChanged} />
+          <br/>
+        </div>
+        
+        
+
+
         <label>
           <br/>
           Enable Color Map &nbsp;

@@ -16,7 +16,8 @@ const initialState = {
     highNode:1,
     alphaXDataArray: null,
     alphaYDataArray: null,
-    currentColorMap:""
+    currentColorMap:"",
+    channel:6
   };
   
 
@@ -95,7 +96,13 @@ export const myReducer = function readCheckBox(state ={initialState},action){
                     return { 
                         currentColorMap: action.payload,
                     };
-            }    
+            }  
+        case "CHANNEL_CHANGED":
+            {
+               return { 
+                  channel: action.payload,
+               };
+            }     
         default:
             {
                 return { 
