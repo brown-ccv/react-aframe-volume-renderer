@@ -13,7 +13,11 @@ const initialState = {
     opacity1:0,
     opacity2:1,
     lowNode:0,
-    highNode:1
+    highNode:1,
+    alphaXDataArray: null,
+    alphaYDataArray: null,
+    currentColorMap:"",
+    channel:6
   };
   
 
@@ -80,9 +84,29 @@ export const myReducer = function readCheckBox(state ={initialState},action){
                     highNode: action.payload,
                 };
             }        
+        case "UPDATED_APLHA_DATA":
+            {
+                return { 
+                    alphaXDataArray: action.payload,
+                    alphaYDataArray: action.payload2
+                };
+            }  
+        case "SAVE_COLOR_DATA":
+            {
+                    return { 
+                        currentColorMap: action.payload,
+                    };
+            }  
+        case "CHANNEL_CHANGED":
+            {
+               return { 
+                  channel: action.payload,
+               };
+            }     
         default:
             {
-                return { checkBoxValue : false,
+                return { 
+                    checkBoxValue : false,
                     transferFunction: false
                 };
             }            

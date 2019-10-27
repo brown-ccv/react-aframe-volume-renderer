@@ -1,5 +1,5 @@
 
-export const myChecButtonAction = function fetchCheckBox(value){
+export const myCheckButtonAction = function fetchCheckBox(value){
     return{
         type:"CHECKBOX_CHANGED",
         payload: value,
@@ -67,4 +67,30 @@ export const myChangeHighNode = function changeHighNode(value){
         type:"HIGH_NODE_CHANGED",
         payload: value,
     }
+}
+
+export const mySendAlphaPoints = function mySendAlphaPoints(xPosArray, yPosArray)
+{
+    return{
+        type:"UPDATED_APLHA_DATA",
+        payload: xPosArray,
+        payload2: yPosArray
+    }
+}
+
+
+export const mySaveColorMappingState = function mySaveColorMappingState(colorMap)
+{
+   return {
+     type:"SAVE_COLOR_DATA",
+     payload:colorMap
+   }
+}
+
+export const myChannelChanged= function myChannelChanged(channel)
+{
+    return {
+        type:"CHANNEL_CHANGED",
+        payload:channel
+      }
 }

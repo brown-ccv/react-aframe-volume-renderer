@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 const mapStateToProps = state => {
 
-  return { clipPlane: state.checkBoxValue,
+  return { colorMapping: state.checkBoxValue,
            xSlideValueMin: state.xSlideValueMin,
            xSlideValueMax: state.xSlideValueMax,
            ySlideValueMin: state.ySlideValueMin,
@@ -19,7 +19,10 @@ const mapStateToProps = state => {
            opacity1: state.opacity1,
            opacity2: state.opacity2,
            lowNode: state.lowNode,
-           highNode: state.highNode
+           highNode: state.highNode,
+           alphaXDataArray: state.alphaXDataArray,
+           alphaYDataArray: state.alphaYDataArray,
+           channel: state.channel
   };
 
 };
@@ -48,11 +51,17 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
           currenAxisAngle:"0 0 0",
           rotateAngle:"0 0 0",
           clipX:"0 0"} } />
-        <a-plane visible="false" class="clickable" id="my2Dclipplane" height="1" width="1" material="color: red ; side:double; transparent:true;opacity:0.3" cursor-listener ></a-plane> 
+        <a-plane visible="false" class="clickable" id="my2Dclipplane" height="1" 
+            width="1" material="color: red ; side:double; transparent:true;opacity:0.3" 
+            cursor-listener ></a-plane> 
         <Entity id="volumeCube" class="clickableMesh"   myloader={{volumeData:this.props.volumeData,rayCollided:false,
                transferFunction:this.props.transferFunction,colorMap:this.props.colorMap,
                opacity1:this.props.opacity1,opacity2:this.props.opacity2,
-               lowNode:this.props.lowNode,highNode:this.props.highNode}}   position="0 0 0"/>
+               lowNode:this.props.lowNode,highNode:this.props.highNode,
+               alphaXDataArray:this.props.alphaXDataArray,
+               alphaYDataArray:this.props.alphaYDataArray,
+               colorMapping:this.props.colorMapping,
+               channel:this.props.channel}}   position="0 0 0"/>
         <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable"></a-entity>
 
         <Entity id="myCamera" camera="active: true"  look-controls  orbit-controls="target: 0 0 0; minDistance: 0.0; maxDistance: 180; initialPosition: 0 0 2"  />
