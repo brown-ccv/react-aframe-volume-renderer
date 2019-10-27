@@ -11,67 +11,31 @@ import ReactModal from 'react-modal';
 import DataTable from 'react-data-table-component'
 //import {Modal} from './ColorMapControl'
 import OpacityControl from './OpacityControl'
+import ColorMapControl from './ColorMappingController'
 const options = [
   { value: './assets/models/nrrd/00.nrrd:false', label: 'Spheroid' },
   { value: './assets/models/nrrd/simulation_data.nrrd:false', label: 'Simulation' },
   
 ];
 
-const data = [
-  { 
-    name: 'default',
-    image: ''
-  },
-  { 
-    name: 'natural',
-    image: './colormaps/natural.png'
-  },
-  {
-    name: 'viridis',
-    image: './colormaps/viridis.png'
-  },
-  {
-    name: 'colors',
-    image: './colormaps/colors.png'
-  },
-  {
-    name: 'white black',
-    image: './colormaps/whiteblack.png'
-  },
 
-];
-
-const columns = [
-  {
-    name: 'Color Map',
-    selector: 'colormap',
-    cell: d => <img height="15x" width="100px"  src={d.image} />,
-  },
-  {
-    name: 'Name',
-    selector: 'name',
-
-  },
-  
-]
 const Range = Slider.Range;
 
 
 export default connect(
      null,
-    {myChecButtonAction,myXSlideAction,myYSlideAction,myZSlideAction,myChangeVolumeAction,myChangeColorMapAction})
+    {myChecButtonAction,myXSlideAction,myYSlideAction,myZSlideAction,myChangeVolumeAction})
     ( class Controls extends Component {
   
   constructor(props) {
       super(props);
       this.state = {
         currentVolume:"",
-        actiavePlane: false,
         xslideValue: 0,
         yslideValue: 0,
         zslideValue: 0,
-        colorMapModal: false,
-        currentMapColor:""
+        activateColorMapping: false,
+        
       };
 
       this.handleCheckBoxInputChange = this.handleCheckBoxInputChange.bind(this);
@@ -80,10 +44,7 @@ export default connect(
       this.ySlideHandleChange = this.ySlideHandleChange.bind(this);
       this.zSlideHandleChange = this.zSlideHandleChange.bind(this);
       this.volumeSelectChanged = this.volumeSelectChanged.bind(this);
-      this.handleCloseModal = this.handleCloseModal.bind(this);
-      this.handleDataTableSelected = this.handleDataTableSelected.bind(this);
-      this.showModal =  this.showModal.bind(this);
-      this.datatable = this.datatable.bind(this);
+   
       this.options  = ['one', 'two', 'three'];
 
       
@@ -100,13 +61,6 @@ export default connect(
   });
 }
 
-  showModal  = () => {
-     this.setState({ colorMapModal: true });
-  };
-
-  handleCloseModal () {
-    this.setState({ colorMapModal: false });
-  }
 
   xSlideHandleChange = (value) => {
     
@@ -143,50 +97,23 @@ export default connect(
      this.props.myChangeVolumeAction(volumeProperties[0],volumeProperties[1]);
   };
 
-  datatable ()
-  {
-    return  (
-      <DataTable
-      title="Color Maps"
-      columns={columns}
-      data={data}
-      highlightOnHover
-      selectableRows
-      onRowSelected={this.handleDataTableSelected}
-      />
-    );
-  }
-
-  handleDataTableSelected= (state) => { 
-    //console.log('Selected Rows: ', state.selectedRows[0].image);
-    if(state.selectedRows[0] != undefined)
-    {
-      
-      console.log("state.selectedRows[0].image " +state.selectedRows[0].image);
-      
-      
-      this.props.myChangeColorMapAction(state.selectedRows[0].image);
-
-      this.setState({
-        currentMapColor:state.selectedRows[0].image
-       });
-    }
-    
-  };
 
   componentWillMount() {
     ReactModal.setAppElement('body');
   }
 render () {
-  let colorMapSelection;
-  if(this.state.currentMapColor != '')  
+  
+  let colorMapEnabled;
+  if(this.state.activateColorMapping == true)  
   {
-    colorMapSelection = <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width="100"></img>       
+    colorMapEnabled =  <div><ColorMapControl/><OpacityControl/></div>;
   }
   else{
-    colorMapSelection = ''; 
+    colorMapEnabled = ''; 
   }
 
+
+  
   return (
       <div id="controls" className="controls-container" >
        
@@ -196,31 +123,19 @@ render () {
         <div> 
        
        <label>
-        <br/>
+          <br/>
           Enable Color Map &nbsp;
          <input
            name="activateColorMapping"
            type="checkbox"
-           checked={this.state.actiavePlane}
+           checked={this.state.activateColorMapping}
            onChange={this.handleCheckBoxInputChange}
            />
-         </label>
+      </label>
        
-        <div className="color-map-control">
-        
-        {
-          /*<img className="colorMapImg" src="" alt="color map" height="15" width="100"></img> */
-          colorMapSelection
-        }
-        
-        <br/>
-        <button type= "button" onClick={this.showModal}>
-          color map
-        </button>
-        <br/>
-        </div>
-        <br/>
-        <OpacityControl/>
+       {
+         colorMapEnabled
+       }
        </div>
        
        {/*
@@ -258,16 +173,6 @@ render () {
          <Range allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.zSlideHandleChange}/>
          </div>
 
-         <ReactModal 
-           isOpen={this.state.colorMapModal}
-           contentLabel="Minimal Modal Example"
-        >
-          { this.BasicSelectable  = this.datatable()
-          }
-          
-          
-          <button onClick={this.handleCloseModal}>Apply</button>
-        </ReactModal>
       </div>
 
   );
