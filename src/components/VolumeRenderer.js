@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 
 const mapStateToProps = state => {
 
-  return { clipPlane: state.checkBoxValue,
+  return { colorMapping: state.checkBoxValue,
            xSlideValueMin: state.xSlideValueMin,
            xSlideValueMax: state.xSlideValueMax,
            ySlideValueMin: state.ySlideValueMin,
@@ -58,7 +58,8 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
                opacity1:this.props.opacity1,opacity2:this.props.opacity2,
                lowNode:this.props.lowNode,highNode:this.props.highNode,
                alphaXDataArray:this.props.alphaXDataArray,
-               alphaYDataArray:this.props.alphaYDataArray}}   position="0 0 0"/>
+               alphaYDataArray:this.props.alphaYDataArray,
+               colorMapping:this.props.colorMapping}}   position="0 0 0"/>
         <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable"></a-entity>
 
         <Entity id="myCamera" camera="active: true"  look-controls  orbit-controls="target: 0 0 0; minDistance: 0.0; maxDistance: 180; initialPosition: 0 0 2"  />

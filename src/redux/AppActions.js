@@ -1,5 +1,5 @@
 
-export const myChecButtonAction = function fetchCheckBox(value){
+export const myCheckButtonAction = function fetchCheckBox(value){
     return{
         type:"CHECKBOX_CHANGED",
         payload: value,

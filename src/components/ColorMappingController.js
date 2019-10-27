@@ -7,16 +7,12 @@ import {myChangeColorMapAction} from '../redux/AppActions'
 
 const data = [
     { 
-      name: 'default',
-      image: ''
+      name: 'viridis',
+      image: './colormaps/viridis.png'
     },
     { 
       name: 'natural',
       image: './colormaps/natural.png'
-    },
-    {
-      name: 'viridis',
-      image: './colormaps/viridis.png'
     },
     {
       name: 'colors',
@@ -54,18 +50,21 @@ export default connect(
 
         this.state = {
             colorMapModal: false,
-            currentMapColor:""
+            currentMapColor:"./colormaps/viridis.png"
           };
 
         this.showModal =  this.showModal.bind(this);
         this.datatable = this.datatable.bind(this);
         this.handleDataTableSelected = this.handleDataTableSelected.bind(this);
         this.handleCloseModal = this.handleCloseModal.bind(this);
+        console.log("constructor this.state.currentMapColor: "+ this.state.currentMapColor);
+        
     }
 
     componentWillMount() {
         ReactModal.setAppElement('body');
-      }
+       
+    }
 
       showModal  = () => {
         this.setState({ colorMapModal: true });
@@ -110,7 +109,7 @@ export default connect(
         let colorMapSelection;
         if(this.state.currentMapColor != '')  
         {
-          colorMapSelection = <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width="100"></img>       
+          colorMapSelection = <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width="200"></img>       
         }
         else{
           colorMapSelection = ''; 

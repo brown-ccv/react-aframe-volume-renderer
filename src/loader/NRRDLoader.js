@@ -35,6 +35,8 @@ NRRDLoader.prototype = {
     loader.load(url, function (data) {
       onLoad(scope.parse(data));
     }, onProgress, onError);
+
+    
   },
 
   setPath: function (value) {
@@ -44,6 +46,7 @@ NRRDLoader.prototype = {
 
   parse: function (data) {
     // this parser is largely inspired from the XTK NRRD parser : https://github.com/xtk/X
+    
 
     var _data = data;
 
@@ -163,6 +166,9 @@ NRRDLoader.prototype = {
       if (headerObject.encoding === 'bz2' || headerObject.encoding === 'bzip2') {
         throw new Error('Bzip is not supported');
       }
+     
+      //console.log(headerObject);
+
       if (!headerObject.vectors) {
         // if no space direction is set, let's use the identity
         headerObject.vectors = [ new Vector3(1, 0, 0), new Vector3(0, 1, 0), new Vector3(0, 0, 1) ];
@@ -236,6 +242,8 @@ NRRDLoader.prototype = {
     }
      // parse the header
     parseHeader(_header);
+    //console.log("_header");
+    //console.log(_header);
 
     var _data = _bytes.subarray(_data_start); // the data without header
     if (headerObject.encoding === 'gzip' || headerObject.encoding === 'gz') {
@@ -277,6 +285,7 @@ NRRDLoader.prototype = {
     volume.xLength = volume.dimensions[ 0 ];
     volume.yLength = volume.dimensions[ 1 ];
     volume.zLength = volume.dimensions[ 2 ];
+   // volume.arrayType = headerObject.type;
       // spacing
     var spacingX = (new Vector3(headerObject.vectors[ 0 ][ 0 ], headerObject.vectors[ 0 ][ 1 ], headerObject.vectors[ 0 ][ 2 ])).length();
     var spacingY = (new Vector3(headerObject.vectors[ 1 ][ 0 ], headerObject.vectors[ 1 ][ 1 ], headerObject.vectors[ 1 ][ 2 ])).length();

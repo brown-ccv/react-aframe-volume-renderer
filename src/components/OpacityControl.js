@@ -37,7 +37,7 @@ export default connect(
 		this.minLevelY = ~~(this.height-(this.minLevel*this.height))+this.padding;
         this.maxLevelY = ~~(this.height-(this.maxLevel*this.height))+this.padding;
 
-        this.nodes =[{x:0,y:0},{x:45,y:35},{x:81,y:21},{x:180,y:70}];
+        this.nodes =[{x:0,y:0},{x:45,y:15},{x:130,y:35},{x:180,y:70}];
         this.nodesCanvasSpace = [];
         this.normalizedXCanvasSpace = [];
         this.normalizedYCanvasSpace = [];

@@ -5,11 +5,8 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 import {connect} from 'react-redux';
-import {myChecButtonAction,myXSlideAction, myYSlideAction,myZSlideAction,myChangeVolumeAction,myChangeColorMapAction} from '../redux/AppActions'
+import {myCheckButtonAction,myXSlideAction, myYSlideAction,myZSlideAction,myChangeVolumeAction} from '../redux/AppActions'
 import Select from 'react-select'
-import ReactModal from 'react-modal';
-import DataTable from 'react-data-table-component'
-//import {Modal} from './ColorMapControl'
 import OpacityControl from './OpacityControl'
 import ColorMapControl from './ColorMappingController'
 const options = [
@@ -24,7 +21,7 @@ const Range = Slider.Range;
 
 export default connect(
      null,
-    {myChecButtonAction,myXSlideAction,myYSlideAction,myZSlideAction,myChangeVolumeAction})
+    {myCheckButtonAction,myXSlideAction,myYSlideAction,myZSlideAction,myChangeVolumeAction})
     ( class Controls extends Component {
   
   constructor(props) {
@@ -55,7 +52,7 @@ export default connect(
   const target = event.target;
   const value = target.type === 'checkbox' ? target.checked : target.value;
   const name = target.name;
-  //this.props.myChecButtonAction(value);
+  this.props.myCheckButtonAction(value);
   this.setState({
     [name]: value
   });
@@ -99,7 +96,7 @@ export default connect(
 
 
   componentWillMount() {
-    ReactModal.setAppElement('body');
+
   }
 render () {
   
@@ -138,25 +135,14 @@ render () {
        }
        </div>
        
-       {/*
-       <label>
-       <br/>
-        Enable Slice &nbsp;
-        <input
-          name="actiavePlane"
-          type="checkbox"
-          checked={this.state.actiavePlane}
-          onChange={this.handleCheckBoxInputChange}
-          />
-       </label>
-       */}
+      
          <br/> 
          <div className="slices-container" >
          <label>
             X Slide <br/>
 
          </label>
-         {/*  <Slider min={0} max={1} step={0.1}  value={this.state.xslideValue} onChange={this.xSlideHandleChange}/> --> */}
+        
          <Range allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.xSlideHandleChange}/>
 
          <br/>
