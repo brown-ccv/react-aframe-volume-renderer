@@ -77,3 +77,12 @@ export const mySendAlphaPoints = function mySendAlphaPoints(xPosArray, yPosArray
         payload2: yPosArray
     }
 }
+
+
+export const mySaveColorMappingState = function mySaveColorMappingState(colorMap)
+{
+   return {
+     type:"SAVE_COLOR_DATA",
+     payload:colorMap
+   }
+}

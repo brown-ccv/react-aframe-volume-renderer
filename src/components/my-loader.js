@@ -420,19 +420,19 @@ AFRAME.registerComponent('myloader', {
   
 	update: function(oldData)
 	{
-	    console.log("this.data.colorMapping "+this.data.colorMapping);
+	    //console.log("this.data.colorMapping "+this.data.colorMapping);
 		if(oldData.colorMapping !== undefined && oldData.colorMapping !== this.data.colorMapping)
 		{
-			console.log("this.data.colorMapping HERE");
-			console.log("this.colorMap.img " + this.colorMap.img);
+		//	console.log("this.data.colorMapping HERE");
+		//	console.log("this.colorMap.img " + this.colorMap.img);
 			this.colorMapEnabled = this.data.colorMapping;
 			if(!this.colorMapEnabled)
 			{
 				//this.colorMap.img = null;
-			    console.log("this.data.colorMapping HERE 1");
+			 //   console.log("this.data.colorMapping HERE 1");
 				if (this.el.getObject3D("mesh") !== undefined) {
 
-					console.log("this.data.colorMapping HERE 2");
+			//		console.log("this.data.colorMapping HERE 2");
 					var material = this.el.getObject3D("mesh").material;
 					material.uniforms.u_lut.value = null;
 					material.uniforms.useLut.value = false;

@@ -15,7 +15,8 @@ const initialState = {
     lowNode:0,
     highNode:1,
     alphaXDataArray: null,
-    alphaYDataArray: null
+    alphaYDataArray: null,
+    currentColorMap:""
   };
   
 
@@ -88,10 +89,17 @@ export const myReducer = function readCheckBox(state ={initialState},action){
                     alphaXDataArray: action.payload,
                     alphaYDataArray: action.payload2
                 };
+            }  
+        case "SAVE_COLOR_DATA":
+            {
+                    return { 
+                        currentColorMap: action.payload,
+                    };
             }    
         default:
             {
-                return { checkBoxValue : false,
+                return { 
+                    checkBoxValue : false,
                     transferFunction: false
                 };
             }            

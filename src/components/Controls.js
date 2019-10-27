@@ -18,9 +18,14 @@ const options = [
 
 const Range = Slider.Range;
 
+const mapStateToProps = state => {
+  return { 
+    currentColorMap: state.currentColorMap
+   };
+};
 
 export default connect(
-     null,
+     mapStateToProps,
     {myCheckButtonAction,myXSlideAction,myYSlideAction,myZSlideAction,myChangeVolumeAction})
     ( class Controls extends Component {
   
@@ -99,19 +104,9 @@ export default connect(
 
   }
 render () {
-  
-  let colorMapEnabled;
-  if(this.state.activateColorMapping == true)  
-  {
-    colorMapEnabled =  <div><ColorMapControl/><OpacityControl/></div>;
-  }
-  else{
-    colorMapEnabled = ''; 
-  }
-
-
-  
+  console.log("this.state.currentVolume "+ this.state.currentVolume);
   return (
+      
       <div id="controls" className="controls-container" >
        
         <label>Volume</label>
@@ -119,20 +114,22 @@ render () {
         <Select options={options} onChange={this.volumeSelectChanged} />
         <div> 
        
-       <label>
+        <label>
           <br/>
           Enable Color Map &nbsp;
-         <input
+         <input disabled = {(this.state.currentVolume == "") ? "disabled" : ""}
            name="activateColorMapping"
            type="checkbox"
            checked={this.state.activateColorMapping}
            onChange={this.handleCheckBoxInputChange}
            />
-      </label>
+        </label>
        
-       {
-         colorMapEnabled
-       }
+          <div style={this.state.activateColorMapping ? {} : { display: 'none' }} >
+           <ColorMapControl  />
+           <OpacityControl/>
+          </div>
+     
        </div>
        
       
@@ -143,20 +140,20 @@ render () {
 
          </label>
         
-         <Range allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.xSlideHandleChange}/>
+         <Range disabled = {(this.state.currentVolume == "") ? "disabled" : ""} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.xSlideHandleChange}/>
 
          <br/>
 
          <label>
          Y Slide <br/>
          </label>
-         <Range allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.ySlideHandleChange}/>
+         <Range disabled = {(this.state.currentVolume == "") ? "disabled" : ""} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.ySlideHandleChange}/>
          <br/>
 
          <label>
          Z Slide <br/>
          </label>
-         <Range allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.zSlideHandleChange}/>
+         <Range disabled = {(this.state.currentVolume == "") ? "disabled" : ""} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.zSlideHandleChange}/>
          </div>
 
       </div>

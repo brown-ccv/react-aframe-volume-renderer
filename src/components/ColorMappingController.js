@@ -3,7 +3,7 @@ import '../App.css'
 import ReactModal from 'react-modal';
 import DataTable from 'react-data-table-component'
 import {connect} from 'react-redux';
-import {myChangeColorMapAction} from '../redux/AppActions'
+import {myChangeColorMapAction, mySaveColorMappingState} from '../redux/AppActions'
 
 const data = [
     { 
@@ -42,7 +42,7 @@ const data = [
 
 export default connect(
     null,
-   {myChangeColorMapAction})
+   {myChangeColorMapAction,mySaveColorMappingState})
    ( class OpcacityControl extends Component {
     
     constructor(props) {
@@ -57,15 +57,19 @@ export default connect(
         this.datatable = this.datatable.bind(this);
         this.handleDataTableSelected = this.handleDataTableSelected.bind(this);
         this.handleCloseModal = this.handleCloseModal.bind(this);
-        console.log("constructor this.state.currentMapColor: "+ this.state.currentMapColor);
-        
     }
 
     componentWillMount() {
         ReactModal.setAppElement('body');
        
     }
+    
+    componentWillUnmount() {
 
+        //-- save state
+        console.log("componentWillUnmount: " +this.state.currentMapColor);
+        this.props.mySaveColorMappingState(this.state.currentMapColor);
+    }
       showModal  = () => {
         this.setState({ colorMapModal: true });
      };

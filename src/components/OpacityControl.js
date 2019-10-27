@@ -49,6 +49,7 @@ export default connect(
         this.addPoint = this.addPoint.bind(this);
         this.removePoint = this.removePoint.bind(this);
         this.sendAlphaData = this.sendAlphaData.bind(this);
+        this.resetOpacityPoints = this.resetOpacityPoints.bind(this);
     }
 
 
@@ -70,6 +71,8 @@ export default connect(
         document.removeEventListener("mouseup", this.onMouseUp);
         this.opCanvas.removeEventListener("dblclick",this.addPoint);
         this.opCanvas.removeEventListener('contextmenu', this.removePoint);
+
+        //-- Save state
     }
 
     updateCanvas() {
@@ -155,15 +158,13 @@ export default connect(
         }
         
         this.props.mySendAlphaPoints(this.normalizedXCanvasSpace,this.normalizedYCanvasSpace);
+    
+    }
 
-      //  console.log("sendAlphaData");
-      //  console.log("this.nodesCanvasSpace.lengt: "+ this.nodesCanvasSpace.length);
-        
-      //  console.log(this.normalizedXCanvasSpace);
-      //  console.log(this.normalizedYCanvasSpace);
-      //
-      //  console.log("this.nodesCanvasSpace: ");
-        
+    resetOpacityPoints()
+    {
+        this.nodes =[{x:0,y:0},{x:45,y:15},{x:130,y:35},{x:180,y:70}];
+        this.updateCanvas();
     }
 
     removePoint(evt)
@@ -305,6 +306,8 @@ export default connect(
         return(
           <div>
             <canvas ref="canvas" id="opacityControls" />
+            <br/>
+            <button onClick={this.resetOpacityPoints}>Reset</button>
           </div>
         )
       }
