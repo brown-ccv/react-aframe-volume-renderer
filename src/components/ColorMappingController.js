@@ -85,7 +85,7 @@ export default connect(
     componentWillUnmount() {
 
         //-- save state
-        console.log("componentWillUnmount: " +this.state.currentMapColor);
+       // console.log("componentWillUnmount: " +this.state.currentMapColor);
         this.props.mySaveColorMappingState(this.state.currentMapColor);
     }
       showModal  = () => {

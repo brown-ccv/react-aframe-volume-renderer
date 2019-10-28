@@ -205,6 +205,8 @@ AFRAME.registerComponent('myloader', {
         var cameraEl = document.querySelector('#myCamera');
 		cameraEl.setAttribute('camera', 'active', true);
 		
+		this.hiddenLabel = document.getElementById('modelLoaded');
+		//this.hiddenLabel.innerHTML = 'false';
 	},
 	
 
@@ -238,7 +240,7 @@ AFRAME.registerComponent('myloader', {
 	},
 
 	loadModel: function(){
-	
+		
 		var currentVolume = this.el.getObject3D('mesh'); 
 		if(currentVolume !== undefined)
 		{
@@ -252,7 +254,7 @@ AFRAME.registerComponent('myloader', {
 		
 		if(this.data.volumeData !="")
 		{
-
+			this.hiddenLabel.style.display = '';
 			var el = this.el;
 			var data = this.data; 
 			//var transferTexture = this.transferTexture ;
@@ -260,6 +262,7 @@ AFRAME.registerComponent('myloader', {
 			var myheight = this.myCanvas.height; 
 			var colorMap =  null;
 			var useTransferFunction; 
+			var hiddenLabel = this.hiddenLabel;
 			console.log(this.data.transferFunction);
 		    if (this.data.transferFunction == "false" ) {
 				console.log("do not use Transferfunction");
@@ -392,7 +395,7 @@ AFRAME.registerComponent('myloader', {
 					 el.setObject3D('mesh', new THREE.Mesh(geometry, material));
 					 data.modelLoaded = true;
 					 
-	 
+					 hiddenLabel.style.display  = 'none';
 				
 			 }, function () {} , function () {console.log("Could not load the data, Data not found")});
 		}
