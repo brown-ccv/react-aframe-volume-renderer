@@ -32,7 +32,9 @@
     "react-select": "^3.0.4",
     "redux": "^4.0.4",
     "styled-components": "^4.4.0",
-    "super-hands": "^3.0.0"
+    "super-hands": "^3.0.0",
+    "systemjs": "^6.1.4",
+    "typescript": "^3.6.4"
   },
   "optionalDependency": {
     "brown-university-styles": "git+https://bitbucket.brown.edu/scm/react/brown-university-styles.git"
