@@ -2,7 +2,7 @@
 import {Entity, Scene} from 'aframe-react';
 import React, {Component} from 'react'
 import { connect } from "react-redux";
-
+import Spinner from './Spinner'
 
 const mapStateToProps = state => {
 
@@ -29,6 +29,18 @@ const mapStateToProps = state => {
 
 
 export default connect(mapStateToProps)(class VolumeRenderer extends Component {
+
+  constructor(props)
+  {
+    super(props);
+    this.modelLoad = this.modelLoad.bind(this);
+  }
+
+  modelLoad()
+  {
+    console.log("LABEL CHANGED");
+  }
+
   render () {
 
     return (
@@ -36,7 +48,10 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
 
 
         <div className="aframe-container" > 
-
+          <div id="modelLoaded" style={{display:'none'}}>
+           <Spinner></Spinner>
+          </div>
+        {/*<input type="hidden" id="modelLoaded" name="custId" value="HERE" onchange={this.modelLoad}/>*/}
         <Scene id="myScene" background="color: black" embedded >
       
         <Entity id="rhand" laser-controls="hand: right" raycaster="objects: .clickableMesh" my-buttons-check={{clipPlane:false,grabObject:false}} collider-check={{intersecting:false}}/>
@@ -54,6 +69,8 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
         <a-plane visible="false" class="clickable" id="my2Dclipplane" height="1" 
             width="1" material="color: red ; side:double; transparent:true;opacity:0.3" 
             cursor-listener ></a-plane> 
+
+        
         <Entity id="volumeCube" class="clickableMesh"   myloader={{volumeData:this.props.volumeData,rayCollided:false,
                transferFunction:this.props.transferFunction,colorMap:this.props.colorMap,
                opacity1:this.props.opacity1,opacity2:this.props.opacity2,
