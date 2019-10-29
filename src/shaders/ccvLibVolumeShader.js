@@ -129,7 +129,7 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 		'{',
 		   //get the 3D texture coordinates for lookup into the volume dataset
 		   'vec3 dataPos = vUV;',
-		
+		   'vFragColor = vec4(0);',
 		   //get the object space position by subracting 0.5 from the
 		   //3D texture coordinates. Then subtraact it from camera position
 		   //and normalize to get the ray marching direction
@@ -234,11 +234,11 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 		   '}',
 		    
 			//remove fragments for correct depthbuffer
-			'if (vFragColor.a == 0.0f)',
-				'discard;',
+			//'if (vFragColor.a == 0.0f)',
+			//	'discard;',
 		
 		    'gl_FragColor = vFragColor;',
-			//'gl_FragColor = vec4(1,0,0,1);',
+			//'gl_FragColor = vec4(0,1,0,0);',
 		'}',
 		
   
