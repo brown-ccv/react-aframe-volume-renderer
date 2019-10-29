@@ -2,6 +2,7 @@
 import { NRRDLoader } from '../loader/NRRDLoader.js';
 import '../shaders/ccvLibVolumeShader.js'
 
+
 var KEYS = [
     'KeyW', 'KeyA', 'KeyS', 'KeyD','KeyQ','KeyP',
     'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ArrowDown'
@@ -382,20 +383,26 @@ AFRAME.registerComponent('myloader', {
 				 
 				 var material = new THREE.ShaderMaterial( {
 						 uniforms: uniforms,
+						 transparent: true,
 						 vertexShader: shader.vertexShader,
 						 fragmentShader: shader.fragmentShader,
 						 side: THREE.BackSide // The volume shader uses the backface as its "reference point"
 					 } );
 				 // Mesh
+				
 					 var geometry = new THREE.BoxGeometry( 1, 1, 1);
 					 //geometry.translate( -0.5, - 0.5, - 0.5 );
 					 
-					 
-					 
+					
+
 					 el.setObject3D('mesh', new THREE.Mesh(geometry, material));
 					 data.modelLoaded = true;
 					 
+					// material.uniforms.diffuse.value.setHex ( 0xFF0000 );
+					 material.needsUpdate = true;
+
 					 hiddenLabel.style.display  = 'none';
+					 console.log("MODEL LOADED");
 				
 			 }, function () {} , function () {console.log("Could not load the data, Data not found")});
 		}

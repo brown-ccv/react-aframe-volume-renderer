@@ -64,8 +64,9 @@ export default connect(
   const value = target.type === 'checkbox' ? target.checked : target.value;
   const name = target.name;
   this.props.myCheckButtonAction(value);
+  console.log("handleCheckBoxInputChange " + value)
   this.setState({
-    [name]: value
+    activateColorMapping: value
   });
 }
 
@@ -131,10 +132,10 @@ export default connect(
         <div> 
         
         <br/> 
-        <div  style={(this.state.currentVolume != "") ? {} : { display: 'none' }} >
+        <div  style={(this.state.currentVolume != "" ) ? {} : { display: 'none' }} >
 
           <label>Channel</label>
-          <Select  options={channelOptions} onChange={this.channelSelectChanged} />
+          <Select isDisabled={this.state.activateColorMapping} options={channelOptions} onChange={this.channelSelectChanged} />
           <br/>
         </div>
         
@@ -167,20 +168,20 @@ export default connect(
 
          </label>
         
-         <Range disabled = {(this.state.currentVolume == "") ? "disabled" : ""} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.xSlideHandleChange}/>
+         <Range disabled = {(this.state.currentVolume == "") ? true : false} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.xSlideHandleChange}/>
 
          <br/>
 
          <label>
          Y Slide <br/>
          </label>
-         <Range disabled = {(this.state.currentVolume == "") ? "disabled" : ""} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.ySlideHandleChange}/>
+         <Range disabled = {(this.state.currentVolume == "") ? true : false} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.ySlideHandleChange}/>
          <br/>
 
          <label>
          Z Slide <br/>
          </label>
-         <Range disabled = {(this.state.currentVolume == "") ? "disabled" : ""} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.zSlideHandleChange}/>
+         <Range disabled = {(this.state.currentVolume == "") ? true : false} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.zSlideHandleChange}/>
          </div>
 
       </div>
