@@ -1,0 +1,9 @@
+repo:             react-aframe-volume-renderer
+site_name:        "Volume Renderer"
+authors:
+ - name: "Camilo Diaz Rodriguez"
+   github_user: kmilo9999
+repo_url:         https://github.com/brown-ccv/react-aframe-volume-renderer
+site_description: ""
+docs_url:         
+type:             software    # required. choose one of [software, tutorial, workshop, documentation]
