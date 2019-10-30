@@ -6,6 +6,7 @@ This project was developed using react-js and Aframe (webvr - threejs -webgl2)
 ##### Table of Contents  
 * [Installation](#Installation)
 * [About this project](#About)
+* [Live demo](#Demo)
 * [Enable Mozilla Firefox VR](#FireFoxVR)
 
 <a name="Installation"/>
@@ -38,23 +39,56 @@ It was implemented using A-frame, a javascript framework easy to learn, use and 
 
 ![Application_Arch](./imgs/archit.png)
 
+<a name="Demo"/>
+
+#### Live Demo
+
+[Click here for live demo](https://datasci.brown.edu/volume-vr/)
+
+Select the data to visualize.
+![](./imgs/View1.png)
+
+You can modify the channel-layer you want to visualize (if the data supports RBGA textures)
+![](./imgs/View2.png)
+
+Open the color mapping - opacity transfer function option.
+![](./imgs/View3.png)
+
+Double click on the canvas to create a new point. Left click on one of the points to remove it.
+
 #### A-Frame Implementation
 
-Following A-Frame’s philosophy, the application has a custom component that reads, loads and render 3D textures as volume data. This component is attached to an A-Frame entity as follows:
+Following A-Frame’s philosophy, the application has a custom component that reads, loads and render 3D textures as volume data. To accomplish this, An 'aframe-react' entity is created and we attach our custom component:
 
-    <a-entity id="volumeCube" class="cube" mixin="cube" myloader="    volumeData:./assets/models/nrrd/00.nrrd " position="0 0 0"  sleepy> 
+    <Entity id="volumeCube" class="clickableMesh"   myloader={{'path_to_data'}}   position="0 0 0"/>
 
-‘Id’ and ‘class’ are identifiers of the html element during the application’s life cycle. Events and dynamic properties query for these names to change their internal properties such as position and color. Sleepy is an attribute set by the physics engine to control the drag and drop events. 
+Althoug it can be attached to a generic aframe entity:
+
+    <a-entity id="volumeCube"  myloader="path_to_data" position="0 0 0"> 
+
+‘Id’ and ‘class’ are identifiers of the html element during the application’s life cycle. Events and dynamic properties query for these names to change their internal properties such as position and color.
+
 ‘myLoader’ is the name of the component responsible for the volume rendering. The attribute ‘volumeData’ is a string with the local file path of the data to be loaded. In the above case, it is loading from the path ./assets/models/nrrd/00.nrrd.
+
+#### myLoader attributes:
+
+|  Name         | Type          | Description  |
+| ------------- | ------------- | ------------- |
+| colorMap  | string  | path to the color map 1d texture   |
+| position | vector3  | position of the volume in worl space |
+| alphaXDataArray   | array  | Opacity values in the X coordinate. This represents the color the opacity is going to modify |
+| alphaYDataArray   | array  | Opacity values in the Y coordinate. This represents the alpha value of the X color  |
+| channel | number  | If the volume support different RBGA channels: 1 Red, 2 Green, 3 Blue, 4 alpha |
+
 
 Additional third party components used on this project are:
 
-* aframe-event-set-component.min.js : JavaScript general events library for A-Frame that facilitates the control of the events produced by mouse, keyboard, vr controllers.
-* Super-hands.min.js : Library for general use of vr controllers.
-* Aframe-physics-system.min.js: Controls drag and drop using newtonian physics parameters such as gravity, friction, acceleration.
-* Aframe-physics-extras.min.js: Controls the 6 degrees rotation of the 3D data.
+React-js
+Aframe-React
+react-slider
 
-#### MyLoader implementation
+
+#### myLoader implementation
 
 This code is located on the file src/components/my-loader.js. It registers the A-Frame component:
 
@@ -66,20 +100,6 @@ Every component on A-Frame has a series of methods to be extended to determine i
 * Init: Sets the initial state of the entity. Also, It loads the shaders and transfer functions.
 * Tick: check for events in the vr controllers to produce real time interaction with the data.
 
-There is another component:
-
-    AFRAME.registerComponent("my-buttons-check",
-
-Attached to the html controller tag:
-
-    <a-mixin id="controller-right" mixin="pointer"
-                 vive-controls="hand: right" oculus-touch-controls="hand: right"
-                 windows-motion-controls="hand: right"
-                 gearvr-controls daydream-controls oculus-go-controls my-buttons-check>
-
-It acts as an event listener when the user presses the grip button in order to clip the data. The state of this component is queried by the ‘myLoader’ component in the ‘tick’ function, producing the desired effect on screen (clipping).
-
-    material.uniforms.clipping.value = this.controllerHandler.el.getAttribute('my-buttons-check').clipPlane;
     
 #### Structure of the project 
 
