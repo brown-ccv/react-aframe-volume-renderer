@@ -260,9 +260,10 @@ export default connect(
             }
             else if(this.nodeDragged != -1)
             {
-                this.nodes[this.nodeDragged].x = Math.max(this.minLevel, Math.min(this.width, this.startPos[0]-diffX));
+                var leftPoint =this.nodes[this.nodeDragged -1].x;
+                var rightPoint =this.nodes[this.nodeDragged +1].x;
+                this.nodes[this.nodeDragged].x = Math.max(leftPoint, Math.min(rightPoint, this.startPos[0]-diffX));
                 this.nodes[this.nodeDragged].y = Math.max(this.minLevel, Math.min(this.height, this.startPos[1] +diffY));
-
             }
             
             this.updateCanvas();
