@@ -4,6 +4,8 @@ import React, {Component} from 'react'
 import Controls from './Controls';
 import VolumeRenderer from './VolumeRenderer';
 
+import '../styles/scroll_nav.scss';
+
 const Link = ScrollAnim.Link;
 const Element = ScrollAnim.Element;
 const EventListener = ScrollAnim.Event;
@@ -16,8 +18,8 @@ export default class Layout extends Component {
 
       <div>
         <div className="nav">
-          <Link className="nav-list" to="page0">nav0</Link>
-          <Link className="nav-list" to="page1">nav1</Link>
+          <Link className="nav-list" to="page0">Home</Link>
+          <Link className="nav-list" to="page1">About</Link>
         </div>
         <Element className="pack-page" id="page0">
           <div class="d-flex flex-row justify-content-around mb-5 pb-5 mt-5">
