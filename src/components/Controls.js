@@ -5,7 +5,8 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 import {connect} from 'react-redux';
-import {myCheckButtonAction,myXSlideAction, myYSlideAction,myZSlideAction,myChangeVolumeAction,myChannelChanged} from '../redux/AppActions'
+import {myCheckButtonAction,myXSlideAction, myYSlideAction,
+  myZSlideAction,myChangeVolumeAction,myChannelChanged,myCameraReset} from '../redux/AppActions'
 import Select from 'react-select'
 import OpacityControl from './OpacityControl'
 import ColorMapControl from './ColorMappingController'
@@ -33,7 +34,8 @@ const mapStateToProps = state => {
 
 export default connect(
      mapStateToProps,
-    {myCheckButtonAction,myXSlideAction,myYSlideAction,myZSlideAction,myChangeVolumeAction,myChannelChanged})
+    {myCheckButtonAction,myXSlideAction,myYSlideAction,
+     myZSlideAction,myChangeVolumeAction,myChannelChanged,myCameraReset})
     ( class Controls extends Component {
   
   constructor(props) {
@@ -55,7 +57,7 @@ export default connect(
       this.zSlideHandleChange = this.zSlideHandleChange.bind(this);
       this.volumeSelectChanged = this.volumeSelectChanged.bind(this);
       this.channelSelectChanged = this.channelSelectChanged.bind(this);
-    
+      this.resetCamera = this.resetCamera.bind(this);
  }
 
 
@@ -118,7 +120,10 @@ export default connect(
 
   }
 
-
+  resetCamera()
+  {
+    this.props.myCameraReset();
+  }
   
   render () {
  
@@ -126,6 +131,9 @@ export default connect(
       
       <div id="controls" className="controls-container" >
        
+       {/* <button onClick={this.resetCamera}>Reset Camera</button>  */} 
+        <br/>
+
         <label>Volume</label>
         <br/>
         <Select options={options} onChange={this.volumeSelectChanged} />
@@ -138,9 +146,6 @@ export default connect(
           <Select isDisabled={this.state.activateColorMapping} options={channelOptions} onChange={this.channelSelectChanged} />
           <br/>
         </div>
-        
-        
-
 
         <label>
           <br/>
