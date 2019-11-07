@@ -281,14 +281,31 @@ NRRDLoader.prototype = {
     volume.windowHigh = max;
 
     // get the image dimensions
-    
-    var mySamplesPerAxis = headerObject.sizes[ 0 ]; 
+    var mySamplesPerAxis = 0 ;
 
-    volume.dimensions = new Array(mySamplesPerAxis - 1 ); 
-    for(var i = 1 ; i < mySamplesPerAxis; i++)
+    console.log("headerObject: ")
+    console.log( headerObject.dim);
+    if(headerObject.dim == 4)
     {
-       volume.dimensions[i-1] = headerObject.sizes[i];
+      mySamplesPerAxis = headerObject.sizes[ 0 ]; 
+    
+      volume.dimensions = new Array(mySamplesPerAxis - 1 ); 
+      for(var i = 1 ; i < mySamplesPerAxis; i++)
+      {
+         volume.dimensions[i-1] = headerObject.sizes[i];
+      }
     }
+    else{
+
+      mySamplesPerAxis = headerObject.dim;
+      volume.dimensions = new Array(mySamplesPerAxis - 1 ); 
+      for(var i = 0 ; i < mySamplesPerAxis; i++)
+      {
+         volume.dimensions[i] = headerObject.sizes[i];
+      }
+    }
+
+    
 
     //volume.dimensions = [ headerObject.sizes[ mySamplesPerAxis - 3 ], headerObject.sizes[ mySamplesPerAxis -2 ], headerObject.sizes[ mySamplesPerAxis -1] ];
     
