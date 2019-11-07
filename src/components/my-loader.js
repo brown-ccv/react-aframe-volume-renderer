@@ -275,7 +275,7 @@ AFRAME.registerComponent('myloader', {
 		   //useTransferFunction = true;
 			new NRRDLoader().load( this.data.volumeData, function ( volume ) {
 				var texture = new THREE.DataTexture3D( volume.data, volume.xLength, volume.yLength, volume.zLength  );
-				console.log("volume.arrayType "+volume.header.type);
+				//console.log("volume.arrayType "+volume.header.type);
 				
 				
 				var volumeScale = [ 1.0 / (volume.xLength * volume.spacing[0]),
