@@ -37,7 +37,15 @@ export default connect(
 		this.minLevelY = ~~(this.height-(this.minLevel*this.height))+this.padding;
         this.maxLevelY = ~~(this.height-(this.maxLevel*this.height))+this.padding;
 
-        this.nodes =[{x:0,y:0},{x:45,y:15},{x:130,y:35},{x:380,y:70}];
+        
+        this.initPoint1X = 0;
+        this.initPoint2X = this.props.width * 0.11;
+        this.initPoint3X = this.props.width * 0.32;
+        this.initPoint4X = this.props.width * 0.92;
+
+        this.nodes =[{x:this.initPoint1X,y:0},{x: this.initPoint2X ,y:15},
+                     {x:this.initPoint3X,y:35},{x:this.initPoint4X,y:70}];
+
         this.nodesCanvasSpace = [];
         this.normalizedXCanvasSpace = [];
         this.normalizedYCanvasSpace = [];
@@ -75,6 +83,7 @@ export default connect(
         //-- Save state
     }
 
+    
     updateCanvas() {
         this.opCanvas = this.refs.canvas;
         this.opContext = this.refs.canvas.getContext('2d');
@@ -84,7 +93,7 @@ export default connect(
         this.opCanvas.width = controlsContainer.clientWidth - 2*this.padding -2; 
         this.opCanvas.height = this.height+this.padding*2;
         
-        this.opCanvas.width = 400; 
+        this.opCanvas.width = this.props.width; 
         this.width = this.opCanvas.width-2*this.padding;
 
  
@@ -163,7 +172,8 @@ export default connect(
 
     resetOpacityPoints()
     {
-        this.nodes =[{x:0,y:0},{x:45,y:15},{x:130,y:35},{x:380,y:70}];
+        this.nodes =[{x:this.initPoint1X,y:0},{x: this.initPoint2X ,y:15},
+                     {x:this.initPoint3X,y:35},{x:this.initPoint4X,y:70}];
         this.updateCanvas();
     }
 
@@ -183,7 +193,7 @@ export default connect(
     
     // insert points in canvas space
      var newPoint = {x: evt.offsetX - this.padding , y: (this.height - evt.offsetY) + this.padding}
-     console.log("newPoint: " +newPoint.x + " "+newPoint.y)
+     //console.log("newPoint: " +newPoint.x + " "+newPoint.y)
 
      var indexToBeInserted = - 1;
      for(var i = 0; i< this.nodes.length; i++)
@@ -203,10 +213,10 @@ export default connect(
         this.nodes.splice(indexToBeInserted, 0, newPoint);
      }
      
-     for(var i = 0; i< this.nodes.length; i++)
+     /*for(var i = 0; i< this.nodes.length; i++)
      {
         console.log(this.nodes[i].x + " " + this.nodes[i].y)
-     }
+     }*/
     
     
 
