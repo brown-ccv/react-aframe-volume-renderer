@@ -125,7 +125,7 @@ export default connect(
         let colorMapSelection;
         if(this.state.currentMapColor != '')  
         {
-          colorMapSelection = <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width="400"></img>       
+          colorMapSelection = <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width={this.props.width}></img>       
         }
         else{
           colorMapSelection = ''; 

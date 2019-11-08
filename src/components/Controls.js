@@ -10,6 +10,8 @@ import {myCheckButtonAction,myXSlideAction, myYSlideAction,
 import Select from 'react-select'
 import OpacityControl from './OpacityControl'
 import ColorMapControl from './ColorMappingController'
+import {Checkbox} from 'primereact/checkbox';
+
 const options = [
   { value: './assets/models/nrrd/00.nrrd:false', label: 'Spheroid' },
   { value: './assets/models/nrrd/simulation_data.nrrd:false', label: 'Simulation' },
@@ -66,7 +68,7 @@ export default connect(
   const value = target.type === 'checkbox' ? target.checked : target.value;
   const name = target.name;
   this.props.myCheckButtonAction(value);
-  console.log("handleCheckBoxInputChange " + value)
+  
   this.setState({
     activateColorMapping: value
   });
@@ -150,17 +152,13 @@ export default connect(
         <label>
           <br/>
           Enable Color Map &nbsp;
-         <input disabled = {(this.state.currentVolume == "") ? "disabled" : ""}
-           name="activateColorMapping"
-           type="checkbox"
-           checked={this.state.activateColorMapping}
-           onChange={this.handleCheckBoxInputChange}
-           />
+          <Checkbox tooltip="Enabled when a Volume is loaded" disabled={(this.state.currentVolume == "") ? true : false} onChange={this.handleCheckBoxInputChange} checked={this.state.activateColorMapping}></Checkbox>
+        
         </label>
        
           <div style={this.state.activateColorMapping ? {} : { display: 'none' }} >
-           <ColorMapControl  />
-           <OpacityControl/>
+           <ColorMapControl width="250" />
+           <OpacityControl  width="250" />
           </div>
      
        </div>
