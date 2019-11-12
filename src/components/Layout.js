@@ -20,7 +20,7 @@ export default class Layout extends Component {
     return (
 
       <div>  
-         <Sidebar className="ui-sidebar-lg" visible={this.state.sideBarVisible} onHide={(e) => this.setState({sideBarVisible:false})}>
+         <Sidebar modal={false} className="ui-sidebar-lg" visible={this.state.sideBarVisible} onHide={(e) => this.setState({sideBarVisible:false})}>
            <Controls/>
         </Sidebar>
 

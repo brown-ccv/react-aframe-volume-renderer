@@ -7,10 +7,11 @@ import 'rc-slider/assets/index.css';
 import {connect} from 'react-redux';
 import {myCheckButtonAction,myXSlideAction, myYSlideAction,
   myZSlideAction,myChangeVolumeAction,myChannelChanged,myCameraReset} from '../redux/AppActions'
-import Select from 'react-select'
+
 import OpacityControl from './OpacityControl'
 import ColorMapControl from './ColorMappingController'
 import {Checkbox} from 'primereact/checkbox';
+import {Dropdown} from 'primereact/dropdown';
 
 const options = [
   { value: './assets/models/nrrd/00.nrrd:false', label: 'Spheroid' },
@@ -48,8 +49,11 @@ export default connect(
         yslideValue: 0,
         zslideValue: 0,
         activateColorMapping: false,
-        currentChannel: 6
-        
+        currentChannel: 6,
+        currentData: null,
+        dataCurrentChannel: null,
+        dataRange: [0.0,100.0],
+
       };
 
       this.handleCheckBoxInputChange = this.handleCheckBoxInputChange.bind(this);
@@ -76,9 +80,10 @@ export default connect(
 
 
   xSlideHandleChange = (value) => {
-    
+    //console.log(e.value);
     this.setState({
       xslideValue:value,
+      //dataRange: e.value
     });
 
    this.props.myXSlideAction(value[0],value[1]);
@@ -103,7 +108,8 @@ export default connect(
   volumeSelectChanged = (selected) =>
   {
      this.setState({
-      currentVolume: selected.value
+      currentVolume: selected.value,
+      currentData:selected
      });
      var volumeProperties = selected.value.split(":");
      
@@ -113,7 +119,8 @@ export default connect(
   channelSelectChanged = (selected) =>
   {
     this.setState({
-      currentChannel: selected.value
+      currentChannel: selected.value,
+      dataCurrentChannel: selected
      });
      this.props.myChannelChanged(selected.value);
   }
@@ -138,14 +145,21 @@ export default connect(
 
         <label>Volume</label>
         <br/>
-        <Select options={options} onChange={this.volumeSelectChanged} />
+       
+       <Dropdown value={this.state.currentData} 
+       options={options} 
+       onChange={this.volumeSelectChanged} placeholder="Select Data"/>
+
         <div> 
         
         <br/> 
         <div  style={(this.state.currentVolume != "" ) ? {} : { display: 'none' }} >
 
           <label>Channel</label>
-          <Select isDisabled={this.state.activateColorMapping} options={channelOptions} onChange={this.channelSelectChanged} />
+           <br/>
+          <Dropdown disabled={this.state.activateColorMapping} value={this.state.dataCurrentChannel} 
+            options={channelOptions} 
+            onChange={this.channelSelectChanged} placeholder="Select Channel"/>
           <br/>
         </div>
 
@@ -171,20 +185,21 @@ export default connect(
 
          </label>
         
-         <Range disabled = {(this.state.currentVolume == "") ? true : false} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.xSlideHandleChange}/>
+         <Range  style={{width: '14em'}} disabled = {(this.state.currentVolume == "") ? true : false} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.xSlideHandleChange}/> 
+         
 
          <br/>
 
          <label>
          Y Slide <br/>
          </label>
-         <Range disabled = {(this.state.currentVolume == "") ? true : false} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.ySlideHandleChange}/>
+           <Range style={{width: '14em'}} disabled = {(this.state.currentVolume == "") ? true : false} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.ySlideHandleChange}/> 
          <br/>
 
          <label>
          Z Slide <br/>
          </label>
-         <Range disabled = {(this.state.currentVolume == "") ? true : false} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.zSlideHandleChange}/>
+           <Range style={{width: '14em'}} disabled = {(this.state.currentVolume == "") ? true : false} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.zSlideHandleChange}/> 
          </div>
 
       </div>
