@@ -53,6 +53,7 @@
 }
 /* Navbar */
 .nav {
+  flex-direction: row-reverse;
   position: fixed;
   background: #0098CE85;
   color: #fff;
