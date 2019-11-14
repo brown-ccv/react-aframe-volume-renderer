@@ -6,6 +6,6 @@ authors:
  - name: "Ben Knorlein"
    github_user: BenKnorlein
 repo_url:         https://github.com/brown-ccv/react-aframe-volume-renderer
-site_description: ""
+site_description: "This project is an effort to integrate data visualization on VR and web browser technologies. It was developed using React-JS and AFrame."
 docs_url:         
 type:             software    # required. choose one of [software, tutorial, workshop, documentation]
