@@ -3,6 +3,8 @@ site_name:        "Volume Renderer"
 authors:
  - name: "Camilo Diaz Rodriguez"
    github_user: kmilo9999
+ - name: "Ben Knorlein"
+   github_user: BenKnorlein
 repo_url:         https://github.com/brown-ccv/react-aframe-volume-renderer
 site_description: ""
 docs_url:         
