@@ -3,6 +3,8 @@ import ScrollAnim from 'rc-scroll-anim';
 import React, {Component} from 'react'
 import Controls from './Controls';
 import VolumeRenderer from './VolumeRenderer';
+import {Sidebar} from 'primereact/sidebar';
+import {Button} from 'primereact/button';
 
 import '../styles/scroll_nav.scss';
 
@@ -10,12 +12,20 @@ const Link = ScrollAnim.Link;
 const Element = ScrollAnim.Element;
 const EventListener = ScrollAnim.Event;
 
-
-
 export default class Layout extends Component {
+
+  constructor(props)
+  {
+    super(props);
+    this.state = {
+      sideBarVisible:false,
+    };
+  }
+
   render () {
     return (
 
+      
       <div>
         <div className="nav">
           <Link className="nav-list" to="page0">Home</Link>
@@ -58,7 +68,24 @@ export default class Layout extends Component {
         </Element>
         
 
+      <div>  
+         <Sidebar modal={false} className="ui-sidebar-lg" visible={this.state.sideBarVisible} onHide={(e) => this.setState({sideBarVisible:false})}>
+           <Controls/>
+        </Sidebar>
+
+        <div className="d-flex flex-column">
+          
+            <div className="control-button my-3 mx-5">
+              <Button icon="pi pi-arrow-right" label="Controls" onClick={(e) => this.setState({sideBarVisible:true})}/>
+            </div>
+
+            <div className="voume-renderer mx-1">
+              <VolumeRenderer/>
+            </div>
         </div>
+    
+    </div>
+    </div>
     );
 
   }

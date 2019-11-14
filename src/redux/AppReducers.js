@@ -17,7 +17,8 @@ const initialState = {
     alphaXDataArray: null,
     alphaYDataArray: null,
     currentColorMap:"",
-    channel:6
+    channel:6,
+    cameraState:"none"
   };
   
 
@@ -102,6 +103,12 @@ export const myReducer = function readCheckBox(state ={initialState},action){
                return { 
                   channel: action.payload,
                };
+            }
+        case "CAMERA_RESET":
+            {
+                return {
+                    cameraState: action.payload
+                };
             }     
         default:
             {

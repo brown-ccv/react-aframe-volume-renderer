@@ -94,3 +94,11 @@ export const myChannelChanged= function myChannelChanged(channel)
         payload:channel
       }
 }
+
+export const myCameraReset= function myCameraReset()
+{
+    return {
+        type:"CAMERA_RESET",
+        payload:"camera_reset"
+      }
+}
