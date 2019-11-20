@@ -53,7 +53,6 @@
 }
 /* Navbar */
 .nav {
-  flex-direction: row-reverse;
   position: fixed;
   background: #0098CE85;
   color: #fff;
@@ -62,6 +61,7 @@
   z-index: 9999;
   top: 0;
   min-width: 400px;
+  justify-content: flex-end;
 }
 .nav .nav-wap {
   float: right;
