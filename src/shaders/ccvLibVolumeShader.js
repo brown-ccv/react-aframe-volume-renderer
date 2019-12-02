@@ -197,7 +197,7 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 				'vec4 smple;',
 				'if (channel == 1){ ',
 					'smple = texture(u_data, dataPos).rrrr;',
-				'}else if (channel == 2){ ',
+				'}else if (channel == 2){ ',		
 					'smple = texture(u_data, dataPos).gggg; ',
 				'}else if (channel == 3){',
 					'smple = texture(u_data, dataPos).bbbb; ',
@@ -208,7 +208,18 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 				'}else{ ',
 					'smple = texture(u_data, dataPos);',
 					'smple.a = max(smple.r, max(smple.g,smple.b)) ; ',
+					'if(smple.a < 0.25)',
+					//'if(smple.a < 0.000001)',
+					'{',
+					 'smple.a = 0.1*smple.a;',
+					 //'discard;',
+					'}',
+					
 				'}',
+                
+
+
+
 				//'smple.a = max(smple.r, max(smple.g,smple.b)) ; ',
 				//'smple.a = 0.1*smple.a;',
                 'if(useLut)',

@@ -123,7 +123,8 @@ AFRAME.registerComponent('myloader', {
 		}
 
 
-		this.opacityControlPoints = [0, 0.1, 0.3, 0.5, 0.75, 0.8, 0.6, 0.5, 0.0];
+		//this.opacityControlPoints = [0, 0.1, 0.3, 0.5, 0.75, 0.8, 0.6, 0.5, 0.0];
+		this.opacityControlPoints = [0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
 
 
 		var jet_values = [[0, 0, 0.5],
@@ -155,8 +156,8 @@ AFRAME.registerComponent('myloader', {
 
 
 			pData.push([jet_values[i][0] * 255,
-			jet_values[i][1] * 255, jet_values[i][2] * 255,
-			this.opacityControlPoints[i] * 255]);
+			            jet_values[i][1] * 255, jet_values[i][2] * 255,
+			            this.opacityControlPoints[i] * 255]);
 			indices.push(index);
 
 		}
