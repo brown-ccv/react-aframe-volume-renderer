@@ -12,7 +12,7 @@ export default class Layout extends Component {
   {
     super(props);
     this.state = {
-      sideBarVisible:false,
+      sideBarVisible:true,
     };
   }
 
