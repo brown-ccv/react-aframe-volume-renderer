@@ -15,6 +15,9 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Form from 'react-bootstrap/Form';
 import FormControl from 'react-bootstrap/FormControl';
 
+import { ReactComponent as CCVLogo } from '../assets/ccv-logo.svg';
+import { ReactComponent as BrownLogo } from '../assets/brown-logo.svg';
+
 import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll';
 
 // const Link = ScrollAnim.Link;
@@ -40,10 +43,19 @@ export default class Layout extends Component {
         </Sidebar>
 
         <Navbar bg="light" expand="lg">
+          <a href="https://www.brown.edu">
+              <BrownLogo width={100} />
+          </a>
+          <a href="https://ccv.brown.edu">
+              <CCVLogo width={100}/>
+          </a>
           <Navbar.Brand href="#home">Web VR Volume Renderer</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
+              {/* <Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} >
+                <BrownLogo width={100} />
+              </Link> */}
               <Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} >Test 1</Link>
               {/* <Nav.Link href="#app">App</Nav.Link> */}
               {/* <Nav.Link href="#info">Info</Nav.Link> */}
@@ -62,58 +74,17 @@ export default class Layout extends Component {
             </div>
         </div>
 
-        <Element name="test1" className="element" >
+        <Element name="test1" className="element">
           <div id="info" class="light-page">
             <div className="light-page-title" key="title">
               <p>Web VR Volume Renderer</p>
             </div>
-            <p className="light-page-description">The Socio-Ecological City Project (SECP) is an intensive data collection effort 
-                        focused on assembling a comprehensive longitudinal geospatial dataset to better 
-                        understand the changing relationships between people, industrial hazards, and nature. 
-                        Focused on socio-environmental change in the city of Providence, RI over the past century, 
-                        the SECP has compiled information on every manufacturing facility operating in the state since 1953.
-                        We have also collected information on all parks, playgrounds, 
-                        cemeteries and schools that have existed in Providence since 1915. 
-                        Currently, we are compiling additional geospatial data that inventories hazardous retail sites
-                        such as gas stations, dry cleaners, and auto repair shops. When complete, the data and related 
-                        visual and statistical analyses will become available to the public through this website. 
-                        Our hope is that by making visible a treasure trove of lost historical knowledge about urban 
-                        land use (residential, industrial, and commercial) the website will function as a platform and 
-                        research tool for strengthening and forging new relationships with policymakers, planners, 
-                        regulatory agencies, and community and social justice organizations. 
-                        The SECP is committed to working toward environmental justice and the reduction or elimination 
-                        of environmental exposures, and promoting public health by assisting state regulators and
-                        legislators with systematic analyses of proposed and existing environmental health policies and 
-                        regulations. This website and research is supported by funds from the 
-                        <a href="https://www.niehs.nih.gov/"> National Institute of Environmental Health Sciences </a> through Brown University’s  
-                        <a href="https://www.brown.edu/research/projects/superfund/"> Superfund Research Program </a>, the <a href="https://www.brown.edu/academics/institute-environment-society/">Institute at Brown for Environment and Society</a>, 
-                        and seed grants from <a href="https://www.brown.edu/research/">Brown University Office of the Vice President for Research</a>, and <a href="https://www.brown.edu/initiatives/social-science-research/">Social 
-                        Science Research Institute</a>. Website design provided by the Brown University <a href="https://brown.edu/cis/data-science/">Data Science 
-                        Practice</a> group.
-                        
-                        The Socio-Ecological City Project (SECP) is an intensive data collection effort 
-                        focused on assembling a comprehensive longitudinal geospatial dataset to better 
-                        understand the changing relationships between people, industrial hazards, and nature. 
-                        Focused on socio-environmental change in the city of Providence, RI over the past century, 
-                        the SECP has compiled information on every manufacturing facility operating in the state since 1953.
-                        We have also collected information on all parks, playgrounds, 
-                        cemeteries and schools that have existed in Providence since 1915. 
-                        Currently, we are compiling additional geospatial data that inventories hazardous retail sites
-                        such as gas stations, dry cleaners, and auto repair shops. When complete, the data and related 
-                        visual and statistical analyses will become available to the public through this website. 
-                        Our hope is that by making visible a treasure trove of lost historical knowledge about urban 
-                        land use (residential, industrial, and commercial) the website will function as a platform and 
-                        research tool for strengthening and forging new relationships with policymakers, planners, 
-                        regulatory agencies, and community and social justice organizations. 
-                        The SECP is committed to working toward environmental justice and the reduction or elimination 
-                        of environmental exposures, and promoting public health by assisting state regulators and
-                        legislators with systematic analyses of proposed and existing environmental health policies and 
-                        regulations. This website and research is supported by funds from the 
-                        <a href="https://www.niehs.nih.gov/"> National Institute of Environmental Health Sciences </a> through Brown University’s  
-                        <a href="https://www.brown.edu/research/projects/superfund/"> Superfund Research Program </a>, the <a href="https://www.brown.edu/academics/institute-environment-society/">Institute at Brown for Environment and Society</a>, 
-                        and seed grants from <a href="https://www.brown.edu/research/">Brown University Office of the Vice President for Research</a>, and <a href="https://www.brown.edu/initiatives/social-science-research/">Social 
-                        Science Research Institute</a>. Website design provided by the Brown University <a href="https://brown.edu/cis/data-science/">Data Science 
-                        Practice</a> group.</p>
+            <p className="light-page-description">
+              
+              A web based volume visualizer application to support scientific 3D data built on top of webgl that will facilitate the access from any web browser, plus the benefits of VR.
+
+              It was implemented using A-frame, a javascript framework easy to learn, use and deploy. It sits on top of Three.js, which is the most used library to support 3D rendering on the web, and html which is the common tool to write static web pages. A-frame follows a composed based pattern, common on game and graphics engines. Additionally, it uses node js to easy deploy the modules the application is based on.
+            </p>
           </div>
         </Element>
       
