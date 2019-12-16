@@ -52,6 +52,10 @@
   }
 }
 /* Navbar */
+.navbar-header {
+  width: 1200px;
+}
+
 .nav {
   position: fixed;
   background: #0098CE85;
@@ -145,6 +149,7 @@
   padding-bottom: 50px;
 }
 /* Light Page */
+
 .light-page {
   width: 100%;
   height: 100vh;
@@ -153,6 +158,16 @@
   text-align: center;
   overflow: hidden;
 }
+
+.light-page-new {
+  width: 100%;
+  height: 100vh;
+  background-color: #e6c056;
+  margin: 0 auto;
+  text-align: center;
+  overflow: hidden;
+}
+
 .light-page-title {
   padding-top: 20vh;
 }
@@ -165,6 +180,7 @@
   padding-top: 20px;
   padding-left: 50px;
   padding-right: 50px;
+  text-align: justify;
 }
 .light-page-description p {
   font-size: 20px;
@@ -194,4 +210,8 @@
 /* selected link */
 .light-page-description a:active {
   color: #98ce00;
+}
+
+.test1 {
+  font-size: 1.25rem;
 }
