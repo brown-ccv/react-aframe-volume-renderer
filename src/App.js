@@ -1,8 +1,6 @@
 import 'aframe'
-import 'super-hands'
+//import './libs/aframe'
 import 'aframe-event-set-component'
-import 'aframe-physics-system'
-import 'aframe-physics-extras'
 import 'aframe-orbit-controls'
 
 import React, {Component} from 'react'
