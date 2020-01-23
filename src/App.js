@@ -1,8 +1,6 @@
 import 'aframe'
-import 'super-hands'
+//import './libs/aframe'
 import 'aframe-event-set-component'
-import 'aframe-physics-system'
-import 'aframe-physics-extras'
 import 'aframe-orbit-controls'
 
 import React, {Component} from 'react'
@@ -14,6 +12,7 @@ import './components/my-loader.js'
 import './components/my-buttons-check.js'
 import './components/render-2d-clipplane'
 import './components/cursor-listener'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Layout from './components/Layout'
 
@@ -24,7 +23,7 @@ class App extends Component {
   render () {
     return (
       <div>
-        <Navbar/>
+        {/* <Navbar/> */}
         <Layout/>
         <BrownFooter/>
       </div>
