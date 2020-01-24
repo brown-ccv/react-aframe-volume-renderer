@@ -36,7 +36,8 @@
     "react-spinners": "^0.6.1",
     "redux": "^4.0.4",
     "styled-components": "^4.4.0",
-    "super-hands": "^3.0.0"
+    "super-hands": "^3.0.0",
+    "typescript": "^3.7.5"
   },
   "optionalDependency": {
     "brown-university-styles": "git+https://bitbucket.brown.edu/scm/react/brown-university-styles.git"

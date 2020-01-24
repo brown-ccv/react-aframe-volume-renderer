@@ -4,7 +4,7 @@ import React, {Component} from 'react'
 import Controls from './Controls';
 import VolumeRenderer from './VolumeRenderer';
 import {Sidebar} from 'primereact/sidebar';
-import {Button} from 'primereact/button';
+//import {Button} from 'primereact/button';
 
 import ScrollAnim from 'rc-scroll-anim';
 import '../styles/scroll_nav.scss';
@@ -39,9 +39,9 @@ export default class Layout extends Component {
     return (
 
       <div>  
-         <Sidebar modal={false} className="ui-sidebar-lg" visible={this.state.sideBarVisible} onHide={(e) => this.setState({sideBarVisible:false})}>
+       {/*  <Sidebar modal={false} className="ui-sidebar-lg" visible={this.state.sideBarVisible} onHide={(e) => this.setState({sideBarVisible:false})}>
            <Controls/>
-        </Sidebar>
+    </Sidebar> */}
 
         <Navbar bg="light" expand="lg">
           <div className="navbar-header">
@@ -70,9 +70,9 @@ export default class Layout extends Component {
         
         <div className="d-flex flex-column" id="app">
           
-            <div className="control-button my-3 mx-5">
+            {/*<div className="control-button my-3 mx-5">
               <Button icon="pi pi-arrow-right" label="Controls" onClick={(e) => this.setState({sideBarVisible:true})}/>
-            </div>
+            </div>*/}
 
             <div className="voume-renderer mx-1">
               <VolumeRenderer/>
