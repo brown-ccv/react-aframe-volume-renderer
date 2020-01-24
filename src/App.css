@@ -70,3 +70,11 @@
 .ccv-logo .v {
   fill: #FFC72C;
 }
+
+.p-sidebar {
+  position: absolute!important;
+}
+
+.p-sidebar-left {
+  top: auto !important;
+}
