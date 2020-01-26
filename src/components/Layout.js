@@ -85,10 +85,21 @@ export default class Layout extends Component {
               <p>Web VR Volume Renderer</p>
             </div>
             <p className="light-page-description">
-              
-              A web based volume visualizer application to support scientific 3D data built on top of webgl that will facilitate the access from any web browser, plus the benefits of VR.
+              The Center for Computation and Visulization at Brown University (<a href="https://ccv.brown.edu/">CCV</a>)
+              is always searching and developing tools to help researchers visualizating and analizing their data.
+              Thinking on how to facilitate the access to scienctific data from any type of device and location, and using 
+              the latests techonologies on web development and web 3D rendering and Virtual Reality (VR), this application 
+              is presented as a an initative to address those goals.<br/>
+               
 
-              It was implemented using A-frame, a javascript framework easy to learn, use and deploy. It sits on top of Three.js, which is the most used library to support 3D rendering on the web, and html which is the common tool to write static web pages. A-frame follows a composed based pattern, common on game and graphics engines. Additionally, it uses node js to easy deploy the modules the application is based on.
+              This is a VR - web 3D volume visualizer application built on top of webgl and <a href="https://aframe.io/">aframe</a>.
+              The main goal is to provide a shared and interactive environment to explore volume data, plus the benefits of VR.
+              CCV encourages researchers from any field and background interested on using this applicaiton, and to contact us on how 
+              it can be used on your studies.<br/>
+
+              The visualization group at CCV is in charge of implementing applications to display 3D data on any kind of Desktop,
+              web browser and VR devices. With Over 5 years of experience, it has helped developing projects for the 
+
             </p>
           </div>
         </Element>
