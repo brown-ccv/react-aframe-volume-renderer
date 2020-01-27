@@ -1,5 +1,5 @@
 # build environment
-FROM node:alpine as build
+FROM node:12-alpine as build
 RUN apk add --no-cache git
 
 WORKDIR /app
