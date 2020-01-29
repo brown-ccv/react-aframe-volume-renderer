@@ -19,6 +19,12 @@ import FormControl from 'react-bootstrap/FormControl';
 import { ReactComponent as CCVLogo } from '../assets/black-ccv-logo.svg';
 import { ReactComponent as BrownLogo } from '../assets/brown-logo.svg';
 
+import Kalvin from './kalkal.jpg';
+import Camilo from './camilo.jpg';
+import Ben from './ben.jpg';
+
+import Flexbox from 'flexbox-react';
+
 import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll';
 
 // const Link = ScrollAnim.Link;
@@ -60,8 +66,8 @@ export default class Layout extends Component {
               {/* <Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} >
                 <BrownLogo width={100} />
               </Link> */}
-              <Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} >Info&nbsp;</Link>
-              <Link activeClass="active" className="test1" to="test2" spy={true} smooth={true} duration={500} >&nbsp;People</Link>
+              <Link activeClass="active" className="test1" to="infoTarget" spy={true} smooth={true} duration={500} >Info&nbsp;</Link>
+              <Link activeClass="active" className="test1" to="peopleTarget" spy={true} smooth={true} duration={500} >&nbsp;People</Link>
               {/* <Nav.Link href="#app">App</Nav.Link> */}
               {/* <Nav.Link href="#info">Info</Nav.Link> */}
             </Nav>
@@ -79,7 +85,7 @@ export default class Layout extends Component {
             </div>
         </div>
 
-        <Element name="test1" className="element">
+        <Element name="infoTarget" className="element">
           <div id="info" class="light-page">
             <div className="light-page-title" key="title">
               <p>Web VR Volume Renderer</p>
@@ -93,16 +99,32 @@ export default class Layout extends Component {
           </div>
         </Element>
 
-        <Element name="test2" className="element">
+        <Element name="peopleTarget" className="element">
           <div id="info" class="light-page-new">
             <div className="light-page-title" key="title">
               <p>People</p>
             </div>
-            <p className="light-page-description">
-              
-              A web based volume visualizer application to support scientific 3D data built on top of webgl that will facilitate the access from any web browser, plus the benefits of VR.
-
-              It was implemented using A-frame, a javascript framework easy to learn, use and deploy. It sits on top of Three.js, which is the most used library to support 3D rendering on the web, and html which is the common tool to write static web pages. A-frame follows a composed based pattern, common on game and graphics engines. Additionally, it uses node js to easy deploy the modules the application is based on.
+            <p className="light-page-description flex-adjustments">             
+              <Flexbox display="flex" flexDirection="row" justifyContent="space-around" minHeight="100vh">
+                <Flexbox element="div" justifyContent="center" height="60px" width="33%">
+                  <Flexbox display="flex" flexDirection="column">
+                    <img src={Camilo} height="200px"></img>
+                    Person 1
+                  </Flexbox>
+                </Flexbox>
+                <Flexbox element="div" justifyContent="center" height="60px" width="33%">
+                  <Flexbox display="flex" flexDirection="column">
+                      <img src={Ben} height="200px"></img>
+                      Person 1
+                  </Flexbox>
+                </Flexbox>
+                <Flexbox element="div" justifyContent="center" height="60px" width="33%">
+                  <Flexbox display="flex" flexDirection="column">
+                      <img src={Kalvin} height="200px"></img>
+                      Person 1
+                  </Flexbox>
+                </Flexbox>
+              </Flexbox>
             </p>
           </div>
         </Element>
