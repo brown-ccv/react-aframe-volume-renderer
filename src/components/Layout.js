@@ -109,19 +109,28 @@ export default class Layout extends Component {
                 <Flexbox element="div" justifyContent="center" height="60px" width="33%">
                   <Flexbox display="flex" flexDirection="column">
                     <img src={Camilo} height="200px"></img>
-                    Person 1
+                    <div>
+                      <a href="mailto:camilo_diaz@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Camilo Diaz</a>
+                      <br /><a href="https://github.com/kmilo9999" target="_blank">Github</a>
+                    </div>
                   </Flexbox>
                 </Flexbox>
                 <Flexbox element="div" justifyContent="center" height="60px" width="33%">
                   <Flexbox display="flex" flexDirection="column">
-                      <img src={Ben} height="200px"></img>
-                      Person 1
+                    <img src={Ben} height="200px"></img>
+                    <div>
+                      <a href="mailto:benjamin_knorlein@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Benjamin Knörlein</a>
+                      <br /><a href="https://github.com/BenKnorlein" target="_blank">Github</a>
+                    </div>
                   </Flexbox>
                 </Flexbox>
                 <Flexbox element="div" justifyContent="center" height="60px" width="33%">
                   <Flexbox display="flex" flexDirection="column">
-                      <img src={Kalvin} height="200px"></img>
-                      Person 1
+                    <img src={Kalvin} height="200px"></img>
+                    <div>
+                      <a href="mailto:kalvin_lam@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Kalvin Lam</a>
+                      <br /><a href="https://github.com/theklam" target="_blank">Github</a>
+                    </div>
                   </Flexbox>
                 </Flexbox>
               </Flexbox>
