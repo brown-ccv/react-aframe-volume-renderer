@@ -189,17 +189,22 @@
   margin-right: 5rem;
   text-align: justify;
 }
+
+.flex-adjustments {
+  text-align: center;
+}
+
 /* .light-page-description a{
   color: #0098CE85;
 } */
 /* unvisited link */
 .light-page-description a:link {
-  color: #FFF910;
+  color: rgb(0, 0, 0);
 }
 
 /* visited link */
 .light-page-description a:visited {
-  color: #FFF910;
+  color: rgb(0, 0, 0)
 }
 
 /* mouse over link */
