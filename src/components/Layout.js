@@ -18,6 +18,7 @@ import FormControl from 'react-bootstrap/FormControl';
 
 import { ReactComponent as CCVLogo } from '../assets/black-ccv-logo.svg';
 import { ReactComponent as BrownLogo } from '../assets/brown-logo.svg';
+import { ReactComponent as Github} from '../assets/github-brands.svg';
 
 import Kalvin from './kalkal.jpg';
 import Camilo from './camilo.jpg';
@@ -59,14 +60,14 @@ export default class Layout extends Component {
                 <CCVLogo width={100}/>
             </a>
           </div>
-          <Navbar.Brand href="#home">Web VR Volume Renderer</Navbar.Brand>
+          <Navbar.Brand href="#home">Home</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
               {/* <Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} >
                 <BrownLogo width={100} />
               </Link> */}
-              <Link activeClass="active" className="test1" to="infoTarget" spy={true} smooth={true} duration={500} >Info&nbsp;</Link>
+              <Link activeClass="active" className="test1 text-color" to="infoTarget" spy={true} smooth={true} duration={500} >Info&nbsp;</Link>
               <Link activeClass="active" className="test1" to="peopleTarget" spy={true} smooth={true} duration={500} >&nbsp;People</Link>
               {/* <Nav.Link href="#app">App</Nav.Link> */}
               {/* <Nav.Link href="#info">Info</Nav.Link> */}
@@ -111,7 +112,7 @@ export default class Layout extends Component {
                     <img src={Camilo} height="200px"></img>
                     <div>
                       <a href="mailto:camilo_diaz@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Camilo Diaz</a>
-                      <br /><a href="https://github.com/kmilo9999" target="_blank">Github</a>
+                      <br /><a href="https://github.com/kmilo9999" target="_blank"><Github width={30} /></a>
                     </div>
                   </Flexbox>
                 </Flexbox>
@@ -120,7 +121,7 @@ export default class Layout extends Component {
                     <img src={Ben} height="200px"></img>
                     <div>
                       <a href="mailto:benjamin_knorlein@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Benjamin Knörlein</a>
-                      <br /><a href="https://github.com/BenKnorlein" target="_blank">Github</a>
+                      <br /><a href="https://github.com/BenKnorlein" target="_blank"><Github width={30} /></a>
                     </div>
                   </Flexbox>
                 </Flexbox>
@@ -129,7 +130,7 @@ export default class Layout extends Component {
                     <img src={Kalvin} height="200px"></img>
                     <div>
                       <a href="mailto:kalvin_lam@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Kalvin Lam</a>
-                      <br /><a href="https://github.com/theklam" target="_blank">Github</a>
+                      <br /><a href="https://github.com/theklam" target="_blank"><Github width={30} /></a>
                     </div>
                   </Flexbox>
                 </Flexbox>
