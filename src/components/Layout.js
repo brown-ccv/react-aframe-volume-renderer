@@ -28,10 +28,6 @@ import Flexbox from 'flexbox-react';
 
 import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll';
 
-// const Link = ScrollAnim.Link;
-// const Element = ScrollAnim.Element;
-// const EventListener = ScrollAnim.Event;
-
 export default class Layout extends Component {
 
   constructor(props)
@@ -64,11 +60,7 @@ export default class Layout extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              {/* <Link activeClass="active" className="test1" to="test1" spy={true} smooth={true} duration={500} >
-                <BrownLogo width={100} />
-              </Link> */}
-              {/* <Link activeClass="active" className="test1 text-color" to="infoTarget" spy={true} smooth={true} duration={500} >Info&nbsp;</Link>
-              <Link activeClass="active" className="test1" to="peopleTarget" spy={true} smooth={true} duration={500} >&nbsp;People</Link> */}
+             
               <Nav.Link href="#infoTarget">Info</Nav.Link>
               <Nav.Link href="#peopleTarget">People</Nav.Link>
             </Nav>
