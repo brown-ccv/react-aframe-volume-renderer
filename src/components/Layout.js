@@ -92,21 +92,37 @@ export default class Layout extends Component {
               <p>Web VR Volume Renderer</p>
             </div>
             <p className="light-page-description">
-              The Center for Computation and Visulization at Brown University (<a href="https://ccv.brown.edu/">CCV</a>)
-              is always searching and developing tools to help researchers visualizating and analizing their data.
-              Thinking on how to facilitate the access to scienctific data from any type of device and location, and using 
-              the latests techonologies on web development and web 3D rendering and Virtual Reality (VR), this application 
-              is presented as a an initative to address those goals.<br/>
-               
-
-              This is a VR - web 3D volume visualizer application built on top of webgl and <a href="https://aframe.io/">aframe</a>.
-              The main goal is to provide a shared and interactive environment to explore volume data, plus the benefits of VR.
-              CCV encourages researchers from any field and background interested on using this applicaiton, and to contact us on how 
-              it can be used on your studies.<br/>
-
-              The visualization group at CCV is in charge of implementing applications to display 3D data on any kind of Desktop,
-              web browser and VR devices. With Over 5 years of experience, it has helped developing projects for the 
-
+            <p>
+            The Center for Computation and Visulization at Brown University (<a href="https://ccv.brown.edu/">CCV</a>)
+is always searching and developing tools to help researchers visualizating and analizing their data.
+Thinking on how to facilitate the access to scienctific data from any type of device and location, and using
+the latests techonologies on web development, web 3D rendering and Virtual Reality (VR), this application
+is presented as a an initative to address those goals.<br/>
+</p>
+<p>
+This page demonstrates a VR-capable 3D volume visualization tool built
+on top of webgl and <a href="https://aframe.io/">aframe</a>. The main
+goal of the project is to provide an easily accessible and interactive
+environment to explore and showcase volumetric data with the added
+benefits of Virtual Reality if VR-capable hardware is available. The
+Center for Computation and Visualization at Brown University  (<a
+href="https://ccv.brown.edu/">CCV</a>) encourages researchers from any
+field and background interested in using this application to contact us
+about how it can be used for your research projects.<br/>
+</p>
+<p>
+CCV's goal is to help researchers in visualizing and analyzing their
+data and provides tools which facilitate the access to scientific data
+from any type of device and location by using the latest technologies on
+web development, 3D web rendering and Virtual Reality (VR). With over 5
+years of experience, it has assisted researchers in projects at Brown
+University and affiliated RI institutions.<br/>
+</p>
+<p>
+This work was supported by the NSF EPSCoR grant 1655221: "RII Track-1:
+Rhode Island Consortium for Coastal Ecology Assessment, Innovation, and
+Modeling (C-AIM)"<br/>
+</p>
             </p>
           </div>
         </Element>
