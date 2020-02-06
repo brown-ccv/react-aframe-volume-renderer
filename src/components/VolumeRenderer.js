@@ -63,7 +63,7 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
         className="ui-sidebar-sm" 
         visible={this.state.sideBarVisible} 
         onHide={(e) => this.setState({sideBarVisible:false})}
-        style={{width:'20em', height:'39em'}}    >
+        style={{width:'20em', height:'45em'}}    >
            <Controls/>
     </Sidebar> 
 
