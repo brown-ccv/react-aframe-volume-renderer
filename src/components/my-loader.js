@@ -270,68 +270,25 @@ AFRAME.registerComponent('myloader', {
 				console.log("use Transferfunction");
 				useTransferFunction = true;
 			}
-			//useTransferFunction = true;
-			new NRRDLoader().load(this.data.volumeData, function (volume) {
-				var texture = new THREE.DataTexture3D(volume.data, volume.xLength, volume.yLength, volume.zLength);
-				//console.log("volume.arrayType "+volume.header.type);
 
-
-				var volumeScale = [1.0 / (volume.xLength * volume.spacing[0]),
-				1.0 / (volume.yLength * volume.spacing[1]),
-				1.0 / (volume.zLength * volume.spacing[2])];
+			//load as 2D texture
+			new THREE.TextureLoader().load(this.data.volumeData, function (texture) {
+		
+				//read parameters from filename
+				var splittedName = data.volumeData.split("_");
+				var slice =  parseInt(splittedName[splittedName.length - 4]);
+				var d1 =  parseFloat(splittedName[splittedName.length - 3]);
+				var d2 =  parseFloat(splittedName[splittedName.length - 2]);
+				var d3 =  parseFloat(splittedName[splittedName.length - 1]);
+				
+				var dim = Math.ceil(Math.sqrt(slice));
+				var spacing = [d1, d2, d3];
+				
+				var volumeScale = [	1.0 / (texture.image.width / dim * spacing[0]),
+									1.0 / (texture.image.height / dim * spacing[1]),
+									1.0 / (slice * spacing[2]) ];
 
 				var zScale = volumeScale[0] / volumeScale[2];
-
-				if (volume.header.dim == 3) {
-					texture.format = THREE.RedFormat;
-				}
-				else {
-					texture.format = THREE.RGBAFormat;
-				}
-
-				//texture.type = THREE.UnsignedByteType;
-				switch (volume.header.type) {
-
-					// 1 byte data types
-					case 'uchar':
-						break;
-					case 'schar':
-						texture.type = THREE.IntType;
-						break;
-					// 2 byte data types
-					case 'ushort':
-						texture.type = THREE.UnsignedShortType;
-						break;
-					case 'sshort':
-						texture.type = THREE.ShortType;
-
-						break;
-					// 4 byte data types
-					case 'uint':
-						texture.type = THREE.UnsignedIntType;
-
-						break;
-					case 'sint':
-						texture.type = THREE.IntType;
-
-						break;
-					case 'float':
-						texture.type = THREE.FloatType;
-
-						break;
-					case 'complex':
-						texture.type = THREE.FloatType;
-
-						break;
-					case 'double':
-						texture.type = THREE.FloatType;
-
-						break;
-
-				}
-
-				//texture.format =  THREE.RGBAFormat;
-				//texture.type = THREE.UnsignedByteType;
 
 				texture.minFilter = texture.magFilter = THREE.LinearFilter;
 				texture.unpackAlignment = 1;
@@ -353,6 +310,8 @@ AFRAME.registerComponent('myloader', {
 				uniforms["clipping"].value = false;
 				uniforms["threshold"].value = 1;
 				uniforms["multiplier"].value = 1;
+				uniforms["slice"].value = slice;
+				uniforms["dim"].value = dim;
 
 				if (!useTransferFunction) {
 					console.log("NOT USING LUT");
@@ -374,8 +333,6 @@ AFRAME.registerComponent('myloader', {
 				uniforms["box_min"].value = new THREE.Vector3(0, 0, 0);;
 				uniforms["box_max"].value = new THREE.Vector3(1, 1, 1);;
 
-
-
 				var material = new THREE.ShaderMaterial({
 					uniforms: uniforms,
 					transparent: true,
@@ -387,8 +344,6 @@ AFRAME.registerComponent('myloader', {
 
 				var geometry = new THREE.BoxGeometry(1, 1, 1);
 				//geometry.translate( -0.5, - 0.5, - 0.5 );
-
-
 
 				el.setObject3D('mesh', new THREE.Mesh(geometry, material));
 				data.modelLoaded = true;

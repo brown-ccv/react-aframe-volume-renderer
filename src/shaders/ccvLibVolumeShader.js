@@ -3,6 +3,8 @@
 THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
   uniforms: {
 	//"u_mvp": { value: new THREE.Matrix4() },
+	"slice": { value: 1.0 },
+	"dim": { value: 1.0 },
 	"clipPlane": { value: new THREE.Matrix4() },
 	"clipping": { value: false },
 	"threshold": { value: 1 },
@@ -90,6 +92,29 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
          'return Result;',
         '}',
 		
+		'#define FILTER_LIN 1',
+		'uniform float slice;',
+		'uniform float dim;',
+		
+		'vec4 sampleAs3DTexture(sampler2D tex, vec3 texCoord) {',
+
+			'float sliceSize = 1.0 / slice;',                 	 					// space of 1 slice		
+			'float zSlice0 = floor(texCoord.z / sliceSize);' ,  					//first slice
+			'float zSlice1 = min(zSlice0 + 1.0f,slice-1.0f);'	,	   				//second slice
+			'vec2 pos1 = vec2(mod(zSlice0,dim), dim - floor(zSlice0/dim) - 1.0f);',	 //texture position 1
+			'vec2 pos2 = vec2(mod(zSlice1,dim), dim - floor(zSlice1/dim) - 1.0f);',  //texture position 2
+			'vec2 coords1 = vec2(texCoord.x / dim + pos1.x / dim, texCoord.y / dim + pos1.y / dim);', //texture coords 1
+			'vec2 coords2 = vec2(texCoord.x / dim + pos2.x / dim, texCoord.y / dim + pos2.y / dim);', //texture coords 2
+			'#if FILTER_LIN',
+			'  vec4 slice0Color = texture2D(tex, coords1);', 		//texture lookup 1
+			'  vec4 slice1Color = texture2D(tex, coords2);', 		//texture lookup 2
+			'  float zOffset = (texCoord.z * slice - zSlice0);', 	//blending factor
+			'  return mix(slice0Color,slice1Color, zOffset);',		//interpolated color
+			'#else',
+			  'return texture2D(tex, coords1);',
+			'#endif',
+		  '}',
+		
 		'vec2 intersect_box(vec3 orig, vec3 dir, vec3 minBox, vec3 maxBox ) {',
 		  'vec3 my_box_min = minBox;',
 		  'vec3 my_box_max = maxBox;',
@@ -105,7 +130,7 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 		
 		'precision mediump sampler3D;',
 		'smooth in vec3 vUV;',						//3D texture coordinates form vertex shader interpolated by rasterizer
-		'uniform sampler3D u_data;',				//volume dataset
+		'uniform sampler2D u_data;',				//volume dataset
 		'uniform mat4 clipPlane; ',
 		'uniform bool clipping;',
 		'uniform float threshold;',
@@ -196,17 +221,17 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 		        // data fetching from the red channel of volume texture
 				'vec4 smple;',
 				'if (channel == 1){ ',
-					'smple = texture(u_data, dataPos).rrrr;',
+					'smple = sampleAs3DTexture(u_data, dataPos).rrrr;',
 				'}else if (channel == 2){ ',		
-					'smple = texture(u_data, dataPos).gggg; ',
+					'smple = sampleAs3DTexture(u_data, dataPos).gggg; ',
 				'}else if (channel == 3){',
-					'smple = texture(u_data, dataPos).bbbb; ',
+					'smple = sampleAs3DTexture(u_data, dataPos).bbbb; ',
 				'}else if (channel == 4){ ',
-					'smple = texture(u_data, dataPos).aaaa; ',
+					'smple = sampleAs3DTexture(u_data, dataPos).aaaa; ',
 				'}else if (channel == 5){ ',
-					'smple = texture(u_data, dataPos); ',
+					'smple = sampleAs3DTexture(u_data, dataPos); ',
 				'}else{ ',
-					'smple = texture(u_data, dataPos);',
+					'smple = sampleAs3DTexture(u_data, dataPos);',
 					'smple.a = max(smple.r, max(smple.g,smple.b)) ; ',
 					'if(smple.a < 0.25)',
 					//'if(smple.a < 0.000001)',
@@ -223,7 +248,7 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 				//'smple.a = max(smple.r, max(smple.g,smple.b)) ; ',
 				//'smple.a = 0.1*smple.a;',
                 'if(useLut)',
-					'smple = texture2D(u_lut, vec2(smple.a,0.5));',
+					'smple = texture2D(u_lut, vec2(clamp(smple.a,0.0f,1.0f),0.5));',
 				
 				//assume alpha is the highest channel and gamma correction
 				//"sample.a = pow(sample.a , multiplier); \n"  ///needs changing
