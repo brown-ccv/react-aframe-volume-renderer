@@ -3,10 +3,7 @@ import {Entity, Scene} from 'aframe-react';
 import React, {Component} from 'react'
 import { connect } from "react-redux";
 import Spinner from './Spinner'
-import {Sidebar} from 'primereact/sidebar';
-import Controls from './Controls';
-import {Button} from 'primereact/button';
-import '../App.css'
+import '../../App.css'
 
 const mapStateToProps = state => {
 
@@ -38,15 +35,10 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
   constructor(props)
   {
     super(props);
-    this.modelLoad = this.modelLoad.bind(this);
+    
     this.state = {
       sideBarVisible:true,
     };
-  }
-
-  modelLoad()
-  {
-    console.log("LABEL CHANGED");
   }
 
   render () {
@@ -56,16 +48,7 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
 
 
         <div className="aframe-container" > 
-<div className="control-button my-3 mx-5">
-              <Button icon="pi pi-arrow-right" label="Controls" onClick={(e) => this.setState({sideBarVisible:true})}/>
-            </div>
-     <Sidebar modal={false} 
-        className="ui-sidebar-sm" 
-        visible={this.state.sideBarVisible} 
-        onHide={(e) => this.setState({sideBarVisible:false})}
-        style={{width:'20em', height:'45em'}}    >
-           <Controls/>
-    </Sidebar> 
+         
 
           <div id="modelLoaded" style={{display:'none'}}>
            <Spinner></Spinner>

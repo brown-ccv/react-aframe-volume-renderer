@@ -6,7 +6,7 @@ import 'rc-slider/assets/index.css';
 
 import {connect} from 'react-redux';
 import {myCheckButtonAction,myXSlideAction, myYSlideAction,
-  myZSlideAction,myChangeVolumeAction,myChannelChanged,myCameraReset} from '../redux/AppActions'
+  myZSlideAction,myChangeVolumeAction,myChannelChanged,myCameraReset} from '../../redux/AppActions'
 
 import OpacityControl from './OpacityControl'
 import ColorMapControl from './ColorMappingController'
@@ -33,7 +33,8 @@ const Range = Slider.Range;
 
 const mapStateToProps = state => {
   return { 
-    currentColorMap: state.currentColorMap
+    currentColorMap: state.currentColorMap,
+    volumeData: state.volumeData
    };
 };
 
@@ -65,6 +66,9 @@ export default connect(
       this.zSlideHandleChange = this.zSlideHandleChange.bind(this);
       this.volumeSelectChanged = this.volumeSelectChanged.bind(this);
       this.channelSelectChanged = this.channelSelectChanged.bind(this);
+
+      this.volumeChangedEvent = this.volumeChangedEvent.bind(this);
+
       this.resetCamera = this.resetCamera.bind(this);
  }
 
@@ -106,6 +110,12 @@ export default connect(
 
    this.props.myZSlideAction(value[0],value[1]);
   };
+
+  volumeChangedEvent = ()=>
+  {
+    console.log("volumeChangedEvent");
+    return this.props.volumeData == "" || this.props.volumeData === undefined ? true : false;
+  }
 
   volumeSelectChanged = (selected) =>
   {
@@ -168,8 +178,10 @@ export default connect(
         <label>
           <br/>
           Enable Color Map &nbsp;
-          <Checkbox tooltip="Enabled when a Volume is loaded" disabled={(this.state.currentVolume == "") ? true : false} onChange={this.handleCheckBoxInputChange} checked={this.state.activateColorMapping}></Checkbox>
-        
+          <Checkbox id="colorMapCheckBox" tooltip="Enabled when a Volume is loaded" 
+            disabled={(this.props.volumeData == "" || this.props.volumeData === undefined ? true : false)} 
+            onChange={this.handleCheckBoxInputChange} checked={this.state.activateColorMapping}>
+          </Checkbox> 
         </label>
        
           <div style={this.state.activateColorMapping ? {} : { display: 'none' }} >
@@ -187,7 +199,7 @@ export default connect(
 
          </label>
         
-         <Range  style={{width: '14em'}} disabled = {(this.state.currentVolume == "") ? true : false} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.xSlideHandleChange}/> 
+         <Range  style={{width: '14em'}} disabled = {(this.props.volumeData == "" || this.props.volumeData === undefined) ? true : false} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.xSlideHandleChange}/> 
          
 
          <br/>
@@ -195,13 +207,13 @@ export default connect(
          <label>
          Y Slide <br/>
          </label>
-           <Range style={{width: '14em'}} disabled = {(this.state.currentVolume == "") ? true : false} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.ySlideHandleChange}/> 
+           <Range style={{width: '14em'}} disabled = {(this.props.volumeData == "" || this.props.volumeData === undefined) ? true : false} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.ySlideHandleChange}/> 
          <br/>
 
          <label>
          Z Slide <br/>
          </label>
-           <Range style={{width: '14em'}} disabled = {(this.state.currentVolume == "") ? true : false} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.zSlideHandleChange}/> 
+           <Range style={{width: '14em'}} disabled = {(this.props.volumeData == "" || this.props.volumeData === undefined) ? true : false} allowCross={false} step={0.0009} defaultValue={[0, 1]} min={0} max={1} onChange={this.zSlideHandleChange}/> 
          </div>
 
       </div>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
-import '../App.css'
+import '../../App.css'
 import { connect } from "react-redux";
-import {myChangePoint1,myChangePoint2,myChangeLowNode,myChangeHighNode,mySendAlphaPoints} from '../redux/AppActions'
+import {myChangePoint1,myChangePoint2,myChangeLowNode,myChangeHighNode,mySendAlphaPoints} from '../../redux/AppActions'
 
 export default connect(
     null,

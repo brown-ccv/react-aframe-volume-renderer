@@ -8,13 +8,13 @@ import React, {Component} from 'react'
 import Navbar from 'react-brownccv/dist/components/Navbar'
 import BrownFooter from 'react-brownccv/dist/components/BrownFooter'
 import './App.css'
-import './components/my-loader.js'
-import './components/my-buttons-check.js'
-import './components/render-2d-clipplane'
-import './components/cursor-listener'
+import './components/Aframe/my-loader.js'
+import './components/Aframe/my-buttons-check.js'
+import './components/Aframe/render-2d-clipplane'
+import './components/Aframe/cursor-listener'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import Layout from './components/Layout'
+import Layout from './components/React/Layout'
 
 
 

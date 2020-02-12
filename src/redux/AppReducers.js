@@ -8,6 +8,7 @@ const initialState = {
     zSlideValueMin: 0,
     zSlideValueMax: 0,
     volumeData:"",
+    volumeData2:"",
     transferFunction: false,
     colorMap:"",
     opacity1:0,
@@ -17,8 +18,7 @@ const initialState = {
     alphaXDataArray: null,
     alphaYDataArray: null,
     currentColorMap:"",
-    channel:6,
-    cameraState:"none"
+    channel:6
   };
   
 
@@ -50,6 +50,7 @@ export const myReducer = function readCheckBox(state ={initialState},action){
         case "VOLUME_CHANGED":
             {
                 return { volumeData : action.payload,
+                    volumeData2:action.payload,
                     transferFunction: action.payload2
                 };
             }                 
@@ -101,20 +102,16 @@ export const myReducer = function readCheckBox(state ={initialState},action){
         case "CHANNEL_CHANGED":
             {
                return { 
-                  channel: action.payload,
+                channel: action.payload,
                };
-            }
-        case "CAMERA_RESET":
-            {
-                return {
-                    cameraState: action.payload
-                };
             }     
         default:
             {
                 return { 
                     checkBoxValue : false,
-                    transferFunction: false
+                    transferFunction: false,
+                    volumeData:"",
+                    currentColorMap:""
                 };
             }            
     }
