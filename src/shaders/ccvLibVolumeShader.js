@@ -39,6 +39,68 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
         '}',
 		
 		
+
+		'mat4 inverse(mat4 m){',
+
+		'float Coef00 = m[2][2] * m[3][3] - m[3][2] * m[2][3];',
+		'float Coef02 = m[1][2] * m[3][3] - m[3][2] * m[1][3];',
+		'float Coef03 = m[1][2] * m[2][3] - m[2][2] * m[1][3];',
+
+		'float Coef04 = m[2][1] * m[3][3] - m[3][1] * m[2][3];',
+		'float Coef06 = m[1][1] * m[3][3] - m[3][1] * m[1][3];',
+		'float Coef07 = m[1][1] * m[2][3] - m[2][1] * m[1][3];',
+
+		'float Coef08 = m[2][1] * m[3][2] - m[3][1] * m[2][2];',
+		'float Coef10 = m[1][1] * m[3][2] - m[3][1] * m[1][2];',
+		'float Coef11 = m[1][1] * m[2][2] - m[2][1] * m[1][2];',
+
+		'float Coef12 = m[2][0] * m[3][3] - m[3][0] * m[2][3];',
+		'float Coef14 = m[1][0] * m[3][3] - m[3][0] * m[1][3];',
+		'float Coef15 = m[1][0] * m[2][3] - m[2][0] * m[1][3];',
+
+		'float Coef16 = m[2][0] * m[3][2] - m[3][0] * m[2][2];',
+		'float Coef18 = m[1][0] * m[3][2] - m[3][0] * m[1][2];',
+		'float Coef19 = m[1][0] * m[2][2] - m[2][0] * m[1][2];',
+
+		'float Coef20 = m[2][0] * m[3][1] - m[3][0] * m[2][1];',
+		'float Coef22 = m[1][0] * m[3][1] - m[3][0] * m[1][1];',
+		'float Coef23 = m[1][0] * m[2][1] - m[2][0] * m[1][1];',
+		
+		'vec4 Fac0 = vec4(Coef00, Coef00, Coef02, Coef03);',
+		'vec4 Fac1 = vec4(Coef04, Coef04, Coef06, Coef07);',
+		'vec4 Fac2 = vec4(Coef08, Coef08, Coef10, Coef11);',
+		'vec4 Fac3 = vec4(Coef12, Coef12, Coef14, Coef15);',
+		'vec4 Fac4 = vec4(Coef16, Coef16, Coef18, Coef19);',
+		'vec4 Fac5 = vec4(Coef20, Coef20, Coef22, Coef23);',
+		
+		'vec4 Vec0 = vec4(m[1][0], m[0][0], m[0][0], m[0][0]);',
+		'vec4 Vec1 = vec4(m[1][1], m[0][1], m[0][1], m[0][1]);',
+		'vec4 Vec2 = vec4(m[1][2], m[0][2], m[0][2], m[0][2]);',
+		'vec4 Vec3 = vec4(m[1][3], m[0][3], m[0][3], m[0][3]);',
+		
+		'vec4 Inv0 = vec4(Vec1 * Fac0 - Vec2 * Fac1 + Vec3 * Fac2);',
+		'vec4 Inv1 = vec4(Vec0 * Fac0 - Vec2 * Fac3 + Vec3 * Fac4);',
+		'vec4 Inv2 = vec4(Vec0 * Fac1 - Vec1 * Fac3 + Vec3 * Fac5);',
+		'vec4 Inv3 = vec4(Vec0 * Fac2 - Vec1 * Fac4 + Vec2 * Fac5);',
+		
+		'vec4 SignA = vec4(+1, -1, +1, -1);',
+		'vec4 SignB = vec4(-1, +1, -1, +1);',
+		
+		'mat4 Inverse = mat4(Inv0 * SignA, Inv1 * SignB, Inv2 * SignA, Inv3 * SignB);',
+		'vec4 Row0 = vec4(Inverse[0][0], Inverse[1][0], Inverse[2][0], Inverse[3][0]);',
+		
+		'vec4 Dot0 = vec4(m[0] * Row0);',
+		'float Dot1 = (Dot0.x + Dot0.y) + (Dot0.z + Dot0.w);',
+		
+		'float OneOverDeterminant = 1.0 / Dot1;',
+		
+		'return Inverse * OneOverDeterminant;',
+
+
+
+		'}',
+
+
 		'mat4 translate(mat4 m, vec3 v){',
          'mat4 Result;',
          'Result[3] = m[0] * v[0] + m[1] * v[1] + m[2] * v[2] + m[3];',
@@ -46,8 +108,8 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
         '}',
 		
 		
-		'smooth out vec3 vUV;', //3D texture coordinates for texture lookup in the fragment shader
-		'out vec3 camPos;',
+		'varying  vec3 vUV;', //3D texture coordinates for texture lookup in the fragment shader
+		'varying  vec3 camPos;',
 		//'out mat4 nClipPlane;',
 		'uniform float zScale;',
 		//'uniform mat4 clipPlane;',
@@ -100,9 +162,9 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 
 			'float sliceSize = 1.0 / slice;',                 	 					// space of 1 slice		
 			'float zSlice0 = floor(texCoord.z / sliceSize);' ,  					//first slice
-			'float zSlice1 = min(zSlice0 + 1.0f,slice-1.0f);'	,	   				//second slice
-			'vec2 pos1 = vec2(mod(zSlice0,dim), dim - floor(zSlice0/dim) - 1.0f);',	 //texture position 1
-			'vec2 pos2 = vec2(mod(zSlice1,dim), dim - floor(zSlice1/dim) - 1.0f);',  //texture position 2
+			'float zSlice1 = min(zSlice0 + 1.0,slice-1.0);'	,	   				//second slice
+			'vec2 pos1 = vec2(mod(zSlice0,dim), dim - floor(zSlice0/dim) - 1.0);',	 //texture position 1
+			'vec2 pos2 = vec2(mod(zSlice1,dim), dim - floor(zSlice1/dim) - 1.0);',  //texture position 2
 			'vec2 coords1 = vec2(texCoord.x / dim + pos1.x / dim, texCoord.y / dim + pos1.y / dim);', //texture coords 1
 			'vec2 coords2 = vec2(texCoord.x / dim + pos2.x / dim, texCoord.y / dim + pos2.y / dim);', //texture coords 2
 			'#if FILTER_LIN',
@@ -128,8 +190,8 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 		  'return vec2(t0, t1);',
 	    '}',
 		
-		'precision mediump sampler3D;',
-		'smooth in vec3 vUV;',						//3D texture coordinates form vertex shader interpolated by rasterizer
+		//'precision mediump sampler3D;',
+		'varying  vec3 vUV;',						//3D texture coordinates form vertex shader interpolated by rasterizer
 		'uniform sampler2D u_data;',				//volume dataset
 		'uniform mat4 clipPlane; ',
 		'uniform bool clipping;',
@@ -147,7 +209,7 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 		'uniform vec3 box_min;',
 		'uniform vec3 box_max;',
 		'vec4 vFragColor;',
-		'in vec3 camPos;',
+		'varying vec3 camPos;',
 		//'in mat4 nClipPlane; ',
 		
 		'void main()',
@@ -170,25 +232,25 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 		   // We don't want to sample voxels behind the eye if it's
 		   // inside the volume, so keep the starting point at or in front
 		   // of the eye
-		   'if(t_hit.x < 0.0f) t_hit.x= max(t_hit.x, 0.0);',
+		   'if(t_hit.x < 0.0) t_hit.x= max(t_hit.x, 0.0);',
 		   //We not know if the ray was cast from the back or the front face. (Note: For now we also render the back face only)
 		   //To ensure we update dataPos and t_hit to reflect a ray from entry point to exit
 		   'dataPos = camPos + t_hit.x * geomDir;',
 		   't_hit.y = t_hit.y-t_hit.x;',
-		   't_hit.x = 0.0f;',
+		   't_hit.x = 0.0;',
 		   
 		   //get t for the clipping plane and overwrite the entry point
 		   'if(clipping){',
 		      'vec4 p_in = clipPlane * vec4(dataPos + t_hit.x * geomDir, 1);',
 			  'vec4 p_out = clipPlane * vec4(dataPos + t_hit.y * geomDir, 1);',
-			  'if(p_in.y * p_out.y < 0.0f ){',
+			  'if(p_in.y * p_out.y < 0.0 ){',
 				//both points lie on different sides of the plane	
 				//we need to compute a new clippoint
 				'vec4 c_pos = clipPlane * vec4(dataPos, 1);',
 				'vec4 c_dir = clipPlane * vec4(geomDir, 0);',
 				'float t_clip = -c_pos.y / c_dir.y  ;',
 				//update either entry or exit based on which is on the clipped side
-				'if (p_in.y > 0.0f){',
+				'if (p_in.y > 0.0){',
 				    't_hit.x = t_clip; ',
 				'}else{',
 					't_hit.y = t_clip; ',
@@ -196,7 +258,7 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 			  '}else{',
 				//both points lie on the same side of the plane.
 				//if one of them is on the wrong side they can be clipped
-				'if(p_in.y > 0.0f)',
+				'if(p_in.y > 0.0)',
 					'discard;',
 			  '}',				
 		   '}',
@@ -217,8 +279,11 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 		   // Step 4: Starting from the entry point, march the ray through the volume
 		   // and sample it
 		   'dataPos = dataPos + t_hit.x * geomDir;',
-		   'for (float t = t_hit.x; t < t_hit.y; t += dt) {',
-		        // data fetching from the red channel of volume texture
+		   'float index = t_hit.x; ',
+		   'for (float t_ = 0.0; t_ < 100.0; t_ += 1.0) {',
+		        'break;',
+				// data fetching from the red channel of volume texture
+				'float t = t_ + index;',
 				'vec4 smple;',
 				'if (channel == 1){ ',
 					'smple = sampleAs3DTexture(u_data, dataPos).rrrr;',
@@ -248,7 +313,7 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 				//'smple.a = max(smple.r, max(smple.g,smple.b)) ; ',
 				//'smple.a = 0.1*smple.a;',
                 'if(useLut)',
-					'smple = texture2D(u_lut, vec2(clamp(smple.a,0.0f,1.0f),0.5));',
+					'smple = texture2D(u_lut, vec2(clamp(smple.a,0.0,1.0),0.5));',
 				
 				//assume alpha is the highest channel and gamma correction
 				//"sample.a = pow(sample.a , multiplier); \n"  ///needs changing

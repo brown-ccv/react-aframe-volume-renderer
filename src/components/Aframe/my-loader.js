@@ -298,12 +298,7 @@ AFRAME.registerComponent('myloader', {
 				texture.unpackAlignment = 1;
 				texture.needsUpdate = true;
 
-				// Colormap textures
-				var cmtextures = {
-					viridis: new THREE.TextureLoader().load('./assets/textures/cm_viridis.png'),
-					gray: new THREE.TextureLoader().load('./assets/textures/cm_gray.png')
-				};
-
+				
 				// Material
 				var shader = THREE.ShaderLib['ccvLibVolumeRenderShader'];
 				var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
