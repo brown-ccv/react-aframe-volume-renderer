@@ -11,10 +11,12 @@ import {SelectButton} from 'primereact/selectbutton';
 import Flexbox from 'flexbox-react';
 
 const options = [
-    { value: './assets/models/nrrd/00.nrrd:false', label: 'Spheroid' },
-    { value: './assets/models/nrrd/simulation_data.nrrd:false', label: 'Simulation' },
-    
-  ];
+  { value: './assets/models/48hr_20x_23_0.597976_ 0.597976_5.png:false', label: 'Spheroid old' },
+  { value: './assets/models/r06c03f04_49_1.29_1.29_5.00000.png:false', label: 'Spheroid 1 cropped slices' },
+  { value: './assets/models/r06c03f04_90_1.935_1.935_5.00000.png:false', label: 'Spheroid 1 90 slices' },
+  { value: './assets/models/r06c03f03_49_1.29_1.29_5.00000.png:false', label: 'Spheroid 2 cropped slices' },
+  { value: './assets/models/r06c03f03_90_1.935_1.935_5.00000.png:false', label: 'Spheroid 2 90 slices' },
+];
 
 export default connect(null,{myChangeVolumeAction})
    ( class ControlPanel extends Component{
