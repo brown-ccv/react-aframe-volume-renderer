@@ -1,11 +1,18 @@
 import React, {Component} from 'react'
-import '../App.css'
+import '../../App.css'
 import { connect } from "react-redux";
-import {myChangePoint1,myChangePoint2,myChangeLowNode,myChangeHighNode,mySendAlphaPoints} from '../redux/AppActions'
+import {mySendAlphaPoints} from '../../redux/AppActions'
+
+const mapStateToProps = state => {
+    return { 
+      
+      volumeData: state.volumeData
+     };
+  };
 
 export default connect(
-    null,
-   {myChangePoint1,myChangePoint2,myChangeLowNode,myChangeHighNode,mySendAlphaPoints})
+    mapStateToProps,
+   {mySendAlphaPoints})
    ( class OpcacityControl extends Component {
 
     constructor(props) {
@@ -166,7 +173,7 @@ export default connect(
             this.normalizedYCanvasSpace.push( 1-((this.nodesCanvasSpace[i].y - this.padding)/this.height) );
         }
         
-        this.props.mySendAlphaPoints(this.normalizedXCanvasSpace,this.normalizedYCanvasSpace);
+        this.props.mySendAlphaPoints(this.normalizedXCanvasSpace,this.normalizedYCanvasSpace, this.props.volumeData);
     
     }
 

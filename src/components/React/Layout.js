@@ -1,24 +1,21 @@
 
 
 import React, {Component} from 'react'
-import Controls from './Controls';
-import VolumeRenderer from './VolumeRenderer';
-import {Sidebar} from 'primereact/sidebar';
-//import {Button} from 'primereact/button';
 
-import ScrollAnim from 'rc-scroll-anim';
-import '../styles/scroll_nav.scss';
-import '../App.css';
+import VolumeRenderer from './VolumeRenderer';
+import ControlsPanel from './ControlsPanel';
+
+
+
+import '../../styles/scroll_nav.scss';
+import '../../App.css';
 
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Form from 'react-bootstrap/Form';
-import FormControl from 'react-bootstrap/FormControl';
 
-import { ReactComponent as CCVLogo } from '../assets/black-ccv-logo.svg';
-import { ReactComponent as BrownLogo } from '../assets/brown-logo.svg';
-import { ReactComponent as Github} from '../assets/github-brands.svg';
+import { ReactComponent as CCVLogo } from '../../assets/black-ccv-logo.svg';
+import { ReactComponent as BrownLogo } from '../../assets/brown-logo.svg';
+import { ReactComponent as Github} from '../../assets/github-brands.svg';
 
 import Kalvin from './kalkal.jpg';
 import Camilo from './camilo.jpg';
@@ -42,10 +39,6 @@ export default class Layout extends Component {
     return (
 
       <div>  
-       {/*  <Sidebar modal={false} className="ui-sidebar-lg" visible={this.state.sideBarVisible} onHide={(e) => this.setState({sideBarVisible:false})}>
-           <Controls/>
-    </Sidebar> */}
-
         <Navbar bg="light" expand="lg">
           <div className="navbar-header">
             <a href="https://www.brown.edu">
@@ -68,30 +61,26 @@ export default class Layout extends Component {
         </Navbar>
         
         <div className="d-flex flex-column" id="app">
-          
-            {/*<div className="control-button my-3 mx-5">
-              <Button icon="pi pi-arrow-right" label="Controls" onClick={(e) => this.setState({sideBarVisible:true})}/>
-            </div>*/}
-
-            <div className="voume-renderer mx-1">
+            <div className="voume-renderer mx-1">  
+              <ControlsPanel/>
               <VolumeRenderer/>
             </div>
         </div>
 
         <Element name="infoTarget" className="element">
-          <div id="infoTarget" class="light-page">
+          <div id="infoTarget" className="light-page">
             <div className="light-page-title" key="title">
               <p>Web VR Volume Renderer</p>
             </div>
+            
             <p className="light-page-description">
-            <p>
             The Center for Computation and Visulization at Brown University (<a href="https://ccv.brown.edu/">CCV</a>)
 is always searching and developing tools to help researchers visualizating and analizing their data.
 Thinking on how to facilitate the access to scienctific data from any type of device and location, and using
 the latests techonologies on web development, web 3D rendering and Virtual Reality (VR), this application
 is presented as a an initative to address those goals.<br/>
 </p>
-<p>
+<p className="light-page-description">
 This page demonstrates a VR-capable 3D volume visualization tool built
 on top of webgl and <a href="https://aframe.io/">aframe</a>. The main
 goal of the project is to provide an easily accessible and interactive
@@ -102,7 +91,7 @@ href="https://ccv.brown.edu/">CCV</a>) encourages researchers from any
 field and background interested in using this application to contact us
 about how it can be used for your research projects.<br/>
 </p>
-<p>
+<p className="light-page-description">
 CCV's goal is to help researchers in visualizing and analyzing their
 data and provides tools which facilitate the access to scientific data
 from any type of device and location by using the latest technologies on
@@ -110,21 +99,21 @@ web development, 3D web rendering and Virtual Reality (VR). With over 5
 years of experience, it has assisted researchers in projects at Brown
 University and affiliated RI institutions.<br/>
 </p>
-<p>
+<p className="light-page-description">
 This work was supported by the NSF EPSCoR grant 1655221: "RII Track-1:
 Rhode Island Consortium for Coastal Ecology Assessment, Innovation, and
 Modeling (C-AIM)"<br/>
 </p>
-            </p>
+            
           </div>
         </Element>
 
         <Element name="peopleTarget" className="element">
-          <div id="peopleTarget" class="light-page-new">
+          <div id="peopleTarget" className="light-page-new">
             <div className="light-page-title" key="title">
               <p>People</p>
             </div>
-            <p className="light-page-description flex-adjustments">             
+                       
               <Flexbox display="flex" flexDirection="row" justifyContent="space-around" minHeight="100vh">
                 <Flexbox element="div" justifyContent="center" height="60px" width="33%">
                   <Flexbox display="flex" flexDirection="column">
@@ -154,7 +143,7 @@ Modeling (C-AIM)"<br/>
                   </Flexbox>
                 </Flexbox>
               </Flexbox>
-            </p>
+            
           </div>
         </Element>
       

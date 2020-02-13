@@ -1,6 +1,6 @@
 /* globals AFRAME THREE */
-import { NRRDLoader } from '../loader/NRRDLoader.js';
-import '../shaders/ccvLibVolumeShader.js'
+import { NRRDLoader } from '../../loader/NRRDLoader.js';
+import '../../shaders/ccvLibVolumeShader.js'
 
 
 var KEYS = [
@@ -238,19 +238,23 @@ AFRAME.registerComponent('myloader', {
 
 	},
 
+
+
 	loadModel: function () {
 
 		var currentVolume = this.el.getObject3D('mesh');
 		if (currentVolume !== undefined) {
 			//clear mesh
-			console.log("CLEAR MESH");
-			currentVolume.geometry.dispose();
+		    currentVolume.geometry.dispose();
 			currentVolume.material.dispose();
+			this.el.removeObject3D( 'mesh' );
+			this.el.sceneEl.object3D.dispose();
 			currentVolume = undefined;
 		}
 
 
 		if (this.data.volumeData != "") {
+			console.log("CLEAR MESH 2");
 			this.hiddenLabel.style.display = '';
 			var el = this.el;
 			var data = this.data;
@@ -421,7 +425,7 @@ AFRAME.registerComponent('myloader', {
 	},
 
 	update: function (oldData) {
-	
+		console.log("this.data.volumeData "+this.data.volumeData);
 		if(oldData.cameraState !== undefined && oldData.cameraState !== this.data.cameraState )
 		{
              
@@ -536,8 +540,9 @@ AFRAME.registerComponent('myloader', {
 		}
 
 
-
+		
 		if (oldData.volumeData !== this.data.volumeData) {
+			
 			this.loadModel();
 			//this.updateColorMapping();
 			//this.updateTransfertexture();
@@ -591,21 +596,33 @@ AFRAME.registerComponent('myloader', {
 
 					//this.updateMeshClipMatrix(plane3DObject.matrixWorld);
 
-					var material = this.el.getObject3D("mesh").material;
-					material.uniforms.box_min.value = new THREE.Vector3(0, 0, 0);
-					material.uniforms.box_max.value = new THREE.Vector3(1, 1, 1);
+					if(this.el.getObject3D("mesh") !== undefined)
+					{
+						var material = this.el.getObject3D("mesh").material;
+						material.uniforms.box_min.value = new THREE.Vector3(0, 0, 0);
+						material.uniforms.box_max.value = new THREE.Vector3(1, 1, 1);
+					}
+					
 				}
 
 				if (this.clip2DPlaneRendered) {
-					var sliceX = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').clipX;
-					var sliceY = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').clipY;
-					var sliceZ = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').clipZ;
 
+					if(this.el.getObject3D("mesh") !== undefined)
+					{
+						var material = this.el.getObject3D("mesh").material;
 
-					var material = this.el.getObject3D("mesh").material;
-
-					material.uniforms.box_min.value = new THREE.Vector3(sliceX.x, sliceY.x, sliceZ.x);
-					material.uniforms.box_max.value = new THREE.Vector3(sliceX.y, sliceY.y, sliceZ.y);
+						if(material !== undefined)
+						{
+							var sliceX = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').clipX;
+							var sliceY = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').clipY;
+							var sliceZ = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').clipZ;
+		
+							material.uniforms.box_min.value = new THREE.Vector3(sliceX.x, sliceY.x, sliceZ.x);
+							material.uniforms.box_max.value = new THREE.Vector3(sliceX.y, sliceY.y, sliceZ.y);
+						}
+					
+					}
+				
 				}
 
 			}

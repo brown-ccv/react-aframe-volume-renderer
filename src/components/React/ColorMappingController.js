@@ -1,14 +1,21 @@
 import React, {Component} from 'react'
-import '../App.css'
+import '../../App.css'
 import ReactModal from 'react-modal';
 //import DataTable from 'react-data-table-component'
 import {connect} from 'react-redux';
-import {myChangeColorMapAction, mySaveColorMappingState} from '../redux/AppActions'
+import {myChangeColorMapAction, mySaveColorMappingState} from '../../redux/AppActions'
 import {DataTable} from 'primereact/datatable'
 import {Column} from 'primereact/column';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+
+const mapStateToProps = state => {
+  return { 
+    
+    volumeData: state.volumeData
+   };
+};
 
 const customStyles = {
     content : {
@@ -58,9 +65,9 @@ const data = [
   
 
 export default connect(
-    null,
+  mapStateToProps,
    {myChangeColorMapAction,mySaveColorMappingState})
-   ( class OpcacityControl extends Component {
+   ( class ControlMappingController extends Component {
     
     constructor(props) {
         super(props);
@@ -94,7 +101,7 @@ export default connect(
 
      handleCloseModal () {
 
-        this.props.myChangeColorMapAction(this.state.currentMapColor);
+        this.props.myChangeColorMapAction(this.state.currentMapColor, this.props.volumeData);
         this.setState({ colorMapModal: false });
       }
 

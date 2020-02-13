@@ -1,32 +1,36 @@
 
-export const myCheckButtonAction = function fetchCheckBox(value){
+export const myCheckButtonAction = function fetchCheckBox(value, value2){
     return{
         type:"CHECKBOX_CHANGED",
         payload: value,
+        payload2: value2
     }
 }
 
-export const myXSlideAction = function fetchXSlide(valueMin,valueMax){
+export const myXSlideAction = function fetchXSlide(valueMin,valueMax , volumeDataName){
     return{
         type:"XSLIDE_CHANGED",
         payload: valueMin,
         payload2: valueMax,
+        payload3: volumeDataName
     }
 }
 
-export const myYSlideAction = function fetchYSlide(valueMin,valueMax){
+export const myYSlideAction = function fetchYSlide(valueMin,valueMax, volumeDataName){
     return{
         type:"YSLIDE_CHANGED",
         payload: valueMin,
         payload2: valueMax,
+        payload3: volumeDataName
     }
 }
 
-export const myZSlideAction = function fetchZSlide(valueMin,valueMax){
+export const myZSlideAction = function fetchZSlide(valueMin,valueMax ,volumeDataName){
     return{
         type:"ZSLIDE_CHANGED",
         payload: valueMin,
         payload2: valueMax,
+        payload3: volumeDataName
     }
 }
 
@@ -37,10 +41,11 @@ export const myChangeVolumeAction = function changeVolume(value1,value2){
         payload2: value2
     }
 }
-export const myChangeColorMapAction = function changeColorMap(value){
+export const myChangeColorMapAction = function changeColorMap(value, volumeDataName){
     return{
         type:"COLOR_MAP_CHANGED",
         payload: value,
+        payload2: volumeDataName
     }
 }
 export const myChangePoint1 = function changePoint1(value){
@@ -69,12 +74,13 @@ export const myChangeHighNode = function changeHighNode(value){
     }
 }
 
-export const mySendAlphaPoints = function mySendAlphaPoints(xPosArray, yPosArray)
+export const mySendAlphaPoints = function mySendAlphaPoints(xPosArray, yPosArray, volumeDataName)
 {
     return{
         type:"UPDATED_APLHA_DATA",
         payload: xPosArray,
-        payload2: yPosArray
+        payload2: yPosArray,
+        payload3: volumeDataName
     }
 }
 
@@ -87,11 +93,12 @@ export const mySaveColorMappingState = function mySaveColorMappingState(colorMap
    }
 }
 
-export const myChannelChanged= function myChannelChanged(channel)
+export const myChannelChanged= function myChannelChanged(channel, volumeDataName)
 {
     return {
         type:"CHANNEL_CHANGED",
-        payload:channel
+        payload:channel,
+        payload2:volumeDataName
       }
 }
 
