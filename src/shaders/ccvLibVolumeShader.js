@@ -279,11 +279,12 @@ THREE.ShaderLib[ 'ccvLibVolumeRenderShader' ] = {
 		   // Step 4: Starting from the entry point, march the ray through the volume
 		   // and sample it
 		   'dataPos = dataPos + t_hit.x * geomDir;',
-		   'float index = t_hit.x; ',
-		   'for (float t_ = 0.0; t_ < 100.0; t_ += 1.0) {',
-		        'break;',
+		   'float t = t_hit.x; ',
+		   'for (float t_ = 0.0; t_ < 1000.0; t_ += 1.0) {',
+		        't += dt;',
+				'if(t >=  t_hit.y)',
+					'break;',
 				// data fetching from the red channel of volume texture
-				'float t = t_ + index;',
 				'vec4 smple;',
 				'if (channel == 1){ ',
 					'smple = sampleAs3DTexture(u_data, dataPos).rrrr;',
