@@ -39,7 +39,7 @@ export default class Layout extends Component {
     return (
 
       <div>  
-        <Navbar bg="light" expand="lg">
+        <Navbar sticky="top" bg="light" expand="lg">
           <div className="navbar-header">
             <a href="https://www.brown.edu">
                 <BrownLogo width={100} />
