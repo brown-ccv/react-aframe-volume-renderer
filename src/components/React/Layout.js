@@ -20,6 +20,7 @@ import { ReactComponent as Github} from '../../assets/github-brands.svg';
 import Kalvin from './kalkal.jpg';
 import Camilo from './camilo.jpg';
 import Ben from './ben.jpg';
+import NSFEPSCoR from './nsfepscor.jpg'
 
 import Flexbox from 'flexbox-react';
 
@@ -49,19 +50,20 @@ export default class Layout extends Component {
                 <CCVLogo width={100}/>
             </a>
           </div>
-          <Navbar.Brand href="#home">Home</Navbar.Brand>
+          
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-             
+              <Nav.Link href="#visualizer">Vizualizer</Nav.Link>
               <Nav.Link href="#infoTarget">Info</Nav.Link>
               <Nav.Link href="#peopleTarget">People</Nav.Link>
+              <Nav.Link href="#acknowledgements ">Acknowledgements</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
         
         <div className="d-flex flex-column" id="app">
-            <div className="voume-renderer mx-1">  
+            <div id="visualizer"  className="voume-renderer mx-1">  
               <ControlsPanel/>
               <VolumeRenderer/>
             </div>
@@ -160,6 +162,30 @@ Modeling (C-AIM)"<br/>
             
           </div>
         </Element>
+
+        <Element name="acknowledgements" className="element">
+         
+          <div id="acknowledgements" className="light-page">
+             <div className="light-page-title" key="title">
+              <p>Acknowledgements</p>
+             </div>
+             <div className="light-page-description">
+               <p>
+               The development of framework for the volume visualization was 
+              supported by the NSF EPSCoR grant 1655221: "RII Track-1: Rhode Island Consortium for Coastal Ecology Assessment, Innovation, and Modeling (C-AIM)"
+               </p>
+               
+             </div>
+             <Flexbox display="flex" flexDirection="row" justifyContent="space-around" minHeight="100vh">
+                <Flexbox element="div" justifyContent="center" height="60px" width="33%">
+                  <Flexbox display="flex" flexDirection="column">
+                    <img src={NSFEPSCoR}></img>
+                  </Flexbox>
+                </Flexbox>
+             </Flexbox>
+        
+          </div>
+          </Element>
       
     </div>
        
