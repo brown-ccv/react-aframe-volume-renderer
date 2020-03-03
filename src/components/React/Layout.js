@@ -39,7 +39,7 @@ export default class Layout extends Component {
   render () {
     return (
 
-      <div>  
+      <div id="visualizer">  
         <Navbar sticky="top" bg="light" expand="lg">
           <div className="navbar-header">
             <a href="https://www.brown.edu">
@@ -63,7 +63,7 @@ export default class Layout extends Component {
         </Navbar>
         
         <div className="d-flex flex-column" id="app">
-            <div id="visualizer"  className="voume-renderer mx-1">  
+            <div   className="voume-renderer mx-1">  
               <ControlsPanel/>
               <VolumeRenderer/>
             </div>
