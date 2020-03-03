@@ -468,11 +468,11 @@ AFRAME.registerComponent('myloader', {
 				//console.log(this.data.alphaXDataArray);
 
 				for (var i = 0; i <= this.data.alphaXDataArray.length - 2; i++) {
-					var scaledColorInit = this.data.alphaXDataArray[i] * 256;
-					var scaledColorEnd = this.data.alphaXDataArray[i + 1] * 256;
+					var scaledColorInit = this.data.alphaXDataArray[i] * 255;
+					var scaledColorEnd = this.data.alphaXDataArray[i + 1] * 255;
 
-					var scaledAplhaInit = this.data.alphaYDataArray[i] * 256;
-					var scaledAlphaEnd = this.data.alphaYDataArray[i + 1] * 256;
+					var scaledAplhaInit = this.data.alphaYDataArray[i] * 255;
+					var scaledAlphaEnd = this.data.alphaYDataArray[i + 1] * 255;
 
 					var deltaX = scaledColorEnd - scaledColorInit;
 
