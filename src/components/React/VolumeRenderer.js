@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 import { connect } from "react-redux";
 import Spinner from './Spinner'
 import '../../App.css'
+import '../Aframe/arcball-camera'
 
 const mapStateToProps = state => {
 
@@ -84,9 +85,9 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
                cameraState:this.props.cameraState}}   position="0 0 0"/>
         <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable"></a-entity>
 
-        <Entity id="myCamera" camera="active: true"  look-controls  orbit-controls="target: 0 0 0; minDistance: 0.0; maxDistance: 180; initialPosition: 0 0 2"  />
+       {/* <Entity id="myCamera" camera="active: true"  look-controls  orbit-controls="target: 0 0 0; minDistance: 0.0; maxDistance: 180; initialPosition: 0 0 2"  />*/}
         {/* <Entity id="myCamera" camera="active: true"  look-controls  position="0 0 2"  /> */}
-
+        <Entity id="myCamera" camera="active: true" arcball-camera="initialPosition:0 0 2"   /> 
 
       </Scene>
       </div>
