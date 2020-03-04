@@ -64,7 +64,7 @@ AFRAME.registerComponent('myloader', {
 		alphaYDataArray: { type: 'array' },
 		colorMapping: { type: 'boolean', default: false },
 		channel: { type: 'number', default: 6 },
-		cameraState: {type: 'string', default:""}
+		cameraState: {type: 'string', default:""},
 	},
 
 	init: function () {
