@@ -30,6 +30,7 @@
     "react-dom": "^16.9.0",
     "react-dropdown": "^1.6.4",
     "react-modal": "^3.10.1",
+    "react-new-window": "^0.1.2",
     "react-redux": "^7.1.1",
     "react-scripts": "3.2.0",
     "react-scroll": "^1.7.14",

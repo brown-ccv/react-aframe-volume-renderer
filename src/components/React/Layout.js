@@ -4,6 +4,8 @@ import React, {Component} from 'react'
 
 import VolumeRenderer from './VolumeRenderer';
 import ControlsPanel from './ControlsPanel';
+import Howto from './Howto'
+import EnableNvidia from './EnableNvidia'
 
 
 
@@ -23,6 +25,8 @@ import Ben from './ben.jpg';
 import NSFEPSCoR from './nsfepscor.jpg'
 
 import Flexbox from 'flexbox-react';
+import NewWindow from 'react-new-window'
+import {Button} from 'primereact/button';
 
 import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll';
 
@@ -32,11 +36,33 @@ export default class Layout extends Component {
   {
     super(props);
     this.state = {
+      opened: false,
       sideBarVisible:true,
     };
+    //this.openGuide = this.openGuide.bind(this);
+    
+  }
+  
+  componentDidMount() {
+    this.interval = setInterval(() => {
+      this.setState(prevState => ({ count: prevState.count + 1 }))
+    }, 1000)
   }
 
+  componentWillUnmount() {
+    clearInterval(this.interval)
+  }
+
+  toggleOpened() {
+    this.setState(prevState => ({ opened: !prevState.opened }))
+  }
+
+  newWindowUnloaded() {
+   
+    this.setState({ opened: false })
+  }
   render () {
+    const { opened, count } = this.state
     return (
 
       <div id="visualizer">  
@@ -55,6 +81,7 @@ export default class Layout extends Component {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
               <Nav.Link href="#visualizer">Vizualizer</Nav.Link>
+              <Nav.Link href="#Guide">Guide</Nav.Link>
               <Nav.Link href="#infoTarget">Info</Nav.Link>
               <Nav.Link href="#peopleTarget">People</Nav.Link>
               <Nav.Link href="#acknowledgements ">Acknowledgements</Nav.Link>
@@ -69,8 +96,52 @@ export default class Layout extends Component {
             </div>
         </div>
 
+        <Element name="Guide" className="element">
+           <div  id="Guide" className="light-page-new-short">
+           <br/>
+           <br/>
+           <br/>
+            <div  className="light-page-subtitle">
+                <p>Learn How To Use it</p>
+                <Button label="Guide" onClick={() => this.toggleOpened()} />
+                {opened && (
+                  <NewWindow
+                    onUnload={() => this.newWindowUnloaded()}
+                    features={{ left: 200, top: 200, width: 800, height: 800 }}
+                    title="Aframe Volume Viewer Guide"
+                  >
+                  
+                  <Howto></Howto> 
+                  
+                    
+                  </NewWindow>
+                )}
+            </div>
+            <br/>
+            <div className="light-page-subtitle">
+                <p>Set up your web browser for VR </p>
+                <Button label="VR Guide" onClick={() => this.toggleOpened()} />
+                {opened && (
+                  <NewWindow
+                    onUnload={() => this.newWindowUnloaded()}
+                    features={{ left: 200, top: 200, width: 800, height: 800 }}
+                    title="Enable 3D graphics Guide"
+                  >
+                  
+                  <EnableNvidia></EnableNvidia> 
+                  
+                    
+                  </NewWindow>
+                )}
+            </div>
+           </div>
+        </Element>
+
         <Element name="infoTarget" className="element">
-          <div id="infoTarget" className="light-page">
+          <div id="infoTarget" className="light-page-long">
+            
+            
+            
             <div className="light-page-title" key="title">
               <p>Web VR Volume Renderer</p>
             </div>
@@ -78,7 +149,8 @@ export default class Layout extends Component {
             <div className="light-page-description">
 
             <p>
-              The Center for Computation and Visulization at Brown University (<a href="https://ccv.brown.edu/">CCV</a>)
+              The Center for Computation and Visulization at Brown 
+              University (<a href="https://ccv.brown.edu/">CCV</a>)
               is always searching and developing tools to help researchers visualizating and analizing their data.
               Thinking on how to facilitate the access to scienctific data from any type of device and location, and using
               the latests techonologies on web development, web 3D rendering and Virtual Reality (VR), this application
@@ -92,8 +164,7 @@ export default class Layout extends Component {
                 on top of webgl and <a href="https://aframe.io/">aframe</a>. The main
                 goal of the project is to provide an easily accessible and interactive
                 environment to explore and showcase volumetric data with the added
-                benefits of Virtual Reality if VR-capable hardware is available. The
-                Center for Computation and Visualization at Brown University  (<a
+                benefits of Virtual Reality if VR-capable hardware is available. (<a
                 href="https://ccv.brown.edu/">CCV</a>) encourages researchers from any
                 field and background interested in using this application to contact us
                 about how it can be used for your research projects.<br/>
