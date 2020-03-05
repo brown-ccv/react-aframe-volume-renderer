@@ -36,7 +36,8 @@ export default class Layout extends Component {
   {
     super(props);
     this.state = {
-      opened: false,
+      openedHowto: false,
+      openedNvidia: false,
       sideBarVisible:true,
     };
     //this.openGuide = this.openGuide.bind(this);
@@ -57,6 +58,9 @@ export default class Layout extends Component {
     this.setState(prevState => ({ opened: !prevState.opened }))
   }
 
+  toggleOpened2() {
+    this.setState(prevState => ({ openedNvidia: !prevState.openedNvidia }))
+  }
   newWindowUnloaded() {
    
     this.setState({ opened: false })
@@ -101,6 +105,7 @@ export default class Layout extends Component {
            <br/>
            <br/>
            <br/>
+           <br/>
             <div  className="light-page-subtitle">
                 <p>Learn How To Use it</p>
                 <Button label="Guide" onClick={() => this.toggleOpened()} />
@@ -118,22 +123,7 @@ export default class Layout extends Component {
                 )}
             </div>
             <br/>
-            <div className="light-page-subtitle">
-                <p>Set up your web browser for VR </p>
-                <Button label="VR Guide" onClick={() => this.toggleOpened()} />
-                {opened && (
-                  <NewWindow
-                    onUnload={() => this.newWindowUnloaded()}
-                    features={{ left: 200, top: 200, width: 800, height: 800 }}
-                    title="Enable 3D graphics Guide"
-                  >
-                  
-                  <EnableNvidia></EnableNvidia> 
-                  
-                    
-                  </NewWindow>
-                )}
-            </div>
+            
            </div>
         </Element>
 
