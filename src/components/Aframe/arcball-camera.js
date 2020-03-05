@@ -38,7 +38,7 @@ AFRAME.registerComponent('arcball-camera', {
     onWindowResize() {
 
 
-        this.controls.handleResize();
+       // this.controls.handleResize();
 
     },
 
