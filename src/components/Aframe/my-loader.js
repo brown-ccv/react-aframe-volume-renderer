@@ -65,6 +65,7 @@ AFRAME.registerComponent('myloader', {
 		colorMapping: { type: 'boolean', default: false },
 		channel: { type: 'number', default: 6 },
 		cameraState: {type: 'string', default:""},
+		myMeshPosition:{type:'vec3', default:""}
 	},
 
 	init: function () {
@@ -205,7 +206,7 @@ AFRAME.registerComponent('myloader', {
 		cameraEl.setAttribute('camera', 'active', true);
 
 		this.hiddenLabel = document.getElementById('modelLoaded');
-		//this.hiddenLabel.innerHTML = 'false';
+		
 	},
 
 
@@ -367,15 +368,15 @@ AFRAME.registerComponent('myloader', {
 
 	onCollide: function (event) {
 		this.data.rayCollided = true;
-		//console.log("entity-intesercted2");
+	
 	},
 
 	onClearCollide: function (event) {
 		this.data.rayCollided = false;
-		//console.log("entity-clear-intesercted2");
+		
 	},
 	onSelectStart: function (event) {
-		//this.data.rayCollided = false;
+
 		console.log("onSelectStart");
 	},
 
@@ -464,8 +465,7 @@ AFRAME.registerComponent('myloader', {
 			) || (this.data.alphaYDataArray !== undefined && oldData.alphaYDataArray !== this.data.alphaYDataArray)) {
 
 				this.newAlphaData = [];
-				//console.log("this.data.alphaXDataArray");
-				//console.log(this.data.alphaXDataArray);
+			
 
 				for (var i = 0; i <= this.data.alphaXDataArray.length - 2; i++) {
 					var scaledColorInit = this.data.alphaXDataArray[i] * 256;
@@ -492,24 +492,22 @@ AFRAME.registerComponent('myloader', {
 
 			if (this.colorMapEnabled && oldData.colorMap !== undefined && (oldData.colorMap !== this.data.colorMap)) {
 
-				//console.log("ENTER COLOR MAPPING CHANGE");
+				
 				if (this.data.transferFunction)
-				//if(false)
 				{
 					var imgColorImage = document.querySelector(".colorMapImg");
 					var imgWidth = imgColorImage.width;
 					var imgHeight = imgColorImage.height;
 
-					//var localColorMap = this.colorMap;
+					
 
 					var colorCanvas = document.createElement("canvas");
 					var el = this.el;
-					//var opacities = this.opacity;
+		
 					var alpha = this.alphaData;
 					var colorTransfer = this.colorTransfer;
 					var iam = this;
 					this.colorMap.img.onload = function (data) {
-						//console.log(imgColorImage);
 						colorCanvas.height = imgHeight;
 						colorCanvas.width = imgWidth;
 						var colorContext = colorCanvas.getContext("2d");
@@ -539,41 +537,26 @@ AFRAME.registerComponent('myloader', {
 		if (oldData.volumeData !== this.data.volumeData) {
 			
 			this.loadModel();
-			//this.updateColorMapping();
-			//this.updateTransfertexture();
+		
 		}
 
 
 
 	},
 
+	getMesh: function()
+    {
+      return this.el.getObject3D("mesh");
+    },
+
 	tick: function (time, timeDelta) {
 		// Do something on every scene tick or frame.
 
-		/*if(this.controllerHandler.el.getAttribute('my-buttons-check').grabObject
-					&& this.data.rayCollided)
-				  {
-					  console.log("GRAB ENTITY2");
-					  console.log("vr mode: " + this.sceneHandler.is('vr-mode'));
-					  console.log("this.controllerHandler: " +this.controllerHandler );
-				  }*/
-		var isVrModeActive = this.sceneHandler.is('vr-mode');
+	
+		var isVrModeActive = this.sceneHandler.is('vr-mode');		
 		if (this.data.modelLoaded) {
 			if (this.clipPlaneListenerHandler != undefined && !isVrModeActive) {
-				/*if(this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane
-				&& !this.clip2DPlaneRendered)
-				{
-					this.clipPlaneHandler.el.setAttribute('visible', true);
-					this.clip2DPlaneRendered = true;
-				}
-				else if(!this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane
-				&& this.clip2DPlaneRendered){
-				
-					var currentRot = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').currenAxisAngle;
-				    
-					this.clipPlaneHandler.el.setAttribute('visible', false);
-					this.clip2DPlaneRendered = false;
-				}*/
+			
 
 
 				if (this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane && !this.clip2DPlaneRendered) {
@@ -583,13 +566,7 @@ AFRAME.registerComponent('myloader', {
 				else if (!this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane
 					&& this.clip2DPlaneRendered) {
 					this.clip2DPlaneRendered = false;
-					//	var slice = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').rotateAngle;
-					//var plane3DObject = document.getElementById('my2Dclipplane').object3D;
-					//plane3DObject.rotateX(rotate.x * 3.1416/180 );
-					//plane3DObject.rotateY(rotate.y * 3.1416/180 );
-					//plane3DObject.rotateZ(rotate.z * 3.1416/180 );
-
-					//this.updateMeshClipMatrix(plane3DObject.matrixWorld);
+			
 
 					if(this.el.getObject3D("mesh") !== undefined)
 					{
@@ -627,12 +604,8 @@ AFRAME.registerComponent('myloader', {
 
 				//Input - Controllermatrix
 				var controllerMatrix = this.controllerHandler.matrixWorld;
-				//console.log(controllerMatrix);
-				//Input - Volumematrix				
-				//var volumeMatrix =  this.el.getObject3D("mesh").matrixWorld;
-
-
-				//console.log("grabbed "+ this.grabbed);
+					
+			
 
 				if (!this.controllerHandler.el.getAttribute('my-buttons-check').grabObject &&
 					this.grabbed) {
@@ -662,61 +635,18 @@ AFRAME.registerComponent('myloader', {
 
 					this.grabbed = true;
 
-					//this.controllerHandler.add(this.el.getObject3D("mesh"));
-					//newParent.appendChild(copy);
-					//this.el.getObject3D("mesh").applyMatrix(worldToLocal);
-					//tmpMatrix.multiplyMatrices( newObjectPose, controllerMatrixInverse.getInverse(this.controllerPose));
-					//tmpMatrix2.multiplyMatrices(newObjectPose, tmpMatrix, );
-					//tmpMatrix2.transpose();
-					//var tmpMatrix2 =new THREE.Matrix4();
-					//tmpMatrix2.multiplyMatrices(tmpMatrix,this.el.getObject3D("mesh").matrix);
-					//console.log(this.controllerPose.elements[3] + " " + this.controllerPose.elements[7] + " " + this.controllerPose.elements[11]);
-
-					//tmpMatrix2.multiplyMatrices(controllerMatrixInverse.getInverse(this.controllerPose),volumeMatrix);
-					//tmpMatrix2.multiply(controllerMatrix);
-					//console.log(tmpMatrix2.elements[12] + " " + tmpMatrix2.elements[13] + " " + tmpMatrix2.elements[14]);
-
-					//console.log(this.el.getObject3D("mesh").matrix.elements);
-					//var translationPose = new THREE.Matrix4();
-					//translationPose.identity();
-					//translationPose.makeTranslation(0,0,-1);
-					//tmpMatrix.multiplyMatrices( newObjectPose, controllerMatrixInverse.getInverse(this.controllerPose));
-
-					//tmpMatrix.multiplyMatrices(controllerMatrixInverse.getInverse(this.controllerPose),volumeMatrix);
-					/*var currentPos = new THREE.Vector3(newObjectPose.elements[12],newObjectPose.elements[13],newObjectPose.elements[14]);
-					var oldPos = new THREE.Vector3(this.controllerPose.elements[12],this.controllerPose.elements[13],this.controllerPose.elements[14]);
-					var newPos = new THREE.Vector3().subVectors ( currentPos, oldPos);
-					//newPos.subVectors ( currentPos, oldPos);
-					//nuewPos.multiplyScalar(3.0 );
-					if(oldPos.equals(currentPos))
-					{
-						console.log("EQUALS");
-					}
-		    		else
-					{
-						console.log(newPos.x + " " + newPos.y + " " + newPos.z);
-					}*/
-
-
-					//this.el.getObject3D("mesh").matrix.makeTranslation(nuewPos.x,nuewPos.y,nuewPos.z);
-
-
-					//tmpMatrix.multiplyMatrices(newObjectPose, tmpMatrix);
-					//console.log(tmpMatrix.elements[12] + " " + tmpMatrix.elements[13] + " " + tmpMatrix.elements[14]);
-
-					//this.el.getObject3D("mesh").matrix.multiplyMatrices( controllerMatrix,volumeMatrix);
-					//this.el.getObject3D("mesh").matrix.multiplyMatrices(tmpMatrix,this.el.getObject3D("mesh").matrix );
-					//this.el.getObject3D("mesh").matrixWorldNeedsUpdate = true
-					//console.log("AFTER MATRICES CALCULATION");
-					//console.log(this.el.getObject3D("mesh").matrix.elements);
-
-
 				}
 
 				this.updateMeshClipMatrix(controllerMatrix);
 
 			}
 		}
+
+		if(this.el.getObject3D("mesh") !== undefined)
+		{
+			this.data.myMeshPosition = this.el.getObject3D("mesh").position;
+		}
+		
 	},
 
 	updateMeshClipMatrix: function (currentSpaceClipMatrix) {
@@ -744,8 +674,10 @@ AFRAME.registerComponent('myloader', {
 		clipMatrix.multiplyMatrices(clipMatrix, translationMatrix);
 
 		//set uniforms of shader
+		var isVrModeActive = this.sceneHandler.is('vr-mode');		
+		var doClip = isVrModeActive && this.controllerHandler.el.getAttribute('my-buttons-check').clipPlane && !this.grabbed;
 		material.uniforms.clipPlane.value = clipMatrix;
-		material.uniforms.clipping.value = (this.clip2DPlaneRendered || this.controllerHandler.el.getAttribute('my-buttons-check').clipPlane) && !this.grabbed;
+		material.uniforms.clipping.value = doClip; 
 
 	},
 
