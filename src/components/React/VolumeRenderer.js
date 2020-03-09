@@ -87,7 +87,7 @@ export default connect(mapStateToProps)(class VolumeRenderer extends Component {
 
        {/* <Entity id="myCamera" camera="active: true"  look-controls  orbit-controls="target: 0 0 0; minDistance: 0.0; maxDistance: 180; initialPosition: 0 0 2"  />*/}
         {/* <Entity id="myCamera" camera="active: true"  look-controls  position="0 0 2"  /> */}
-        <Entity id="myCamera" camera="active: true" arcball-camera="initialPosition:0 0 2"   /> 
+        <Entity id="myCamera" camera="active: true" look-controls arcball-camera="initialPosition:0 0 2"   /> 
 
       </Scene>
       </div>

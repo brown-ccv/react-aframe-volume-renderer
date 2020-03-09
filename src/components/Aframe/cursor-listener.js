@@ -17,7 +17,7 @@ AFRAME.registerComponent('cursor-listener', {
         this.dragging = true;
         //this.lastIndex = (this.lastIndex + 1) % this.COLORS.length;
         //this.el.setAttribute('material', 'color', this.COLORS[this.lastIndex]);
-        console.log('onMousedown  at: ', evt.detail.intersection.point);
+     //   console.log('onMousedown  at: ', evt.detail.intersection.point);
         //console.log('cursor-listener I was mousedown at: ', evt.detail.intersection.point);
       });
 
@@ -39,7 +39,7 @@ AFRAME.registerComponent('cursor-listener', {
         this.dragging = true;
         //this.lastIndex = (this.lastIndex + 1) % this.COLORS.length;
         //this.el.setAttribute('material', 'color', this.COLORS[this.lastIndex]);
-        console.log('onMousedown  at: ', evt.detail.intersection.point);
+     //   console.log('onMousedown  at: ', evt.detail.intersection.point);
     },
 
     onMouseMove:function(evt)

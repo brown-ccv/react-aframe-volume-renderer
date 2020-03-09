@@ -1,7 +1,7 @@
 /* globals AFRAME THREE */
-import { NRRDLoader } from '../../loader/NRRDLoader.js';
 import '../../shaders/ccvLibVolumeShader.js'
-
+import { Quaternion } from '../../libs/three.module.js';
+var bind = AFRAME.utils.bind;
 
 var KEYS = [
 	'KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyP',
@@ -65,6 +65,7 @@ AFRAME.registerComponent('myloader', {
 		colorMapping: { type: 'boolean', default: false },
 		channel: { type: 'number', default: 6 },
 		cameraState: {type: 'string', default:""},
+		myMeshPosition:{type:'vec3', default:""},
 	},
 
 	init: function () {
@@ -79,8 +80,9 @@ AFRAME.registerComponent('myloader', {
 		this.loadModel = this.loadModel.bind(this);
 		this.updateTransfertexture = this.updateTransfertexture.bind(this);
 		this.updateColorMapping = this.updateColorMapping.bind(this);
+        this.debugScene = this.debugScene.bind(this);
 
-
+		//window.addEventListener('keydown', this.debugScene);
 		this.el.addEventListener('raycaster-intersected', this.onCollide);
 		this.el.addEventListener('raycaster-intersected-cleared', this.onClearCollide);
 		this.colorTransfer = new Uint8Array(3 * 256);
@@ -104,8 +106,10 @@ AFRAME.registerComponent('myloader', {
 		this.mySpeed = 0.1;
 
 		this.sceneHandler = this.el.sceneEl;
+		this.group = new THREE.Group();
 
-
+		//this.sceneHandler.add( group );
+		
 		this.controllerHandler = document.getElementById('rhand').object3D;//.getAttribute('my-buttons-check');
 		this.controllerHandler.el.addEventListener('selectstart', this.onSelectStart);
 
@@ -121,8 +125,18 @@ AFRAME.registerComponent('myloader', {
 		if (my2DclipPlane != undefined) {
 			this.my2DclipPlaneHandler = my2DclipPlane.object3D;
 		}
+	   
+		// save mesh vr position and rotation on swich between desktop and vr
+		this.vrPosition = new THREE.Vector3(0,0,0);
+		this.vrRotation = new THREE.Vector3(0,0,0);
+        this.debugVRPos = false;
+		// bind onenterVR and onexitVR
+		this.bindMethods();
+		this.el.sceneEl.addEventListener('enter-vr', this.onEnterVR); 
+		this.el.sceneEl.addEventListener('exit-vr', this.onExitVR);
 
-
+		var raycaster, intersected = [];
+		
 		//this.opacityControlPoints = [0, 0.1, 0.3, 0.5, 0.75, 0.8, 0.6, 0.5, 0.0];
 		this.opacityControlPoints = [0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
 
@@ -205,9 +219,20 @@ AFRAME.registerComponent('myloader', {
 		cameraEl.setAttribute('camera', 'active', true);
 
 		this.hiddenLabel = document.getElementById('modelLoaded');
-		//this.hiddenLabel.innerHTML = 'false';
+
+		
+		
 	},
 
+	debugScene:function(evt) {
+		var sceneEl = this.el.sceneEl.object3D
+		//var els = sceneEl.querySelectorAll('*');
+		//console.log("Elements");
+        //for (var i = 0; i < els.length; i++) {
+        // console.log(els[i]);
+	   // }
+	   console.log(sceneEl);
+	},
 
 	updateTransfertexture: function () {
 
@@ -238,6 +263,58 @@ AFRAME.registerComponent('myloader', {
 
 	},
 
+	bindMethods: function() {
+		this.onEnterVR = bind(this.onEnterVR, this);
+		this.onExitVR = bind(this.onExitVR, this);
+	},
+	
+	onEnterVR: function() 
+    {
+		/*var scope = this;
+		if (this.el.getObject3D("mesh") !== undefined) {
+			console.log("my-loader onEnterVR 1 : ");
+			console.log(this.el.getObject3D("mesh").position);
+			
+			console.log("my-loader onEnterVR this.vrPosition : ");
+			console.log(this.data.myMeshPosition);
+			this.el.getObject3D("mesh").position.copy(
+				          this.data.myMeshPosition
+			) ;
+			console.log("my-loader onEnterVR 2	 : ");
+			console.log(this.el.getObject3D("mesh").position);
+		//	this.el.getObject3D("mesh").rotation.set( this.vrRotation);
+			this.el.sceneEl.object3D.add(this.el.getObject3D("mesh"));
+		}*/
+	},
+
+	onExitVR: function() 
+    {
+		var scope = this;
+		if (this.el.getObject3D("mesh") !== undefined) {
+			console.log("my-loader onExitVR 1: ");
+			console.log(this.el.getObject3D("mesh").position);
+
+			this.data.myMeshPosition.x = this.el.getObject3D("mesh").position.x;
+			this.data.myMeshPosition.y = this.el.getObject3D("mesh").position.y;
+			this.data.myMeshPosition.z = this.el.getObject3D("mesh").position.z;
+
+			//oldPos.copy(this.el.getObject3D("mesh").position);
+			console.log("my-loader onExitVR this.data.myMeshPosition 1 : ");
+			console.log(this.data.myMeshPosition  );
+			 
+			this.vrRotation = this.el.getObject3D("mesh").rotation;
+			this.el.getObject3D("mesh").position.copy(new THREE.Vector3());
+			console.log("my-loader onExitVR this.data.myMeshPosition 2 : ");
+			console.log(this.data.myMeshPosition  );
+
+			this.el.getObject3D("mesh").rotation.set(0,0,0);
+			//this.el.sceneEl.object3D.add(this.el.getObject3D("mesh"));
+			console.log("my-loader onExitVR 2: ");
+			console.log(this.el.getObject3D("mesh").position);
+			this.debugVRPos = true;
+			
+		}
+	},
 
 
 	loadModel: function () {
@@ -254,7 +331,7 @@ AFRAME.registerComponent('myloader', {
 
 
 		if (this.data.volumeData != "") {
-			console.log("CLEAR MESH 2");
+			
 			this.hiddenLabel.style.display = '';
 			var el = this.el;
 			var data = this.data;
@@ -266,12 +343,12 @@ AFRAME.registerComponent('myloader', {
 			var hiddenLabel = this.hiddenLabel;
 			var enabledColorMapping = this.colorMapEnabled;
 			var iam = this;
-			console.log(this.data.transferFunction);
+			
 			if (this.data.transferFunction == "false") {
-				console.log("do not use Transferfunction");
+				
 				useTransferFunction = false;
 			} else {
-				console.log("use Transferfunction");
+				
 				useTransferFunction = true;
 			}
 
@@ -367,15 +444,15 @@ AFRAME.registerComponent('myloader', {
 
 	onCollide: function (event) {
 		this.data.rayCollided = true;
-		//console.log("entity-intesercted2");
+	
 	},
 
 	onClearCollide: function (event) {
 		this.data.rayCollided = false;
-		//console.log("entity-clear-intesercted2");
+		
 	},
 	onSelectStart: function (event) {
-		//this.data.rayCollided = false;
+
 		console.log("onSelectStart");
 	},
 
@@ -464,8 +541,7 @@ AFRAME.registerComponent('myloader', {
 			) || (this.data.alphaYDataArray !== undefined && oldData.alphaYDataArray !== this.data.alphaYDataArray)) {
 
 				this.newAlphaData = [];
-				//console.log("this.data.alphaXDataArray");
-				//console.log(this.data.alphaXDataArray);
+			
 
 				for (var i = 0; i <= this.data.alphaXDataArray.length - 2; i++) {
 					var scaledColorInit = this.data.alphaXDataArray[i] * 255;
@@ -492,24 +568,22 @@ AFRAME.registerComponent('myloader', {
 
 			if (this.colorMapEnabled && oldData.colorMap !== undefined && (oldData.colorMap !== this.data.colorMap)) {
 
-				//console.log("ENTER COLOR MAPPING CHANGE");
+				
 				if (this.data.transferFunction)
-				//if(false)
 				{
 					var imgColorImage = document.querySelector(".colorMapImg");
 					var imgWidth = imgColorImage.width;
 					var imgHeight = imgColorImage.height;
 
-					//var localColorMap = this.colorMap;
+					
 
 					var colorCanvas = document.createElement("canvas");
 					var el = this.el;
-					//var opacities = this.opacity;
+		
 					var alpha = this.alphaData;
 					var colorTransfer = this.colorTransfer;
 					var iam = this;
 					this.colorMap.img.onload = function (data) {
-						//console.log(imgColorImage);
 						colorCanvas.height = imgHeight;
 						colorCanvas.width = imgWidth;
 						var colorContext = colorCanvas.getContext("2d");
@@ -539,41 +613,31 @@ AFRAME.registerComponent('myloader', {
 		if (oldData.volumeData !== this.data.volumeData) {
 			
 			this.loadModel();
-			//this.updateColorMapping();
-			//this.updateTransfertexture();
+		
 		}
 
 
 
 	},
 
+	getMesh: function()
+    {
+      return this.el.getObject3D("mesh");
+    },
+
 	tick: function (time, timeDelta) {
 		// Do something on every scene tick or frame.
-
-		/*if(this.controllerHandler.el.getAttribute('my-buttons-check').grabObject
-					&& this.data.rayCollided)
-				  {
-					  console.log("GRAB ENTITY2");
-					  console.log("vr mode: " + this.sceneHandler.is('vr-mode'));
-					  console.log("this.controllerHandler: " +this.controllerHandler );
-				  }*/
-		var isVrModeActive = this.sceneHandler.is('vr-mode');
+	   if(this.debugVRPos)
+	   {
+		console.log("tick this.data.myMeshPosition");
+		console.log(this.data.myMeshPosition);
+		this.debugVRPos = false;
+	   }
+	
+		var isVrModeActive = this.sceneHandler.is('vr-mode');		
 		if (this.data.modelLoaded) {
 			if (this.clipPlaneListenerHandler != undefined && !isVrModeActive) {
-				/*if(this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane
-				&& !this.clip2DPlaneRendered)
-				{
-					this.clipPlaneHandler.el.setAttribute('visible', true);
-					this.clip2DPlaneRendered = true;
-				}
-				else if(!this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane
-				&& this.clip2DPlaneRendered){
-				
-					var currentRot = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').currenAxisAngle;
-				    
-					this.clipPlaneHandler.el.setAttribute('visible', false);
-					this.clip2DPlaneRendered = false;
-				}*/
+			
 
 
 				if (this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane && !this.clip2DPlaneRendered) {
@@ -583,13 +647,7 @@ AFRAME.registerComponent('myloader', {
 				else if (!this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').activateClipPlane
 					&& this.clip2DPlaneRendered) {
 					this.clip2DPlaneRendered = false;
-					//	var slice = this.clipPlaneListenerHandler.el.getAttribute('render-2d-clipplane').rotateAngle;
-					//var plane3DObject = document.getElementById('my2Dclipplane').object3D;
-					//plane3DObject.rotateX(rotate.x * 3.1416/180 );
-					//plane3DObject.rotateY(rotate.y * 3.1416/180 );
-					//plane3DObject.rotateZ(rotate.z * 3.1416/180 );
-
-					//this.updateMeshClipMatrix(plane3DObject.matrixWorld);
+			
 
 					if(this.el.getObject3D("mesh") !== undefined)
 					{
@@ -624,22 +682,16 @@ AFRAME.registerComponent('myloader', {
 			else if (this.controllerHandler !== undefined && isVrModeActive) {
 
 
-
 				//Input - Controllermatrix
 				var controllerMatrix = this.controllerHandler.matrixWorld;
-				//console.log(controllerMatrix);
-				//Input - Volumematrix				
-				//var volumeMatrix =  this.el.getObject3D("mesh").matrixWorld;
-
-
-				//console.log("grabbed "+ this.grabbed);
-
+			
 				if (!this.controllerHandler.el.getAttribute('my-buttons-check').grabObject &&
 					this.grabbed) {
 
 					this.el.getObject3D("mesh").matrix.premultiply(this.controllerHandler.matrixWorld);
 					this.el.getObject3D("mesh").matrix.decompose(this.el.getObject3D("mesh").position, this.el.getObject3D("mesh").quaternion, this.el.getObject3D("mesh").scale);
-					this.el.sceneEl.object3D.add(this.el.getObject3D("mesh"));
+					this.el.object3D.add(this.el.getObject3D("mesh"));
+			
 					this.grabbed = false;
 				}
 
@@ -649,74 +701,28 @@ AFRAME.registerComponent('myloader', {
 					&& !this.grabbed) {
 
 
-					this.controllerHandler.updateMatrixWorld();
 
-					this.controllerPose.getInverse(this.controllerHandler.matrixWorld);
-					this.el.getObject3D("mesh").matrix.premultiply(this.controllerPose);
-
-					this.el.getObject3D("mesh").matrix.decompose(this.el.getObject3D("mesh").position, this.el.getObject3D("mesh").quaternion, this.el.getObject3D("mesh").scale);
-
+					var inversControllerPos =  new THREE.Matrix4();
+					inversControllerPos.getInverse(this.controllerHandler.matrixWorld) ;	
+					this.el.getObject3D("mesh").matrix.premultiply(inversControllerPos);
+					this.el.getObject3D("mesh").matrix.decompose( this.el.getObject3D("mesh").position,
+					this.el.getObject3D("mesh").quaternion, this.el.getObject3D("mesh").scale );
 					this.controllerHandler.add(this.el.getObject3D("mesh"));
-
-
 
 					this.grabbed = true;
 
-					//this.controllerHandler.add(this.el.getObject3D("mesh"));
-					//newParent.appendChild(copy);
-					//this.el.getObject3D("mesh").applyMatrix(worldToLocal);
-					//tmpMatrix.multiplyMatrices( newObjectPose, controllerMatrixInverse.getInverse(this.controllerPose));
-					//tmpMatrix2.multiplyMatrices(newObjectPose, tmpMatrix, );
-					//tmpMatrix2.transpose();
-					//var tmpMatrix2 =new THREE.Matrix4();
-					//tmpMatrix2.multiplyMatrices(tmpMatrix,this.el.getObject3D("mesh").matrix);
-					//console.log(this.controllerPose.elements[3] + " " + this.controllerPose.elements[7] + " " + this.controllerPose.elements[11]);
-
-					//tmpMatrix2.multiplyMatrices(controllerMatrixInverse.getInverse(this.controllerPose),volumeMatrix);
-					//tmpMatrix2.multiply(controllerMatrix);
-					//console.log(tmpMatrix2.elements[12] + " " + tmpMatrix2.elements[13] + " " + tmpMatrix2.elements[14]);
-
-					//console.log(this.el.getObject3D("mesh").matrix.elements);
-					//var translationPose = new THREE.Matrix4();
-					//translationPose.identity();
-					//translationPose.makeTranslation(0,0,-1);
-					//tmpMatrix.multiplyMatrices( newObjectPose, controllerMatrixInverse.getInverse(this.controllerPose));
-
-					//tmpMatrix.multiplyMatrices(controllerMatrixInverse.getInverse(this.controllerPose),volumeMatrix);
-					/*var currentPos = new THREE.Vector3(newObjectPose.elements[12],newObjectPose.elements[13],newObjectPose.elements[14]);
-					var oldPos = new THREE.Vector3(this.controllerPose.elements[12],this.controllerPose.elements[13],this.controllerPose.elements[14]);
-					var newPos = new THREE.Vector3().subVectors ( currentPos, oldPos);
-					//newPos.subVectors ( currentPos, oldPos);
-					//nuewPos.multiplyScalar(3.0 );
-					if(oldPos.equals(currentPos))
-					{
-						console.log("EQUALS");
-					}
-		    		else
-					{
-						console.log(newPos.x + " " + newPos.y + " " + newPos.z);
-					}*/
-
-
-					//this.el.getObject3D("mesh").matrix.makeTranslation(nuewPos.x,nuewPos.y,nuewPos.z);
-
-
-					//tmpMatrix.multiplyMatrices(newObjectPose, tmpMatrix);
-					//console.log(tmpMatrix.elements[12] + " " + tmpMatrix.elements[13] + " " + tmpMatrix.elements[14]);
-
-					//this.el.getObject3D("mesh").matrix.multiplyMatrices( controllerMatrix,volumeMatrix);
-					//this.el.getObject3D("mesh").matrix.multiplyMatrices(tmpMatrix,this.el.getObject3D("mesh").matrix );
-					//this.el.getObject3D("mesh").matrixWorldNeedsUpdate = true
-					//console.log("AFTER MATRICES CALCULATION");
-					//console.log(this.el.getObject3D("mesh").matrix.elements);
-
-
 				}
 
-				this.updateMeshClipMatrix(controllerMatrix);
+				this.updateMeshClipMatrix(this.controllerHandler.matrixWorld);
 
 			}
 		}
+
+		if(this.el.getObject3D("mesh") !== undefined)
+		{
+			this.data.myMeshPosition = this.el.getObject3D("mesh").position;
+		}
+		
 	},
 
 	updateMeshClipMatrix: function (currentSpaceClipMatrix) {
@@ -744,8 +750,10 @@ AFRAME.registerComponent('myloader', {
 		clipMatrix.multiplyMatrices(clipMatrix, translationMatrix);
 
 		//set uniforms of shader
+		var isVrModeActive = this.sceneHandler.is('vr-mode');		
+		var doClip = isVrModeActive && this.controllerHandler.el.getAttribute('my-buttons-check').clipPlane && !this.grabbed;
 		material.uniforms.clipPlane.value = clipMatrix;
-		material.uniforms.clipping.value = (this.clip2DPlaneRendered || this.controllerHandler.el.getAttribute('my-buttons-check').clipPlane) && !this.grabbed;
+		material.uniforms.clipping.value = doClip; 
 
 	},
 
