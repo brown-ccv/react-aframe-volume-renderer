@@ -80,8 +80,9 @@ AFRAME.registerComponent('myloader', {
 		this.loadModel = this.loadModel.bind(this);
 		this.updateTransfertexture = this.updateTransfertexture.bind(this);
 		this.updateColorMapping = this.updateColorMapping.bind(this);
+        this.debugScene = this.debugScene.bind(this);
 
-
+		//window.addEventListener('keydown', this.debugScene);
 		this.el.addEventListener('raycaster-intersected', this.onCollide);
 		this.el.addEventListener('raycaster-intersected-cleared', this.onClearCollide);
 		this.colorTransfer = new Uint8Array(3 * 256);
@@ -105,8 +106,10 @@ AFRAME.registerComponent('myloader', {
 		this.mySpeed = 0.1;
 
 		this.sceneHandler = this.el.sceneEl;
+		this.group = new THREE.Group();
 
-
+		//this.sceneHandler.add( group );
+		
 		this.controllerHandler = document.getElementById('rhand').object3D;//.getAttribute('my-buttons-check');
 		this.controllerHandler.el.addEventListener('selectstart', this.onSelectStart);
 
@@ -131,6 +134,8 @@ AFRAME.registerComponent('myloader', {
 		this.bindMethods();
 		this.el.sceneEl.addEventListener('enter-vr', this.onEnterVR); 
 		this.el.sceneEl.addEventListener('exit-vr', this.onExitVR);
+
+		var raycaster, intersected = [];
 		
 		//this.opacityControlPoints = [0, 0.1, 0.3, 0.5, 0.75, 0.8, 0.6, 0.5, 0.0];
 		this.opacityControlPoints = [0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
@@ -214,9 +219,20 @@ AFRAME.registerComponent('myloader', {
 		cameraEl.setAttribute('camera', 'active', true);
 
 		this.hiddenLabel = document.getElementById('modelLoaded');
+
+		
 		
 	},
 
+	debugScene:function(evt) {
+		var sceneEl = this.el.sceneEl.object3D
+		//var els = sceneEl.querySelectorAll('*');
+		//console.log("Elements");
+        //for (var i = 0; i < els.length; i++) {
+        // console.log(els[i]);
+	   // }
+	   console.log(sceneEl);
+	},
 
 	updateTransfertexture: function () {
 
@@ -254,7 +270,7 @@ AFRAME.registerComponent('myloader', {
 	
 	onEnterVR: function() 
     {
-		var scope = this;
+		/*var scope = this;
 		if (this.el.getObject3D("mesh") !== undefined) {
 			console.log("my-loader onEnterVR 1 : ");
 			console.log(this.el.getObject3D("mesh").position);
@@ -268,7 +284,7 @@ AFRAME.registerComponent('myloader', {
 			console.log(this.el.getObject3D("mesh").position);
 		//	this.el.getObject3D("mesh").rotation.set( this.vrRotation);
 			this.el.sceneEl.object3D.add(this.el.getObject3D("mesh"));
-		}
+		}*/
 	},
 
 	onExitVR: function() 
@@ -292,7 +308,7 @@ AFRAME.registerComponent('myloader', {
 			console.log(this.data.myMeshPosition  );
 
 			this.el.getObject3D("mesh").rotation.set(0,0,0);
-			this.el.sceneEl.object3D.add(this.el.getObject3D("mesh"));
+			//this.el.sceneEl.object3D.add(this.el.getObject3D("mesh"));
 			console.log("my-loader onExitVR 2: ");
 			console.log(this.el.getObject3D("mesh").position);
 			this.debugVRPos = true;
@@ -315,7 +331,7 @@ AFRAME.registerComponent('myloader', {
 
 
 		if (this.data.volumeData != "") {
-			console.log("CLEAR MESH 2");
+			
 			this.hiddenLabel.style.display = '';
 			var el = this.el;
 			var data = this.data;
@@ -327,12 +343,12 @@ AFRAME.registerComponent('myloader', {
 			var hiddenLabel = this.hiddenLabel;
 			var enabledColorMapping = this.colorMapEnabled;
 			var iam = this;
-			console.log(this.data.transferFunction);
+			
 			if (this.data.transferFunction == "false") {
-				console.log("do not use Transferfunction");
+				
 				useTransferFunction = false;
 			} else {
-				console.log("use Transferfunction");
+				
 				useTransferFunction = true;
 			}
 
@@ -666,18 +682,16 @@ AFRAME.registerComponent('myloader', {
 			else if (this.controllerHandler !== undefined && isVrModeActive) {
 
 
-
 				//Input - Controllermatrix
 				var controllerMatrix = this.controllerHandler.matrixWorld;
-					
 			
-
 				if (!this.controllerHandler.el.getAttribute('my-buttons-check').grabObject &&
 					this.grabbed) {
 
 					this.el.getObject3D("mesh").matrix.premultiply(this.controllerHandler.matrixWorld);
 					this.el.getObject3D("mesh").matrix.decompose(this.el.getObject3D("mesh").position, this.el.getObject3D("mesh").quaternion, this.el.getObject3D("mesh").scale);
-					this.el.sceneEl.object3D.add(this.el.getObject3D("mesh"));
+					this.el.object3D.add(this.el.getObject3D("mesh"));
+			
 					this.grabbed = false;
 				}
 
@@ -687,22 +701,19 @@ AFRAME.registerComponent('myloader', {
 					&& !this.grabbed) {
 
 
-					this.controllerHandler.updateMatrixWorld();
 
-					this.controllerPose.getInverse(this.controllerHandler.matrixWorld);
-					this.el.getObject3D("mesh").matrix.premultiply(this.controllerPose);
-
-					this.el.getObject3D("mesh").matrix.decompose(this.el.getObject3D("mesh").position, this.el.getObject3D("mesh").quaternion, this.el.getObject3D("mesh").scale);
-
+					var inversControllerPos =  new THREE.Matrix4();
+					inversControllerPos.getInverse(this.controllerHandler.matrixWorld) ;	
+					this.el.getObject3D("mesh").matrix.premultiply(inversControllerPos);
+					this.el.getObject3D("mesh").matrix.decompose( this.el.getObject3D("mesh").position,
+					this.el.getObject3D("mesh").quaternion, this.el.getObject3D("mesh").scale );
 					this.controllerHandler.add(this.el.getObject3D("mesh"));
-
-
 
 					this.grabbed = true;
 
 				}
 
-				this.updateMeshClipMatrix(controllerMatrix);
+				this.updateMeshClipMatrix(this.controllerHandler.matrixWorld);
 
 			}
 		}
