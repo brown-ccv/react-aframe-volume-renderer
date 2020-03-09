@@ -1,7 +1,7 @@
 /* globals AFRAME THREE */
-import { NRRDLoader } from '../../loader/NRRDLoader.js';
 import '../../shaders/ccvLibVolumeShader.js'
-
+import { Quaternion } from '../../libs/three.module.js';
+var bind = AFRAME.utils.bind;
 
 var KEYS = [
 	'KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyP',
@@ -65,7 +65,7 @@ AFRAME.registerComponent('myloader', {
 		colorMapping: { type: 'boolean', default: false },
 		channel: { type: 'number', default: 6 },
 		cameraState: {type: 'string', default:""},
-		myMeshPosition:{type:'vec3', default:""}
+		myMeshPosition:{type:'vec3', default:""},
 	},
 
 	init: function () {
@@ -122,8 +122,16 @@ AFRAME.registerComponent('myloader', {
 		if (my2DclipPlane != undefined) {
 			this.my2DclipPlaneHandler = my2DclipPlane.object3D;
 		}
-
-
+	   
+		// save mesh vr position and rotation on swich between desktop and vr
+		this.vrPosition = new THREE.Vector3(0,0,0);
+		this.vrRotation = new THREE.Vector3(0,0,0);
+        this.debugVRPos = false;
+		// bind onenterVR and onexitVR
+		this.bindMethods();
+		this.el.sceneEl.addEventListener('enter-vr', this.onEnterVR); 
+		this.el.sceneEl.addEventListener('exit-vr', this.onExitVR);
+		
 		//this.opacityControlPoints = [0, 0.1, 0.3, 0.5, 0.75, 0.8, 0.6, 0.5, 0.0];
 		this.opacityControlPoints = [0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
 
@@ -239,6 +247,58 @@ AFRAME.registerComponent('myloader', {
 
 	},
 
+	bindMethods: function() {
+		this.onEnterVR = bind(this.onEnterVR, this);
+		this.onExitVR = bind(this.onExitVR, this);
+	},
+	
+	onEnterVR: function() 
+    {
+		var scope = this;
+		if (this.el.getObject3D("mesh") !== undefined) {
+			console.log("my-loader onEnterVR 1 : ");
+			console.log(this.el.getObject3D("mesh").position);
+			
+			console.log("my-loader onEnterVR this.vrPosition : ");
+			console.log(this.data.myMeshPosition);
+			this.el.getObject3D("mesh").position.copy(
+				          this.data.myMeshPosition
+			) ;
+			console.log("my-loader onEnterVR 2	 : ");
+			console.log(this.el.getObject3D("mesh").position);
+		//	this.el.getObject3D("mesh").rotation.set( this.vrRotation);
+			this.el.sceneEl.object3D.add(this.el.getObject3D("mesh"));
+		}
+	},
+
+	onExitVR: function() 
+    {
+		var scope = this;
+		if (this.el.getObject3D("mesh") !== undefined) {
+			console.log("my-loader onExitVR 1: ");
+			console.log(this.el.getObject3D("mesh").position);
+
+			this.data.myMeshPosition.x = this.el.getObject3D("mesh").position.x;
+			this.data.myMeshPosition.y = this.el.getObject3D("mesh").position.y;
+			this.data.myMeshPosition.z = this.el.getObject3D("mesh").position.z;
+
+			//oldPos.copy(this.el.getObject3D("mesh").position);
+			console.log("my-loader onExitVR this.data.myMeshPosition 1 : ");
+			console.log(this.data.myMeshPosition  );
+			 
+			this.vrRotation = this.el.getObject3D("mesh").rotation;
+			this.el.getObject3D("mesh").position.copy(new THREE.Vector3());
+			console.log("my-loader onExitVR this.data.myMeshPosition 2 : ");
+			console.log(this.data.myMeshPosition  );
+
+			this.el.getObject3D("mesh").rotation.set(0,0,0);
+			this.el.sceneEl.object3D.add(this.el.getObject3D("mesh"));
+			console.log("my-loader onExitVR 2: ");
+			console.log(this.el.getObject3D("mesh").position);
+			this.debugVRPos = true;
+			
+		}
+	},
 
 
 	loadModel: function () {
@@ -551,7 +611,12 @@ AFRAME.registerComponent('myloader', {
 
 	tick: function (time, timeDelta) {
 		// Do something on every scene tick or frame.
-
+	   if(this.debugVRPos)
+	   {
+		console.log("tick this.data.myMeshPosition");
+		console.log(this.data.myMeshPosition);
+		this.debugVRPos = false;
+	   }
 	
 		var isVrModeActive = this.sceneHandler.is('vr-mode');		
 		if (this.data.modelLoaded) {

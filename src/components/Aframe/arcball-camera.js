@@ -38,7 +38,7 @@ AFRAME.registerComponent('arcball-camera', {
      el.sceneEl.addEventListener('exit-vr', this.onExitVR);
 
        window.addEventListener( 'resize', this.onWindowResize, false );
-       
+     
      
      
         el.getObject3D('camera').position.copy(this.data.initialPosition);
@@ -175,7 +175,7 @@ AFRAME.registerComponent('arcball-camera', {
       }
       if(this.debugPosition)
       {
-        console.log(this.meshObjectHandler.position);
+      //  console.log(this.meshObjectHandler.position);
       }
         
       
