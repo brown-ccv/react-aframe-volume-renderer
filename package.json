@@ -17,7 +17,7 @@
     "react": "^17.0.2",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-brownccv": "git+https://github.com/brown-ccv/react-brownccv.git",
-    "react-dom": "^16.9.0",
+    "react-dom": "^17.0.2",
     "react-modal": "^3.10.1",
     "react-new-window": "^0.1.2",
     "react-redux": "^7.1.1",
