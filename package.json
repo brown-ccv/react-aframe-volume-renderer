@@ -5,10 +5,7 @@
   "homepage": ".",
   "dependencies": {
     "aframe": "git+https://github.com/brown-ccv/aframe.git",
-    "aframe-animation-component": "^5.1.2",
     "aframe-event-set-component": "^5.0.0",
-    "aframe-extras": "^6.0.0",
-    "aframe-mouse-cursor-component": "^0.5.3",
     "aframe-orbit-controls": "^1.2.0",
     "aframe-react": "^4.4.0",
     "bootstrap": "^4.3.1",
