@@ -11,12 +11,10 @@
     "bootstrap": "^4.3.1",
     "eslint": "^6.1.0",
     "flexbox-react": "^4.4.0",
-    "node-sass": "^4.12.0",
     "primeicons": "^2.0.0",
     "primereact": "^3.3.2",
     "rc-scroll-anim": "^2.7.3",
     "rc-slider": "^8.7.1",
-    "rc-tooltip": "^3.7.3",
     "react": "^16.9.0",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-brownccv": "git+https://github.com/brown-ccv/react-brownccv.git",
@@ -28,9 +26,7 @@
     "react-scroll": "^1.7.14",
     "react-spinners": "^0.6.1",
     "redux": "^4.0.4",
-    "styled-components": "^4.4.0",
-    "super-hands": "^3.0.0",
-    "typescript": "^3.7.5"
+    "typescript": "^4.4.2"
   },
   "optionalDependency": {
     "brown-university-styles": "git+https://bitbucket.brown.edu/scm/react/brown-university-styles.git"
