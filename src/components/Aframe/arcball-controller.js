@@ -5,7 +5,7 @@
  * @author Luca Antiga 	/ http://lantiga.github.io
  */
 
-/* globals AFRAME THREE */
+import {THREE} from "aframe"
 
 THREE.TrackballControls = function ( object, domElement ) {
 
