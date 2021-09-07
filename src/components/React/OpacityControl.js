@@ -147,7 +147,7 @@ export default connect(
        
         for(let i = 0; i< this.nodesCanvasSpace.length; i++)
         {
-            if(this.nodeHovered == i)
+            if(this.nodeHovered === i)
             {
                 this.opContext.fillStyle = "#FFFF55";
             }
@@ -187,7 +187,7 @@ export default connect(
     removePoint(evt)
     {
       evt.preventDefault();
-      if(this.nodeHovered != -1 && this.nodeHovered != 0 &&  this.nodeHovered != this.nodes.length -1)
+      if(this.nodeHovered !== -1 && this.nodeHovered !== 0 &&  this.nodeHovered !== this.nodes.length -1)
       {
         
         this.nodes.splice(this.nodeHovered, 1);
@@ -212,7 +212,7 @@ export default connect(
          }
      }
      
-     if(indexToBeInserted == -1)
+     if(indexToBeInserted === -1)
      {
         this.nodes.push(newPoint);
      }
@@ -271,11 +271,11 @@ export default connect(
             var diffX = this.dragStart[0]- e.screenX;
             var diffY = this.dragStart[1]- e.screenY;
             
-            if(this.nodeDragged == 0 || this.nodeDragged == this.nodes.length - 1)  
+            if(this.nodeDragged === 0 || this.nodeDragged === this.nodes.length - 1)  
             {
                 this.nodes[this.nodeDragged].y = Math.max(this.minLevel, Math.min(this.height, this.startPos[1] +diffY));  
             }
-            else if(this.nodeDragged != -1)
+            else if(this.nodeDragged !== -1)
             {
                 var leftPoint =this.nodes[this.nodeDragged -1].x;
                 var rightPoint =this.nodes[this.nodeDragged +1].x;
@@ -287,7 +287,7 @@ export default connect(
         }
 
         // turn off hovering if cursor left opacity canvas
-        if(this.hovering && e.target != this.opCanvas){
+        if(this.hovering && e.target !== this.opCanvas){
             this.opCanvas.className = "";
             this.hovering = false;
             this.nodeHovered = -1;
