@@ -64,7 +64,7 @@ export default class Layout extends Component {
   }
 
   render () {
-    const { opened, count } = this.state
+    const { opened } = this.state
     return (
 
       <div id="visualizer">  
