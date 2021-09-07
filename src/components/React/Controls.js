@@ -115,7 +115,7 @@ export default connect(
   volumeChangedEvent = ()=>
   {
     console.log("volumeChangedEvent");
-    return this.props.volumeData == "" || this.props.volumeData === undefined ? true : false;
+    return this.props.volumeData === "" || this.props.volumeData === undefined ? true : false;
   }
 
   volumeSelectChanged = (selected) =>
@@ -166,7 +166,7 @@ export default connect(
         <div> 
         
         <br/> 
-        <div  style={(this.props.volumeData != "" ) ? {} : { display: 'none' }} >
+        <div  style={(this.props.volumeData !== "" ) ? {} : { display: 'none' }} >
 
           <label>Channel</label>
            <br/>
@@ -180,13 +180,13 @@ export default connect(
           <br/>
           Enable Color Map &nbsp;
           <Checkbox id="colorMapCheckBox" tooltip="Enabled when a Volume is loaded" 
-            disabled={(this.props.volumeData == "" || this.props.volumeData === undefined ? true : false)} 
+            disabled={(this.props.volumeData === "" || this.props.volumeData === undefined ? true : false)} 
             onChange={this.handleCheckBoxInputChange} checked={this.state.activateColorMapping}>
           </Checkbox> 
         </label>
        
           <div style={this.state.activateColorMapping &&
-             (this.props.volumeData != "" )? {} : { display: 'none' }} >
+             (this.props.volumeData !== "" )? {} : { display: 'none' }} >
            <ColorMapControl width="250" />
            <OpacityControl  width="250" />
           </div>
@@ -202,7 +202,7 @@ export default connect(
          </label>
         
          <Range  style={{width: '14em'}} 
-                 disabled = {(this.props.volumeData == "" || this.props.volumeData === undefined) ? true : false} 
+                 disabled = {(this.props.volumeData === "" || this.props.volumeData === undefined) ? true : false} 
                  allowCross={false} 
                  step={0.0009} 
                  defaultValue={[0, 1]} 
@@ -217,7 +217,7 @@ export default connect(
          Y Slide <br/>
          </label>
            <Range style={{width: '14em'}} 
-                  disabled = {(this.props.volumeData == "" || this.props.volumeData === undefined) ? true : false} 
+                  disabled = {(this.props.volumeData === "" || this.props.volumeData === undefined) ? true : false} 
                   allowCross={false} 
                   step={0.0009} 
                   defaultValue={[0, 1]} 
@@ -230,7 +230,7 @@ export default connect(
          Z Slide <br/>
          </label>
            <Range style={{width: '14em'}} 
-                  disabled = {(this.props.volumeData == "" || this.props.volumeData === undefined) ? true : false} 
+                  disabled = {(this.props.volumeData === "" || this.props.volumeData === undefined) ? true : false} 
                   allowCross={false} 
                   step={0.0009} 
                   defaultValue={[0, 1]} 
