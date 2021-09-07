@@ -49,19 +49,17 @@ const data = [
   ];
 
 
-  const columnsData = [
-    {
-      name: 'Color Map',
-      selector: 'colormap',
-      cell: d => <img height="15x" width="100px"  src={d.image} />,
-    },
-    {
-      name: 'Name',
-      selector: 'name',
-  
-    },
-    
-  ]
+// const columnsData = [
+//     {
+//       name: 'Color Map',
+//       selector: 'colormap',
+//       cell: d => <img height="15x" width="100px"  src={d.image} alt=""/>,
+//     },
+//     {
+//       name: 'Name',
+//       selector: 'name',
+//     },
+//   ];
   
 
 export default connect(
@@ -130,7 +128,7 @@ export default connect(
 
     render () {
         let colorMapSelection;
-        if(this.state.currentMapColor != '')  
+        if(this.state.currentMapColor !== '')  
         {
           colorMapSelection = <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width={this.props.width}></img>       
         }
