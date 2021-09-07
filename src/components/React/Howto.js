@@ -21,29 +21,32 @@ export default class Howto extends Component {
                 Welcome to the Web-VR Volume viewer. This short guide is meant to help new users on to use the application and 
                 and showcase the potential its potential for future research.
             </p>
-            <img src=
-               "https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/guide12.png" 
-               height="400px">
-            </img>
+            <img 
+               src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/guide12.png" 
+               alt="Example screenshot"
+               height="400px"
+            />
             <br/>
             <br/>
             <p>Click on the buttons to display data on the visualizer. Click on the same button to remove the data from the scene. You can switch between datasets by clicking the respective button.
             </p>  
 
-            <img src=
-               "https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/datasetbuttons.gif" 
-               height="400px">
-            </img>
+            <img 
+               src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/datasetbuttons.gif" 
+               alt="Instructional gif on displaying data"
+               height="400px"
+            />
             <br/>
             <br/>
            
             <p >
               Use the mouse wheel to zoom in (scroll up) and zoom out (scroll down). Keep pressed the mouse left button and drag the mouse to rotate the data on three different axes.
             </p>
-            <img src=
-               "https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/zoomInOut-Rotate.gif" 
-               height="400px">
-            </img>
+            <img 
+               src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/zoomInOut-Rotate.gif" 
+               alt="Instructional gif on zooming in and out"
+               height="400px"
+            />
 
             <br/>
             <br/>
@@ -51,18 +54,20 @@ export default class Howto extends Component {
             <p>
               You can visualize the dataset RGBA channels independently. After selecting a set, in the controller’s panel, select the desired channel.
             </p>
-            <img src=
-               "https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/channels.gif" 
-               height="400px">
-            </img>
+            <img 
+               src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/channels.gif" 
+               alt="Instructional gif on selecting RGBA channels"
+               height="400px"
+            />
             <br/>
             <br/>
            
             <p>
             Check the “Enable color mapping” box to apply a 1d color texture to the dataset. Some regions will highlight more than others according to specific colors. Use the Transfer function graph to modify the transparency of pixels according to their mapped color. To add point double click on the place you want to put a new control point. Right click on an existing point to delete it.
             </p>
-            <img src=
-               "https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/colorMappingTransfer.gif" 
+            <img 
+               src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/colorMappingTransfer.gif" 
+               alt="Instructional gif on applying a color texture"
                height="400px">
             </img>
             <br/>
@@ -71,10 +76,11 @@ export default class Howto extends Component {
             <p>
             Lastly, use the ranged slices to cut through the dataset on three different axes
             </p>
-            <img src=
-               "https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/slice.gif" 
-               height="400px">
-            </img>
+            <img 
+               src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/slice.gif" 
+               alt="Instructional gif on cutting through the dataset on an axis"
+               height="400px"
+            />
             <br/>
             <br/>
            
@@ -93,10 +99,11 @@ export default class Howto extends Component {
                 </ol> 
                 <br/>
                 <br/>
-            <img src=
-                  "https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/webvrNvidia2.gif" 
-                  height="400px">
-                </img>
+            <img 
+               src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/webvrNvidia2.gif" 
+               alt="Instructional gif on enabling graphics accelerator on Mozilla Firefox"
+               height="400px"
+            />
            </div>
        );
    }
