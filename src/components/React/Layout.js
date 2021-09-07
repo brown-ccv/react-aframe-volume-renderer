@@ -5,9 +5,6 @@ import React, {Component} from 'react'
 import VolumeRenderer from './VolumeRenderer';
 import ControlsPanel from './ControlsPanel';
 import Howto from './Howto'
-import EnableNvidia from './EnableNvidia'
-
-
 
 import '../../styles/scroll_nav.scss';
 import '../../App.css';
@@ -28,7 +25,8 @@ import Flexbox from 'flexbox-react';
 import NewWindow from 'react-new-window'
 import {Button} from 'primereact/button';
 
-import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll';
+// import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll';
+import { Element } from 'react-scroll'
 
 export default class Layout extends Component {
 
