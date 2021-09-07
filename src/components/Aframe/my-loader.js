@@ -95,11 +95,6 @@ AFRAME.registerComponent('myloader', {
 		}
 
 		this.colorMap.img = document.createElement("img");
-		console.log("data: " + this.data.volumeData);
-		var sceneEl = this.el;
-		console.log(sceneEl.canvas);
-		var canvas = document.querySelector('a-canvas');
-		console.log(canvas);
 		this.colorTransfer = new Uint8Array(3 * 256);
 
 		this.isVrModeOn = false;
@@ -222,13 +217,11 @@ AFRAME.registerComponent('myloader', {
 	},
 
 	debugScene:function(evt) {
-		var sceneEl = this.el.sceneEl.object3D
-		//var els = sceneEl.querySelectorAll('*');
-		//console.log("Elements");
-        //for (var i = 0; i < els.length; i++) {
-        // console.log(els[i]);
-	   // }
-	   console.log(sceneEl);
+		// var els = sceneEl.querySelectorAll('*');
+		// console.log("Elements");
+    	// for (var i = 0; i < els.length; i++) {
+    	// 	console.log(els[i]);
+	    // }
 	},
 
 	updateTransfertexture: function () {
@@ -494,7 +487,6 @@ AFRAME.registerComponent('myloader', {
 	},
 
 	update: function (oldData) {
-		console.log("this.data.volumeData "+this.data.volumeData);
 		if(oldData.cameraState !== undefined && oldData.cameraState !== this.data.cameraState )
 		{
              
