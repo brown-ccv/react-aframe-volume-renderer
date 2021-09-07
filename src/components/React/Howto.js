@@ -1,6 +1,4 @@
 import React, {Component} from 'react'
-import Nav from 'react-bootstrap/Nav'
-import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll';
 
 export default class Howto extends Component {
    render()
