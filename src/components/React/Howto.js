@@ -6,7 +6,10 @@ export default class Howto extends Component {
        return(
            <div>
                <div>
-                 <h3>Web VR Volume Visualizer user guide 👋</h3>  
+                  <h3>
+                    Web VR Volume Visualizer user guide 
+                    <span role="img" aria-label="waving emoji">👋</span>
+                  </h3>  
                </div>
 
                
