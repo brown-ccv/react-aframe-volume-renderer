@@ -192,7 +192,7 @@ Modeling (C-AIM)"<br/>
               <Flexbox display="flex" flexDirection="row" justifyContent="space-around" minHeight="100vh">
                 <Flexbox element="div" justifyContent="center" height="60px" width="33%">
                   <Flexbox display="flex" flexDirection="column">
-                    <img src={Camilo} height="200px"></img>
+                    <img src={Camilo} alt="Camilo" height="200px" />
                     <div >
                       <a className="peopleLink" href="mailto:camilo_diaz@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Camilo Diaz</a>
                       <br /><a className="peopleLink" href="https://github.com/kmilo9999" target="_blank"><Github width={30} /></a>
@@ -201,7 +201,7 @@ Modeling (C-AIM)"<br/>
                 </Flexbox>
                 <Flexbox element="div" justifyContent="center" height="60px" width="33%">
                   <Flexbox display="flex" flexDirection="column">
-                    <img src={Ben} height="200px"></img>
+                    <img src={Ben} alt="Ben" height="200px" />
                     <div>
                       <a className="peopleLink" href="mailto:benjamin_knorlein@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Benjamin Knörlein</a>
                       <br /><a className="peopleLink" href="https://github.com/BenKnorlein" target="_blank"><Github width={30} /></a>
@@ -210,7 +210,7 @@ Modeling (C-AIM)"<br/>
                 </Flexbox>
                 <Flexbox element="div" justifyContent="center" height="60px" width="33%">
                   <Flexbox display="flex" flexDirection="column">
-                    <img src={Kalvin} height="200px"></img>
+                    <img src={Kalvin} alt="Kevin" height="200px" />
                     <div>
                       <a className="peopleLink" href="mailto:kalvin_lam@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Kalvin Lam</a>
                       <br /><a className="peopleLink" href="https://github.com/theklam" target="_blank"><Github width={30} /></a>
@@ -238,7 +238,7 @@ Modeling (C-AIM)"<br/>
              <Flexbox display="flex" flexDirection="row" justifyContent="space-around" minHeight="100vh">
                 <Flexbox element="div" justifyContent="center" height="60px" width="33%">
                   <Flexbox display="flex" flexDirection="column">
-                    <img src={NSFEPSCoR}></img>
+                    <img src={NSFEPSCoR} alt="Rhode Island NSF EPSCoR"/>
                   </Flexbox>
                 </Flexbox>
              </Flexbox>
