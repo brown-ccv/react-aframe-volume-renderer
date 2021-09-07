@@ -109,7 +109,7 @@ AFRAME.registerComponent('arcball-camera', {
 
     update: function (oldData) {
       var controls = this.controls;
-      var data = this.data;
+      // var data = this.data;
       controls.rotateSpeed = 1.0;
       controls.zoomSpeed = 1.2;
       controls.panSpeed = 0.8;
