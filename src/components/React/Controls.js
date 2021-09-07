@@ -138,109 +138,89 @@ export default connect(
      this.props.myChannelChanged(selected.value,this.props.volumeData);
   }
 
-  componentWillMount() {
-
-  }
-
   resetCamera()
   {
     this.props.myCameraReset();
   }
   
   render () {
- 
-  return (
-      
-      <div id="controls" className="controls-container" >
-       
-       
+    return (
+      <div id="controls" className="controls-container" >       
         <br/>
-
-       {/* <label>Volume</label>
-        <br/>
-       
-        <Dropdown value={this.state.currentData} 
-       options={options} 
-       onChange={this.volumeSelectChanged} placeholder="Select Data"/>*/}
-
         <div> 
-        
-        <br/> 
-        <div  style={(this.props.volumeData !== "" ) ? {} : { display: 'none' }} >
-
-          <label>Channel</label>
-           <br/>
-          <Dropdown disabled={this.state.activateColorMapping} value={this.state.dataCurrentChannel} 
-            options={channelOptions} 
-            onChange={this.channelSelectChanged} placeholder="Select Channel"/>
-          <br/>
-        </div>
-
-        <label>
-          <br/>
-          Enable Color Map &nbsp;
-          <Checkbox id="colorMapCheckBox" tooltip="Enabled when a Volume is loaded" 
-            disabled={(this.props.volumeData === "" || this.props.volumeData === undefined ? true : false)} 
-            onChange={this.handleCheckBoxInputChange} checked={this.state.activateColorMapping}>
-          </Checkbox> 
-        </label>
-       
-          <div style={this.state.activateColorMapping &&
-             (this.props.volumeData !== "" )? {} : { display: 'none' }} >
-           <ColorMapControl width="250" />
-           <OpacityControl  width="250" />
+          <br/> 
+          <div  style={(this.props.volumeData !== "" ) ? {} : { display: 'none' }} >
+            <label>Channel</label>
+             <br/>
+            <Dropdown 
+              disabled={this.state.activateColorMapping} 
+              value={this.state.dataCurrentChannel} 
+              options={channelOptions} 
+              onChange={this.channelSelectChanged} 
+              placeholder="Select Channel"
+            />
+            <br/>
           </div>
-     
-       </div>
+
+          <label>
+            <br/>
+            Enable Color Map &nbsp;
+            <Checkbox 
+              id="colorMapCheckBox" 
+              tooltip="Enabled when a Volume is loaded" 
+              disabled={(this.props.volumeData === "" || this.props.volumeData === undefined ? true : false)} 
+              onChange={this.handleCheckBoxInputChange} checked={this.state.activateColorMapping}>
+            </Checkbox> 
+          </label>
        
-      
-         <br/> 
-         <div className="slices-container" >
-         <label>
-            X Slide <br/>
+          <div style={this.state.activateColorMapping && 
+            (this.props.volumeData !== "" )? {} : { display: 'none' }}
+          >
+            <ColorMapControl width="250" />
+            <OpacityControl  width="250" />
+          </div>
+        </div>
+        <br/> 
 
-         </label>
-        
-         <Range  style={{width: '14em'}} 
-                 disabled = {(this.props.volumeData === "" || this.props.volumeData === undefined) ? true : false} 
-                 allowCross={false} 
-                 step={0.0009} 
-                 defaultValue={[0, 1]} 
-                 min={0} 
-                 max={1} 
-                 onChange={this.xSlideHandleChange}/> 
-         
+        <div className="slices-container" >
+         <label>X Slide <br/></label>
+         <Range  
+          style={{width: '14em'}} 
+          disabled = {(this.props.volumeData === "" || this.props.volumeData === undefined) ? true : false} 
+          allowCross={false} 
+          step={0.0009} 
+          defaultValue={[0, 1]} 
+          min={0} 
+          max={1} 
+          onChange={this.xSlideHandleChange}
+        />
+        <br/>
 
-         <br/>
+        <label> Y Slide <br/></label>
+        <Range 
+          style={{width: '14em'}} 
+          disabled = {(this.props.volumeData === "" || this.props.volumeData === undefined) ? true : false} 
+          allowCross={false} 
+          step={0.0009} 
+          defaultValue={[0, 1]} 
+          min={0} 
+          max={1} 
+          onChange={this.ySlideHandleChange}
+        /> 
+        <br/>
 
-         <label>
-         Y Slide <br/>
-         </label>
-           <Range style={{width: '14em'}} 
-                  disabled = {(this.props.volumeData === "" || this.props.volumeData === undefined) ? true : false} 
-                  allowCross={false} 
-                  step={0.0009} 
-                  defaultValue={[0, 1]} 
-                  min={0} 
-                  max={1} 
-                  onChange={this.ySlideHandleChange}/> 
-         <br/>
-
-         <label>
-         Z Slide <br/>
-         </label>
-           <Range style={{width: '14em'}} 
-                  disabled = {(this.props.volumeData === "" || this.props.volumeData === undefined) ? true : false} 
-                  allowCross={false} 
-                  step={0.0009} 
-                  defaultValue={[0, 1]} 
-                  min={0} 
-                  max={1} 
-                  onChange={this.zSlideHandleChange}/> 
-         </div>
-
+        <label> Z Slide <br/> </label>
+        <Range 
+          style={{width: '14em'}} 
+          disabled = {(this.props.volumeData === "" || this.props.volumeData === undefined) ? true : false} 
+          allowCross={false} 
+          step={0.0009} 
+          defaultValue={[0, 1]} 
+          min={0} 
+          max={1} 
+          onChange={this.zSlideHandleChange}/> 
+        </div>
       </div>
-
-  );
-}
-})
+    );
+  }
+});

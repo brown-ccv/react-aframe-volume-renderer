@@ -62,10 +62,10 @@ const data = [
 //   ];
   
 
-export default connect(
-  mapStateToProps,
-   {myChangeColorMapAction,mySaveColorMappingState})
-   ( class ControlMappingController extends Component {
+export default connect(mapStateToProps, 
+    {myChangeColorMapAction,mySaveColorMappingState}
+)
+(class ControlMappingController extends Component {
     
     constructor(props) {
         super(props);
@@ -80,50 +80,45 @@ export default connect(
         this.datatable = this.datatable.bind(this);
         this.handleDataTableSelected = this.handleDataTableSelected.bind(this);
         this.handleCloseModal = this.handleCloseModal.bind(this);
-    }
 
-    componentWillMount() {
         ReactModal.setAppElement('body');
-       
     }
     
     componentWillUnmount() {
-
         //-- save state
        // console.log("componentWillUnmount: " +this.state.currentMapColor);
         this.props.mySaveColorMappingState(this.state.currentMapColor);
     }
-      showModal  = () => {
+    
+    showModal  = () => {
         this.setState({ colorMapModal: true });
      };
 
-     handleCloseModal () {
-
+    handleCloseModal () {
         this.props.myChangeColorMapAction(this.state.currentMapColor, this.props.volumeData);
         this.setState({ colorMapModal: false });
-      }
+    }
 
-     datatable ()
-     {
-
+    datatable () {
        return  (
-         
-         <DataTable  value={data} style={{width: '350px'}}
-            selection={this.state.colorMapSelected} onSelectionChange={this.handleDataTableSelected}>
-            <Column selectionMode="single" />
-           <Column field="image" header="Color" />
-           <Column field="name" header="Name" />
+        <DataTable  
+          style={{width: '350px'}}
+          value={data} 
+          selection={this.state.colorMapSelected} 
+          onSelectionChange={this.handleDataTableSelected}
+        >
+          <Column selectionMode="single" />
+          <Column field="image" header="Color" />
+          <Column field="name" header="Name" />
          </DataTable>
        );
      }
 
      handleDataTableSelected= (state) => { 
-     
         this.setState({
             colorMapSelected:state.value,
             currentMapColor:state.value.image.props.src
-           });
-        
+        });
       };
 
     render () {
@@ -132,31 +127,27 @@ export default connect(
         {
           colorMapSelection = <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width={this.props.width}></img>       
         }
-        else{
+        else {
           colorMapSelection = ''; 
         }
-        return ( <div>
+
+        return ( 
+          <div>
             <button type= "button" onClick={this.showModal}>
-            color map
+                color map
             </button>
             <br/>
-            {
-             /*<img className="colorMapImg" src="" alt="color map" height="15" width="100"></img> */
-             colorMapSelection
-            }
+            {colorMapSelection}
             <ReactModal 
-            isOpen={this.state.colorMapModal}
-            style={customStyles}
-            contentLabel="Minimal Modal Example"
-           >
-    
-           { this.BasicSelectable  = this.datatable()
-           }
-           
-           <br/>
-           <button onClick={this.handleCloseModal}>Apply</button>
-         </ReactModal>
-         </div>);
-   
+              isOpen={this.state.colorMapModal}
+              style={customStyles}
+              contentLabel="Minimal Modal Example"
+            >
+              {this.BasicSelectable  = this.datatable()}
+              <br/>
+            <button onClick={this.handleCloseModal}>Apply</button>
+           </ReactModal>
+         </div>
+        );
     }
 })
