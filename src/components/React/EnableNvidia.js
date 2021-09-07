@@ -22,10 +22,11 @@ export default class EnableNvidia extends Component {
                 </ol> 
                 <br/>
                 <br/>
-                <img src=
-                  "https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/webvrNvidia2.gif" 
-                  height="400px">
-                </img>
+                <img 
+                  src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/webvrNvidia2.gif" 
+                  alt="Instructional gif on enabling graphics accelerator on Mozilla Firefox"
+                  height="400px"
+                />
                <br/>
                <br/>
                
