@@ -55,14 +55,14 @@ export default class Layout extends Component {
   toggleOpened() {
     this.setState(prevState => ({ opened: !prevState.opened }))
   }
-
   toggleOpened2() {
     this.setState(prevState => ({ openedNvidia: !prevState.openedNvidia }))
   }
+
   newWindowUnloaded() {
-   
     this.setState({ opened: false })
   }
+
   render () {
     const { opened, count } = this.state
     return (
