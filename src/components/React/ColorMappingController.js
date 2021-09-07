@@ -31,19 +31,19 @@ const customStyles = {
 const data = [
     { 
       name: 'viridis',
-      image: <img height="15x" width="100px"  src='./colormaps/viridis.png' />
+      image: <img height="15x" width="100px"  src='./colormaps/viridis.png' alt=""/>
     },
     { 
       name: 'natural',
-      image: <img height="15x" width="100px"  src='./colormaps/natural.png' />
+      image: <img height="15x" width="100px"  src='./colormaps/natural.png' alt=""/>
     },
     {
       name: 'colors',
-      image: <img height="15x" width="100px"  src='./colormaps/colors.png' /> 
+      image: <img height="15x" width="100px"  src='./colormaps/colors.png' alt=""/> 
     },
     {
       name: 'white black',
-      image: <img height="15x" width="100px"  src='./colormaps/whiteblack.png' /> 
+      image: <img height="15x" width="100px"  src='./colormaps/whiteblack.png' alt=""/> 
     },
   
   ];
