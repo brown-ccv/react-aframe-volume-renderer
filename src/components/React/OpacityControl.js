@@ -114,7 +114,7 @@ export default connect(
 		this.opContext.lineWidth = 2;
        
        this.nodesCanvasSpace = [];
-       for(var i = 0; i< this.nodes.length; i++)
+       for(let i = 0; i< this.nodes.length; i++)
        { 
         
         var xPosInvertedCanvas = ~~(this.nodes[i].x)+ this.padding;
@@ -129,7 +129,7 @@ export default connect(
             this.opContext.beginPath();
             this.opContext.moveTo(this.padding, this.minLevelY);
             this.opContext.lineTo(this.nodesCanvasSpace[0].x, this.nodesCanvasSpace[0].y);
-            for(var i = 0; i <= this.nodesCanvasSpace.length - 2; i++)
+            for(let i = 0; i <= this.nodesCanvasSpace.length - 2; i++)
             {
              
                 this.opContext.moveTo(this.nodesCanvasSpace[i].x, this.nodesCanvasSpace[i].y);
@@ -145,7 +145,7 @@ export default connect(
         this.opContext.strokeStyle = "#AAAAAA";
         this.opContext.lineWidth = 2;
        
-        for(var i = 0; i< this.nodesCanvasSpace.length; i++)
+        for(let i = 0; i< this.nodesCanvasSpace.length; i++)
         {
             if(this.nodeHovered == i)
             {
@@ -167,7 +167,7 @@ export default connect(
     {
         this.normalizedXCanvasSpace = [];
         this.normalizedYCanvasSpace = [];
-        for(var i = 0; i< this.nodesCanvasSpace.length; i++)
+        for(let i = 0; i< this.nodesCanvasSpace.length; i++)
         {  
             this.normalizedXCanvasSpace.push( (this.nodesCanvasSpace[i].x - this.padding )/this.width);
             this.normalizedYCanvasSpace.push( 1-((this.nodesCanvasSpace[i].y - this.padding)/this.height) );
@@ -203,7 +203,7 @@ export default connect(
      //console.log("newPoint: " +newPoint.x + " "+newPoint.y)
 
      var indexToBeInserted = - 1;
-     for(var i = 0; i< this.nodes.length; i++)
+     for(let i = 0; i< this.nodes.length; i++)
      {
          if(this.nodes[i].x > newPoint.x)
          {
@@ -220,7 +220,7 @@ export default connect(
         this.nodes.splice(indexToBeInserted, 0, newPoint);
      }
      
-     /*for(var i = 0; i< this.nodes.length; i++)
+     /*for(let i = 0; i< this.nodes.length; i++)
      {
         console.log(this.nodes[i].x + " " + this.nodes[i].y)
      }*/
@@ -234,7 +234,7 @@ export default connect(
     changePointer(e)
     {
         var hitPoint = false;
-        for(var i = 0; i< this.nodes.length; i++)
+        for(let i = 0; i< this.nodes.length; i++)
         {
             
             var normalizedCoordinates = {x:  this.nodes[i].x + this.padding, y: (this.height- this.nodes[i].y)+this.padding };
@@ -298,7 +298,7 @@ export default connect(
     onMouseDown(e)
     {
       
-        for(var i = 0; i< this.nodes.length; i++)
+        for(let i = 0; i< this.nodes.length; i++)
         {
             var normalizedCoordinates = {x:  this.nodes[i].x + this.padding, y: (this.height- this.nodes[i].y)+this.padding };
             if(Math.sqrt(Math.pow(e.offsetX-normalizedCoordinates.x, 2)+Math.pow(e.offsetY-normalizedCoordinates.y, 2)) <= this.hoverRadius)
