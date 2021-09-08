@@ -30663,11 +30663,11 @@ function SphereBufferGeometry( radius, widthSegments, heightSegments, phiStart, 
 
 		var uOffset = 0;
 
-		if ( iy === 0 && thetaStart === 0 ) {
+		if ( iy == 0 && thetaStart == 0 ) {
 
 			uOffset = 0.5 / widthSegments;
 
-		} else if ( iy === heightSegments && thetaEnd === Math.PI ) {
+		} else if ( iy == heightSegments && thetaEnd == Math.PI ) {
 
 			uOffset = - 0.5 / widthSegments;
 
