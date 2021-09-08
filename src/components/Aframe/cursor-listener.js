@@ -3,7 +3,6 @@
 // Component to change to a sequential color on click.
 AFRAME.registerComponent('cursor-listener', {
     init: function () {
-    console.log("INIT cursor-listener ");
       this.lastIndex = -1;
       this.COLORS = ['red', 'green', 'blue'];
       this.dragging = false;

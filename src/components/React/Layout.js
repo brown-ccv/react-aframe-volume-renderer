@@ -1,13 +1,8 @@
-
-
 import React, {Component} from 'react'
 
 import VolumeRenderer from './VolumeRenderer';
 import ControlsPanel from './ControlsPanel';
 import Howto from './Howto'
-import EnableNvidia from './EnableNvidia'
-
-
 
 import '../../styles/scroll_nav.scss';
 import '../../App.css';
@@ -28,12 +23,11 @@ import Flexbox from 'flexbox-react';
 import NewWindow from 'react-new-window'
 import {Button} from 'primereact/button';
 
-import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll';
+// import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll';
+import { Element } from 'react-scroll'
 
 export default class Layout extends Component {
-
-  constructor(props)
-  {
+  constructor(props) {
     super(props);
     this.state = {
       openedHowto: false,
@@ -41,7 +35,6 @@ export default class Layout extends Component {
       sideBarVisible:true,
     };
     //this.openGuide = this.openGuide.bind(this);
-    
   }
   
   componentDidMount() {
@@ -57,27 +50,26 @@ export default class Layout extends Component {
   toggleOpened() {
     this.setState(prevState => ({ opened: !prevState.opened }))
   }
-
   toggleOpened2() {
     this.setState(prevState => ({ openedNvidia: !prevState.openedNvidia }))
   }
+
   newWindowUnloaded() {
-   
     this.setState({ opened: false })
   }
-  render () {
-    const { opened, count } = this.state
-    return (
 
+  render () {
+    const { opened } = this.state
+    return (
       <div id="visualizer">  
         <Navbar sticky="top" bg="light" expand="lg">
           <div className="navbar-header">
             <a href="https://www.brown.edu">
-                <BrownLogo width={100} />
+              <BrownLogo width={100} />
             </a>
             &nbsp;&nbsp;
             <a href="https://ccv.brown.edu">
-                <CCVLogo width={100}/>
+              <CCVLogo width={100}/>
             </a>
           </div>
           
@@ -94,57 +86,50 @@ export default class Layout extends Component {
         </Navbar>
         
         <div className="d-flex flex-column" id="app">
-            <div   className="voume-renderer mx-1">  
-              <ControlsPanel/>
-              <VolumeRenderer/>
-            </div>
+          <div className="voume-renderer mx-1">  
+            <ControlsPanel/>
+            <VolumeRenderer/>
+          </div>
         </div>
 
         <Element name="Guide" className="element">
-           <div  id="Guide" className="light-page-new-short">
-           <br/>
-           <br/>
-           <br/>
-           <br/>
-            <div  className="light-page-subtitle">
-                <p>Learn How To Use it</p>
-                <Button label="Guide" onClick={() => this.toggleOpened()} />
+          <div  id="Guide" className="light-page-new-short">
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <div className="light-page-subtitle">
+              <p>Learn How To Use it</p>
+              <Button label="Guide" onClick={() => this.toggleOpened()} />
                 {opened && (
                   <NewWindow
                     onUnload={() => this.newWindowUnloaded()}
                     features={{ left: 200, top: 200, width: 800, height: 800 }}
                     title="Aframe Volume Viewer Guide"
                   >
-                  
-                  <Howto></Howto> 
-                  
-                    
+                  <Howto /> 
                   </NewWindow>
                 )}
             </div>
             <br/>
-            
-           </div>
+          </div>
         </Element>
 
         <Element name="infoTarget" className="element">
           <div id="infoTarget" className="light-page-long">
-            
-            
-            
             <div className="light-page-title" key="title">
               <p>Web VR Volume Renderer</p>
             </div>
             
             <div className="light-page-description">
 
-            <p>
-              The Center for Computation and Visulization at Brown 
-              University (<a href="https://ccv.brown.edu/">CCV</a>)
-              is always searching and developing tools to help researchers visualizating and analizing their data.
-              Thinking on how to facilitate the access to scienctific data from any type of device and location, and using
-              the latests techonologies on web development, web 3D rendering and Virtual Reality (VR), this application
-             is presented as a an initative to address those goals.<br/>
+              <p>
+                The Center for Computation and Visualization at Brown 
+                University (<a href="https://ccv.brown.edu/">CCV</a>)
+                is always searching and developing tools to help researchers visualizations and analyzing their data.
+                Thinking on how to facilitate the access to scientific data from any type of device and location, and using
+                the latests technologies on web development, web 3D rendering and Virtual Reality (VR), this application
+                is presented as a an initiative to address those goals.<br/>
               </p>
             </div>
             
@@ -159,29 +144,23 @@ export default class Layout extends Component {
                 field and background interested in using this application to contact us
                 about how it can be used for your research projects.<br/>
               </p>
-
-
             </div>
 
             <div className="light-page-description">
-
-            <p>
-CCV's goal is to help researchers in visualizing and analyzing their
-data and provides tools which facilitate the access to scientific data
-from any type of device and location by using the latest technologies on
-web development, 3D web rendering and Virtual Reality (VR). With over 5
-years of experience, it has assisted researchers in projects at Brown
-University and affiliated RI institutions.<br/>
-</p>
-<p>
-This work was supported by the NSF EPSCoR grant 1655221: "RII Track-1:
-Rhode Island Consortium for Coastal Ecology Assessment, Innovation, and
-Modeling (C-AIM)"<br/>
-</p>
+              <p>
+                CCV's goal is to help researchers in visualizing and analyzing their
+                data and provides tools which facilitate the access to scientific data
+                from any type of device and location by using the latest technologies on
+                web development, 3D web rendering and Virtual Reality (VR). With over 5
+                years of experience, it has assisted researchers in projects at Brown
+                University and affiliated RI institutions.<br/>
+              </p>
+              <p>
+                This work was supported by the NSF EPSCoR grant 1655221: "RII Track-1:
+                Rhode Island Consortium for Coastal Ecology Assessment, Innovation, and
+                Modeling (C-AIM)"<br/>
+              </p>
             </div>
-
-
-            
           </div>
         </Element>
 
@@ -191,66 +170,65 @@ Modeling (C-AIM)"<br/>
               <p>People</p>
             </div>
                        
-              <Flexbox display="flex" flexDirection="row" justifyContent="space-around" minHeight="100vh">
-                <Flexbox element="div" justifyContent="center" height="60px" width="33%">
-                  <Flexbox display="flex" flexDirection="column">
-                    <img src={Camilo} height="200px"></img>
-                    <div >
-                      <a className="peopleLink" href="mailto:camilo_diaz@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Camilo Diaz</a>
-                      <br /><a className="peopleLink" href="https://github.com/kmilo9999" target="_blank"><Github width={30} /></a>
-                    </div>
-                  </Flexbox>
-                </Flexbox>
-                <Flexbox element="div" justifyContent="center" height="60px" width="33%">
-                  <Flexbox display="flex" flexDirection="column">
-                    <img src={Ben} height="200px"></img>
-                    <div>
-                      <a className="peopleLink" href="mailto:benjamin_knorlein@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Benjamin Knörlein</a>
-                      <br /><a className="peopleLink" href="https://github.com/BenKnorlein" target="_blank"><Github width={30} /></a>
-                    </div>
-                  </Flexbox>
-                </Flexbox>
-                <Flexbox element="div" justifyContent="center" height="60px" width="33%">
-                  <Flexbox display="flex" flexDirection="column">
-                    <img src={Kalvin} height="200px"></img>
-                    <div>
-                      <a className="peopleLink" href="mailto:kalvin_lam@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Kalvin Lam</a>
-                      <br /><a className="peopleLink" href="https://github.com/theklam" target="_blank"><Github width={30} /></a>
-                    </div>
-                  </Flexbox>
+            <Flexbox display="flex" flexDirection="row" justifyContent="space-around" minHeight="100vh">
+              <Flexbox element="div" justifyContent="center" height="60px" width="33%">
+                <Flexbox display="flex" flexDirection="column">
+                  <img src={Camilo} alt="Camilo" height="200px" />
+                  <div>
+                    <a className="peopleLink" href="mailto:camilo_diaz@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Camilo Diaz</a>
+                    <br />
+                    <a className="peopleLink" href="https://github.com/kmilo9999" target="_blank" rel="noopener noreferrer"><Github width={30} /></a>
+                  </div>
                 </Flexbox>
               </Flexbox>
-            
+              <Flexbox element="div" justifyContent="center" height="60px" width="33%">
+                <Flexbox display="flex" flexDirection="column">
+                  <img src={Ben} alt="Ben" height="200px" />
+                  <div>
+                    <a className="peopleLink" href="mailto:benjamin_knorlein@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Benjamin Knörlein</a>
+                    <br />
+                    <a className="peopleLink" href="https://github.com/BenKnorlein" target="_blank" rel="noopener noreferrer"><Github width={30} /></a>
+                  </div>
+                </Flexbox>
+              </Flexbox>
+              <Flexbox element="div" justifyContent="center" height="60px" width="33%">
+                <Flexbox display="flex" flexDirection="column">
+                  <img src={Kalvin} alt="Kevin" height="200px" />
+                  <div>
+                    <a className="peopleLink" href="mailto:kalvin_lam@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Kalvin Lam</a>
+                    <br />
+                    <a className="peopleLink" href="https://github.com/theklam" target="_blank" rel="noopener noreferrer"><Github width={30} /></a>
+                  </div>
+                </Flexbox>
+              </Flexbox>
+            </Flexbox>
           </div>
         </Element>
 
         <Element name="acknowledgements" className="element">
-         
           <div id="acknowledgements" className="light-page">
              <div className="light-page-title" key="title">
               <p>Acknowledgements</p>
              </div>
+
              <div className="light-page-description">
                <p>
-               The development of framework for the volume visualization was 
-              supported by the NSF EPSCoR grant 1655221: "RII Track-1: Rhode Island Consortium for Coastal Ecology Assessment, Innovation, and Modeling (C-AIM)"
+                  The development of framework for the volume visualization was supported by the 
+                  NSF EPSCoR grant 1655221: "RII Track-1: Rhode Island Consortium for Coastal 
+                  Ecology Assessment, Innovation, and Modeling (C-AIM)"
                </p>
-               
              </div>
-             <Flexbox display="flex" flexDirection="row" justifyContent="space-around" minHeight="100vh">
-                <Flexbox element="div" justifyContent="center" height="60px" width="33%">
-                  <Flexbox display="flex" flexDirection="column">
-                    <img src={NSFEPSCoR}></img>
-                  </Flexbox>
-                </Flexbox>
-             </Flexbox>
-        
-          </div>
-          </Element>
-      
-    </div>
-       
-    );
 
+            <Flexbox display="flex" flexDirection="row" justifyContent="space-around" minHeight="100vh">
+              <Flexbox element="div" justifyContent="center" height="60px" width="33%">
+                <Flexbox display="flex" flexDirection="column">
+                  <img src={NSFEPSCoR} alt="Rhode Island NSF EPSCoR"/>
+                </Flexbox>
+              </Flexbox>
+            </Flexbox>
+          </div>
+        </Element>
+      </div>
+    );
   }
 }

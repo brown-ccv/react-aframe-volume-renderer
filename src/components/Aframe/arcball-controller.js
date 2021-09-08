@@ -5,7 +5,7 @@
  * @author Luca Antiga 	/ http://lantiga.github.io
  */
 
-/* globals AFRAME THREE */
+import {THREE} from "aframe"
 
 THREE.TrackballControls = function ( object, domElement ) {
 
@@ -642,6 +642,8 @@ THREE.TrackballControls = function ( object, domElement ) {
 				_state = STATE.TOUCH_ROTATE;
 				_moveCurr.copy( getMouseOnCircle( event.touches[ 0 ].pageX, event.touches[ 0 ].pageY ) );
 				_movePrev.copy( _moveCurr );
+				break;
+			default:
 				break;
 
 		}

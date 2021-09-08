@@ -65,7 +65,7 @@ export const myReducer = function readCheckBox(state ={initialState},action){
                 
                 return { 
                         colorMap: action.payload,
-                        transferFunction: (action.payload !="" ? true:false),
+                        transferFunction: (action.payload !=="" ? true:false),
                         volumeData: action.payload2
                 };
             }

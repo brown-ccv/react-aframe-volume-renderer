@@ -1,12 +1,12 @@
 /* globals AFRAME THREE */
 import '../../shaders/ccvLibVolumeShader.js'
-import { Quaternion } from '../../libs/three.module.js';
+
 var bind = AFRAME.utils.bind;
 
-var KEYS = [
-	'KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyP',
-	'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ArrowDown'
-];
+// var KEYS = [
+// 	'KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyP',
+// 	'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ArrowDown'
+// ];
 
 AFRAME.registerComponent('collider-check', {
 	dependencies: ['raycaster', 'my-buttons-check'],
@@ -95,11 +95,6 @@ AFRAME.registerComponent('myloader', {
 		}
 
 		this.colorMap.img = document.createElement("img");
-		console.log("data: " + this.data.volumeData);
-		var sceneEl = this.el;
-		console.log(sceneEl.canvas);
-		var canvas = document.querySelector('a-canvas');
-		console.log(canvas);
 		this.colorTransfer = new Uint8Array(3 * 256);
 
 		this.isVrModeOn = false;
@@ -122,7 +117,7 @@ AFRAME.registerComponent('myloader', {
 		this.controllerHandler.matrixAutoUpdate = false;
 		this.grabState = this.controllerHandler.el.getAttribute('my-buttons-check').grabObject;
 		var my2DclipPlane = document.getElementById('my2Dclipplane');
-		if (my2DclipPlane != undefined) {
+		if (my2DclipPlane !== undefined) {
 			this.my2DclipPlaneHandler = my2DclipPlane.object3D;
 		}
 	   
@@ -134,12 +129,9 @@ AFRAME.registerComponent('myloader', {
 		this.bindMethods();
 		this.el.sceneEl.addEventListener('enter-vr', this.onEnterVR); 
 		this.el.sceneEl.addEventListener('exit-vr', this.onExitVR);
-
-		var raycaster, intersected = [];
 		
 		//this.opacityControlPoints = [0, 0.1, 0.3, 0.5, 0.75, 0.8, 0.6, 0.5, 0.0];
 		this.opacityControlPoints = [0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-
 
 		var jet_values = [[0, 0, 0.5],
 		[0, 0, 1],
@@ -177,11 +169,11 @@ AFRAME.registerComponent('myloader', {
 		}
 
 		//interpolation between opacity control points
-		for (var j = 0; j < 9 - 1; j++) {
-			var dDataA = (pData[indices[j + 1]][3] - pData[indices[j]][3]);
-			var dIndex = indices[j + 1] - indices[j];
-			var dDataIncA = dDataA / dIndex;
-			for (var idx = indices[j] + 1; idx < indices[j + 1]; idx++) {
+		for (let j = 0; j < 9 - 1; j++) {
+			let dDataA = (pData[indices[j + 1]][3] - pData[indices[j]][3]);
+			let dIndex = indices[j + 1] - indices[j];
+			let dDataIncA = dDataA / dIndex;
+			for (let idx = indices[j] + 1; idx < indices[j + 1]; idx++) {
 				var myAlpha = pData[idx - 1][3] + dDataIncA;
 				this.alphaData[idx] = myAlpha;
 			}
@@ -189,22 +181,22 @@ AFRAME.registerComponent('myloader', {
 
 
 		// interpolation between colors control points
-		for (var j = 0; j < 9 - 1; j++) {
+		for (let j = 0; j < 9 - 1; j++) {
 
-			var dDataR = (pData[indices[j + 1]][0] - pData[indices[j]][0]);
-			var dDataG = (pData[indices[j + 1]][1] - pData[indices[j]][1]);
-			var dDataB = (pData[indices[j + 1]][2] - pData[indices[j]][2]);
-			var dDataA = (pData[indices[j + 1]][3] - pData[indices[j]][3]);
-			var dIndex = indices[j + 1] - indices[j];
+			let dDataR = (pData[indices[j + 1]][0] - pData[indices[j]][0]);
+			let dDataG = (pData[indices[j + 1]][1] - pData[indices[j]][1]);
+			let dDataB = (pData[indices[j + 1]][2] - pData[indices[j]][2]);
+			let dDataA = (pData[indices[j + 1]][3] - pData[indices[j]][3]);
+			let dIndex = indices[j + 1] - indices[j];
 
-			var dDataIncR = dDataR / dIndex;
-			var dDataIncG = dDataG / dIndex;
-			var dDataIncB = dDataB / dIndex;
-			var dDataIncA = dDataA / dIndex;
+			let dDataIncR = dDataR / dIndex;
+			let dDataIncG = dDataG / dIndex;
+			let dDataIncB = dDataB / dIndex;
+			let dDataIncA = dDataA / dIndex;
 
-			for (var idx = indices[j] + 1; idx < indices[j + 1]; idx++) {
-				var myAlpha = pData[idx - 1][3] + dDataIncA;
-				var myvector = [pData[idx - 1][0] + dDataIncR, pData[idx - 1][1] + dDataIncG, pData[idx - 1][2] + dDataIncB, myAlpha];
+			for (let idx = indices[j] + 1; idx < indices[j + 1]; idx++) {
+				let myAlpha = pData[idx - 1][3] + dDataIncA;
+				let myvector = [pData[idx - 1][0] + dDataIncR, pData[idx - 1][1] + dDataIncG, pData[idx - 1][2] + dDataIncB, myAlpha];
 				this.alphaData[idx] = myAlpha;
 				pData[idx] = myvector;
 			}
@@ -225,13 +217,11 @@ AFRAME.registerComponent('myloader', {
 	},
 
 	debugScene:function(evt) {
-		var sceneEl = this.el.sceneEl.object3D
-		//var els = sceneEl.querySelectorAll('*');
-		//console.log("Elements");
-        //for (var i = 0; i < els.length; i++) {
-        // console.log(els[i]);
-	   // }
-	   console.log(sceneEl);
+		// var els = sceneEl.querySelectorAll('*');
+		// console.log("Elements");
+    	// for (var i = 0; i < els.length; i++) {
+    	// 	console.log(els[i]);
+	    // }
 	},
 
 	updateTransfertexture: function () {
@@ -289,7 +279,7 @@ AFRAME.registerComponent('myloader', {
 
 	onExitVR: function() 
     {
-		var scope = this;
+		// var scope = this;
 		if (this.el.getObject3D("mesh") !== undefined) {
 			console.log("my-loader onExitVR 1: ");
 			console.log(this.el.getObject3D("mesh").position);
@@ -330,7 +320,7 @@ AFRAME.registerComponent('myloader', {
 		}
 
 
-		if (this.data.volumeData != "") {
+		if (this.data.volumeData !== "") {
 			
 			this.hiddenLabel.style.display = '';
 			var el = this.el;
@@ -344,7 +334,7 @@ AFRAME.registerComponent('myloader', {
 			var enabledColorMapping = this.colorMapEnabled;
 			var iam = this;
 			
-			if (this.data.transferFunction == "false") {
+			if (this.data.transferFunction === "false") {
 				
 				useTransferFunction = false;
 			} else {
@@ -467,9 +457,9 @@ AFRAME.registerComponent('myloader', {
 		var imgWidth = imgColorImage.width;
 		var imgHeight = imgColorImage.height;
 		var colorCanvas = document.createElement("canvas");
-		var el = this.el;
+		// var el = this.el;
 
-		var alpha = this.alphaData;
+		// var alpha = this.alphaData;
 		var colorTransfer = this.colorTransfer;
 		var iam = this;
 		this.colorMap.img.onload = function (data) {
@@ -497,7 +487,6 @@ AFRAME.registerComponent('myloader', {
 	},
 
 	update: function (oldData) {
-		console.log("this.data.volumeData "+this.data.volumeData);
 		if(oldData.cameraState !== undefined && oldData.cameraState !== this.data.cameraState )
 		{
              
@@ -505,9 +494,7 @@ AFRAME.registerComponent('myloader', {
 
 		if (oldData.channel !== undefined && oldData.channel !== this.data.channel) {
 			if (this.el.getObject3D("mesh") !== undefined) {
-
-				//		console.log("this.data.colorMapping HERE 2");
-				var material = this.el.getObject3D("mesh").material;
+				let material = this.el.getObject3D("mesh").material;
 				material.uniforms.u_lut.value = null;
 				material.uniforms.useLut.value = false;
 				material.uniforms.channel.value = this.data.channel;
@@ -521,8 +508,7 @@ AFRAME.registerComponent('myloader', {
 			this.colorMapEnabled = this.data.colorMapping;
 			if (!this.colorMapEnabled) {
 				if (this.el.getObject3D("mesh") !== undefined) {
-
-					var material = this.el.getObject3D("mesh").material;
+					let material = this.el.getObject3D("mesh").material;
 					material.uniforms.u_lut.value = null;
 					material.uniforms.useLut.value = false;
 					material.uniforms.channel.value = this.data.channel;
@@ -578,9 +564,9 @@ AFRAME.registerComponent('myloader', {
 					
 
 					var colorCanvas = document.createElement("canvas");
-					var el = this.el;
+					// var el = this.el;
 		
-					var alpha = this.alphaData;
+					// var alpha = this.alphaData;
 					var colorTransfer = this.colorTransfer;
 					var iam = this;
 					this.colorMap.img.onload = function (data) {
@@ -636,7 +622,7 @@ AFRAME.registerComponent('myloader', {
 	
 		var isVrModeActive = this.sceneHandler.is('vr-mode');		
 		if (this.data.modelLoaded) {
-			if (this.clipPlaneListenerHandler != undefined && !isVrModeActive) {
+			if (this.clipPlaneListenerHandler !== undefined && !isVrModeActive) {
 			
 
 
@@ -651,7 +637,7 @@ AFRAME.registerComponent('myloader', {
 
 					if(this.el.getObject3D("mesh") !== undefined)
 					{
-						var material = this.el.getObject3D("mesh").material;
+						let material = this.el.getObject3D("mesh").material;
 						material.uniforms.box_min.value = new THREE.Vector3(0, 0, 0);
 						material.uniforms.box_max.value = new THREE.Vector3(1, 1, 1);
 					}
@@ -662,7 +648,7 @@ AFRAME.registerComponent('myloader', {
 
 					if(this.el.getObject3D("mesh") !== undefined)
 					{
-						var material = this.el.getObject3D("mesh").material;
+						let material = this.el.getObject3D("mesh").material;
 
 						if(material !== undefined)
 						{
@@ -683,7 +669,7 @@ AFRAME.registerComponent('myloader', {
 
 
 				//Input - Controllermatrix
-				var controllerMatrix = this.controllerHandler.matrixWorld;
+				// var controllerMatrix = this.controllerHandler.matrixWorld;
 			
 				if (!this.controllerHandler.el.getAttribute('my-buttons-check').grabObject &&
 					this.grabbed) {
