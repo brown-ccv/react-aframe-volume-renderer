@@ -5,7 +5,6 @@ import 'aframe-orbit-controls'
 
 import React, {Component} from 'react'
 
-import BrownFooter from 'react-brownccv/dist/components/BrownFooter'
 import './App.css'
 import './components/Aframe/my-loader.js'
 import './components/Aframe/my-buttons-check.js'
@@ -23,7 +22,6 @@ class App extends Component {
     return (
       <div>
         <Layout/>
-        <BrownFooter/>
       </div>
     );
   }
