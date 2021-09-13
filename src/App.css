@@ -33,12 +33,7 @@
 }
 
 .aframe-container {
-    height: 90vh !important;
-    width: 100vw !important;
-}
-
-.volume-renderer {
-  height: 80vh !important;
+  height: 90vh !important;
 }
 
 #opacityControls.pointer{

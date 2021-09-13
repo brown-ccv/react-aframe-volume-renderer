@@ -57,17 +57,16 @@ export default class Layout extends Component {
 
   render () {
     return (
-      <div id="visualizer">  
+      <div id="visualizer">
         <Navbar sticky="top" bg="light" expand="lg">
           <div className="navbar-header">
-            <a href="https://www.brown.edu"><BrownLogo width={100} /></a>
-            &nbsp;&nbsp;
-            <a href="https://ccv.brown.edu"><CCVLogo width={100}/></a>
+            <a href="https://www.brown.edu" className="mx-2"><BrownLogo width={100} /></a>
+            <a href="https://ccv.brown.edu" className="mx-2"><CCVLogo width={100} /></a>
           </div>
           
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
+            <Nav className="mr-auto mx-2">
               <Nav.Link href="#visualizer">Visualizer</Nav.Link>
               <Nav.Link href="#Guide">Guide</Nav.Link>
               <Nav.Link href="#infoTarget">Info</Nav.Link>
@@ -78,15 +77,12 @@ export default class Layout extends Component {
         </Navbar>
         
         {/* Volume Viewer */}
-        <Element name="VolumeViewer" className="element">
-          <div className="d-flex flex-column voume-renderer" id="app">
-            {/* <div className="volume-renderer mx-1">   */}
-              <ControlsPanel/>
-              <VolumeRenderer/>
-            {/* </div> */}
-          </div>
-        </Element>
-        
+        <div>
+          <Flexbox flexDirection="column" id="app" name="VolumeViewer">
+            <ControlsPanel />
+            <VolumeRenderer />
+          </Flexbox>
+        </div>
 
         <Element name="Guide" className="element">
           <Flexbox flexDirection="column" alignContent="center">

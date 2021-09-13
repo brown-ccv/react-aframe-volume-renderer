@@ -61,7 +61,7 @@ export default connect(null, {myChangeVolumeAction})
 
         <Sidebar
           className="ui-sidebar-md"
-          position="left" 
+          position="left"
           modal={false}
           visible={this.state.sideBarVisible} 
           onHide={(e) => this.setState({sideBarVisible: false})}
