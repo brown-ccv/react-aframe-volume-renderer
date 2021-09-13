@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Flexbox from 'flexbox-react';
 import {Button} from 'primereact/button';
-import { Element } from 'react-scroll'
+import {Element} from 'react-scroll'
 import { Modal, Navbar, Nav, ModalTitle, ModalBody } from 'react-bootstrap';
 
 import '../../styles/scroll_nav.scss';
