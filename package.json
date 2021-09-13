@@ -11,6 +11,7 @@
     "bootstrap": "^5.1.1",
     "eslint-config-react-app": "^6.0.0",
     "flexbox-react": "^4.4.0",
+    "node-sass": "^6.0.1",
     "primeicons": "^4.1.0",
     "primereact": "^6.5.1",
     "rc-scroll-anim": "^2.7.6",
