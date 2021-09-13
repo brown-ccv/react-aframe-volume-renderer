@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import Flexbox from 'flexbox-react';
-import {Button} from 'primereact/button';
-import {Element} from 'react-scroll'
+import { Button } from 'primereact/button';
+import { Element } from 'react-scroll'
 import { Modal, Navbar, Nav, ModalTitle, ModalBody } from 'react-bootstrap';
 
 import '../../styles/scroll_nav.scss';
@@ -65,7 +65,7 @@ export default class Layout extends Component {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <Nav.Link href="#visualizer">Vizualizer</Nav.Link>
+              <Nav.Link href="#visualizer">Visualizer</Nav.Link>
               <Nav.Link href="#Guide">Guide</Nav.Link>
               <Nav.Link href="#infoTarget">Info</Nav.Link>
               <Nav.Link href="#peopleTarget">People</Nav.Link>
@@ -75,21 +75,28 @@ export default class Layout extends Component {
         </Navbar>
         
         {/* Volume Viewer */}
-        <div className="d-flex flex-column" id="app">
-          <div className="voume-renderer mx-1">  
-            <ControlsPanel/>
-            <VolumeRenderer/>
+        <Element name="VolumeViewer" className="element">
+          <div className="d-flex flex-column volume-renderer" id="app">
+            {/* <div className="volume-renderer mx-1">   */}
+              <ControlsPanel/>
+              <VolumeRenderer/>
+            {/* </div> */}
           </div>
-        </div>
+        </Element>
+        
 
         <Element name="Guide" className="element">
-          <div  id="Guide" className="light-page-new-short">
-            <br/>
-            <br/>
-            <br/>
-            <br/>
-            <div className="light-page-subtitle">
-              <p>Learn How To Use it</p>
+          <Flexbox flexDirection="column" alignContent="center">
+            <div id="Guide" className="light-page-new-short">
+              <br/>
+              <br/>
+              <br/>
+              <br/>
+              <br/>
+              <br/>
+              <div className="light-page-subtitle">
+                <p>Learn How To Use it</p>
+              </div>
               <Button label="Guide" onClick={() => this.toggleOpened()} />
               <Modal
                 size="lg"
@@ -97,12 +104,8 @@ export default class Layout extends Component {
                 keyboard={false}
                 show={this.state.openedHowto}
               >
-                <ModalHeader closeButton>
-                  <ModalTitle>Guide</ModalTitle>
-                </ModalHeader>
-                <ModalBody>
-                  <Howto />
-                </ModalBody>
+                <ModalHeader closeButton> <ModalTitle>Guide</ModalTitle> </ModalHeader>
+                <ModalBody> <Howto /> </ModalBody>
                 <Modal.Footer>
                   <Button variant="primary" onClick={() => this.toggleOpened()}>
                     Close
@@ -110,18 +113,16 @@ export default class Layout extends Component {
                 </Modal.Footer>
               </Modal>
             </div>
-            <br/>
-          </div>
+          </Flexbox>
         </Element>
 
         <Element name="infoTarget" className="element">
-          <div id="infoTarget" className="light-page-long">
+          <Flexbox flexDirection="column" id="infoTarget" className="light-page-long">
             <div className="light-page-title" key="title">
               <p>Web VR Volume Renderer</p>
             </div>
             
             <div className="light-page-description">
-
               <p>
                 The Center for Computation and Visualization at Brown 
                 University (<a href="https://ccv.brown.edu/">CCV</a>)
@@ -160,44 +161,34 @@ export default class Layout extends Component {
                 Modeling (C-AIM)"<br/>
               </p>
             </div>
-          </div>
+          </Flexbox>
         </Element>
 
-        <Element name="peopleTarget" className="element">
+        <Element name="peopleTarget" id="peopleTarget" className="element light-page-new">
           <div id="peopleTarget" className="light-page-new">
-            <div className="light-page-title" key="title">
-              <p>People</p>
-            </div>
-                       
-            <Flexbox display="flex" flexDirection="row" justifyContent="space-around" minHeight="100vh">
-              <Flexbox element="div" justifyContent="center" height="60px" width="33%">
-                <Flexbox display="flex" flexDirection="column">
+            <Flexbox flexDirection="column" alignContent="center">
+
+              <div className="light-page-title" key="title">
+                <p>People</p>
+              </div>
+
+              <Flexbox justifyContent="space-around">
+                <Flexbox flexDirection="column">
                   <img src={Camilo} alt="Camilo" height="200px" />
-                  <div>
-                    <a className="peopleLink" href="mailto:camilo_diaz@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Camilo Diaz</a>
-                    <br />
-                    <a className="peopleLink" href="https://github.com/kmilo9999" target="_blank" rel="noopener noreferrer"><Github width={30} /></a>
-                  </div>
+                  <a className="peopleLink" href="mailto:camilo_diaz@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Camilo Diaz</a>
+                  <a className="peopleLink" href="https://github.com/kmilo9999" target="_blank" rel="noopener noreferrer"><Github width={30} /></a>
                 </Flexbox>
-              </Flexbox>
-              <Flexbox element="div" justifyContent="center" height="60px" width="33%">
-                <Flexbox display="flex" flexDirection="column">
+
+                <Flexbox flexDirection="column">
                   <img src={Ben} alt="Ben" height="200px" />
-                  <div>
-                    <a className="peopleLink" href="mailto:benjamin_knorlein@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Benjamin Knörlein</a>
-                    <br />
-                    <a className="peopleLink" href="https://github.com/BenKnorlein" target="_blank" rel="noopener noreferrer"><Github width={30} /></a>
-                  </div>
+                  <a className="peopleLink" href="mailto:benjamin_knorlein@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Benjamin Knörlein</a>
+                  <a className="peopleLink" href="https://github.com/BenKnorlein" target="_blank" rel="noopener noreferrer"><Github width={30} /></a>
                 </Flexbox>
-              </Flexbox>
-              <Flexbox element="div" justifyContent="center" height="60px" width="33%">
-                <Flexbox display="flex" flexDirection="column">
+              
+                <Flexbox flexDirection="column">
                   <img src={Kalvin} alt="Kevin" height="200px" />
-                  <div>
-                    <a className="peopleLink" href="mailto:kalvin_lam@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Kalvin Lam</a>
-                    <br />
-                    <a className="peopleLink" href="https://github.com/theklam" target="_blank" rel="noopener noreferrer"><Github width={30} /></a>
-                  </div>
+                  <a className="peopleLink" href="mailto:kalvin_lam@brown.edu?Subject=Interest in AFrame Viewer" target="_top">Kalvin Lam</a>
+                  <a className="peopleLink" href="https://github.com/theklam" target="_blank" rel="noopener noreferrer"><Github width={30} /></a>
                 </Flexbox>
               </Flexbox>
             </Flexbox>
@@ -217,14 +208,9 @@ export default class Layout extends Component {
                   Ecology Assessment, Innovation, and Modeling (C-AIM)"
                </p>
              </div>
-
-            <Flexbox display="flex" flexDirection="row" justifyContent="space-around" minHeight="100vh">
-              <Flexbox element="div" justifyContent="center" height="60px" width="33%">
-                <Flexbox display="flex" flexDirection="column">
-                  <img src={NSFEPSCoR} alt="Rhode Island NSF EPSCoR"/>
-                </Flexbox>
-              </Flexbox>
-            </Flexbox>
+             <Flexbox justifyContent="center">
+              <img  width="10%" src={NSFEPSCoR} alt="Rhode Island NSF EPSCoR"/>
+             </Flexbox>
           </div>
         </Element>
       </div>
