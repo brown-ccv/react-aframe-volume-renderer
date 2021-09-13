@@ -1,30 +1,24 @@
 import React, {Component} from 'react'
+import Flexbox from 'flexbox-react';
+import {Button} from 'primereact/button';
+import { Element } from 'react-scroll'
+import { Modal, Navbar, Nav, ModalTitle, ModalBody } from 'react-bootstrap';
+
+import '../../styles/scroll_nav.scss';
+import '../../App.css';
 
 import VolumeRenderer from './VolumeRenderer';
 import ControlsPanel from './ControlsPanel';
 import Howto from './Howto'
 
-import '../../styles/scroll_nav.scss';
-import '../../App.css';
-
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-
 import { ReactComponent as CCVLogo } from '../../assets/black-ccv-logo.svg';
 import { ReactComponent as BrownLogo } from '../../assets/brown-logo.svg';
 import { ReactComponent as Github} from '../../assets/github-brands.svg';
-
 import Kalvin from './kalkal.jpg';
 import Camilo from './camilo.jpg';
 import Ben from './ben.jpg';
 import NSFEPSCoR from './nsfepscor.jpg'
-
-import Flexbox from 'flexbox-react';
-import NewWindow from 'react-new-window'
-import {Button} from 'primereact/button';
-
-// import { Link, DirectLink, Element, Events, animateScroll as scroll, scrollSpy, scroller } from 'react-scroll';
-import { Element } from 'react-scroll'
+import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 
 export default class Layout extends Component {
   constructor(props) {
@@ -48,7 +42,7 @@ export default class Layout extends Component {
   }
 
   toggleOpened() {
-    this.setState(prevState => ({ opened: !prevState.opened }))
+    this.setState(prevState => ({ openedHowto: !prevState.openedHowto }))
   }
   toggleOpened2() {
     this.setState(prevState => ({ openedNvidia: !prevState.openedNvidia }))
@@ -59,18 +53,13 @@ export default class Layout extends Component {
   }
 
   render () {
-    const { opened } = this.state
     return (
       <div id="visualizer">  
         <Navbar sticky="top" bg="light" expand="lg">
           <div className="navbar-header">
-            <a href="https://www.brown.edu">
-              <BrownLogo width={100} />
-            </a>
+            <a href="https://www.brown.edu"><BrownLogo width={100} /></a>
             &nbsp;&nbsp;
-            <a href="https://ccv.brown.edu">
-              <CCVLogo width={100}/>
-            </a>
+            <a href="https://ccv.brown.edu"><CCVLogo width={100}/></a>
           </div>
           
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -85,6 +74,7 @@ export default class Layout extends Component {
           </Navbar.Collapse>
         </Navbar>
         
+        {/* Volume Viewer */}
         <div className="d-flex flex-column" id="app">
           <div className="voume-renderer mx-1">  
             <ControlsPanel/>
@@ -101,15 +91,24 @@ export default class Layout extends Component {
             <div className="light-page-subtitle">
               <p>Learn How To Use it</p>
               <Button label="Guide" onClick={() => this.toggleOpened()} />
-                {opened && (
-                  <NewWindow
-                    onUnload={() => this.newWindowUnloaded()}
-                    features={{ left: 200, top: 200, width: 800, height: 800 }}
-                    title="Aframe Volume Viewer Guide"
-                  >
-                  <Howto /> 
-                  </NewWindow>
-                )}
+              <Modal
+                size="lg"
+                backdrop="static"
+                keyboard={false}
+                show={this.state.openedHowto}
+              >
+                <ModalHeader closeButton>
+                  <ModalTitle>Guide</ModalTitle>
+                </ModalHeader>
+                <ModalBody>
+                  <Howto />
+                </ModalBody>
+                <Modal.Footer>
+                  <Button variant="primary" onClick={() => this.toggleOpened()}>
+                    Close
+                  </Button>
+                </Modal.Footer>
+              </Modal>
             </div>
             <br/>
           </div>
