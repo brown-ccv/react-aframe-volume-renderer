@@ -35,15 +35,14 @@ const mapStateToProps = state => {
   return { 
     currentColorMap: state.currentColorMap,
     volumeData: state.volumeData
-   };
+  };
 };
 
-export default connect(
-     mapStateToProps,
-    {myCheckButtonAction,myXSlideAction,myYSlideAction,
-     myZSlideAction,myChangeVolumeAction,myChannelChanged,myCameraReset})
-    ( class Controls extends Component {
-  
+export default connect( 
+  mapStateToProps, {
+    myCheckButtonAction, myXSlideAction, myYSlideAction, myZSlideAction, 
+    myChangeVolumeAction, myChannelChanged, myCameraReset
+})( class Controls extends Component {
   constructor(props) {
       super(props);
       this.state = {
@@ -56,97 +55,71 @@ export default connect(
         currentData: null,
         dataCurrentChannel: null,
         dataRange: [0.0,100.0],
-
       };
 
       this.handleCheckBoxInputChange = this.handleCheckBoxInputChange.bind(this);
-
       this.xSlideHandleChange = this.xSlideHandleChange.bind(this);
       this.ySlideHandleChange = this.ySlideHandleChange.bind(this);
       this.zSlideHandleChange = this.zSlideHandleChange.bind(this);
       this.volumeSelectChanged = this.volumeSelectChanged.bind(this);
       this.channelSelectChanged = this.channelSelectChanged.bind(this);
-
       this.volumeChangedEvent = this.volumeChangedEvent.bind(this);
-
       this.resetCamera = this.resetCamera.bind(this);
- }
+  }
 
 
- handleCheckBoxInputChange(event) {
-  const target = event.target;
-  const value = target.type === 'checkbox' ? target.checked : target.value;
-  // const name = target.name;
-  this.props.myCheckButtonAction(value,this.props.volumeData);
-  
-  
-  this.setState({
-    activateColorMapping: value
-  });
-}
+  handleCheckBoxInputChange(event) {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    this.props.myCheckButtonAction(value,this.props.volumeData);
+    this.setState({activateColorMapping: value});
+  }
 
 
   xSlideHandleChange = (value) => {
-    //console.log(e.value);
-    this.setState({
-      xslideValue:value,
-      //dataRange: e.value
-    });
-
-   this.props.myXSlideAction(value[0],value[1],this.props.volumeData);
+    this.setState({xslideValue: value});
+    this.props.myXSlideAction(value[0], value[1], this.props.volumeData);
   };
 
   ySlideHandleChange = (value) => {
-    this.setState({
-      yslideValue:value,
-    });
-
-   this.props.myYSlideAction(value[0],value[1],this.props.volumeData);
+    this.setState({yslideValue: value});
+    this.props.myYSlideAction(value[0],value[1],this.props.volumeData);
   };
 
   zSlideHandleChange = (value) => {
-    this.setState({
-      zslideValue:value,
-    });
-
-   this.props.myZSlideAction(value[0],value[1],this.props.volumeData);
+    this.setState({zslideValue: value});
+    this.props.myZSlideAction(value[0],value[1],this.props.volumeData);
   };
 
-  volumeChangedEvent = ()=>
-  {
+  volumeChangedEvent = ()=> {
     console.log("volumeChangedEvent");
     return this.props.volumeData === "" || this.props.volumeData === undefined ? true : false;
   }
 
-  volumeSelectChanged = (selected) =>
-  {
+  volumeSelectChanged = (selected) => {
      this.setState({
       currentVolume: selected.value,
       currentData:selected
      });
-     var volumeProperties = selected.value.split(":");
-     
-     this.props.myChangeVolumeAction(volumeProperties[0],volumeProperties[1]);
+     let volumeProperties = selected.value.split(":");
+     this.props.myChangeVolumeAction(volumeProperties[0], volumeProperties[1]);
   };
 
-  channelSelectChanged = (selected) =>
-  {
+  channelSelectChanged = (selected) => {
     this.setState({
       currentChannel: selected.value,
       dataCurrentChannel: selected
-     });
-     this.props.myChannelChanged(selected.value,this.props.volumeData);
+    });
+    this.props.myChannelChanged(selected.value,this.props.volumeData);
   }
 
-  resetCamera()
-  {
+  resetCamera() {
     this.props.myCameraReset();
   }
   
   render () {
     return (
-      <div id="controls" className="controls-container" >       
-        <br/>
+      <div id="controls">
         <div> 
           <br/> 
           <div  style={(this.props.volumeData !== "" ) ? {} : { display: 'none' }} >
@@ -173,52 +146,50 @@ export default connect(
             </Checkbox> 
           </label>
        
-          <div style={this.state.activateColorMapping && 
-            (this.props.volumeData !== "" )? {} : { display: 'none' }}
-          >
+          <div style={
+            this.state.activateColorMapping && (this.props.volumeData !== "") ? {} : { display: 'none' }
+          }>
             <ColorMapControl width="250" />
             <OpacityControl  width="250" />
           </div>
         </div>
         <br/> 
 
-        <div className="slices-container" >
+        <div >
          <label>X Slide <br/></label>
-         <Range  
-          style={{width: '14em'}} 
-          disabled = {(this.props.volumeData === "" || this.props.volumeData === undefined) ? true : false} 
-          allowCross={false} 
-          step={0.0009} 
-          defaultValue={[0, 1]} 
-          min={0} 
-          max={1} 
-          onChange={this.xSlideHandleChange}
-        />
-        <br/>
-
-        <label> Y Slide <br/></label>
-        <Range 
-          style={{width: '14em'}} 
-          disabled = {(this.props.volumeData === "" || this.props.volumeData === undefined) ? true : false} 
-          allowCross={false} 
-          step={0.0009} 
-          defaultValue={[0, 1]} 
-          min={0} 
-          max={1} 
-          onChange={this.ySlideHandleChange}
-        /> 
-        <br/>
-
-        <label> Z Slide <br/> </label>
-        <Range 
-          style={{width: '14em'}} 
-          disabled = {(this.props.volumeData === "" || this.props.volumeData === undefined) ? true : false} 
-          allowCross={false} 
-          step={0.0009} 
-          defaultValue={[0, 1]} 
-          min={0} 
-          max={1} 
-          onChange={this.zSlideHandleChange}/> 
+         <Range   
+            disabled = {(this.props.volumeData === "" || this.props.volumeData === undefined) ? true : false} 
+            allowCross={false} 
+            step={0.0009} 
+            defaultValue={[0, 1]} 
+            min={0} 
+            max={1} 
+            onChange={this.xSlideHandleChange}
+          />
+          <br/>
+          
+          <label> Y Slide <br/></label>
+          <Range 
+            disabled = {(this.props.volumeData === "" || this.props.volumeData === undefined) ? true : false} 
+            allowCross={false} 
+            step={0.0009} 
+            defaultValue={[0, 1]} 
+            min={0} 
+            max={1} 
+            onChange={this.ySlideHandleChange}
+          /> 
+          <br/>
+          
+          <label> Z Slide <br/> </label>
+          <Range
+            disabled = {(this.props.volumeData === "" || this.props.volumeData === undefined) ? true : false} 
+            allowCross={false} 
+            step={0.0009} 
+            defaultValue={[0, 1]} 
+            min={0} 
+            max={1} 
+            onChange={this.zSlideHandleChange}
+          />
         </div>
       </div>
     );

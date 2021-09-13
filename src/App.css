@@ -41,16 +41,6 @@
   height: 80vh !important;
 }
 
-.controls-container {
-  height: 80vh !important;
-  width: 20vw !important;
-}
-
-.slices-container{
-  height: 30vh !important;
-  width: 20vw !important;
-}
-
 #opacityControls.pointer{
   cursor: pointer;
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Flexbox from 'flexbox-react';
 import { Button } from 'primereact/button';
 import { Element } from 'react-scroll'
-import { Modal, Navbar, Nav, ModalTitle, ModalBody } from 'react-bootstrap';
+import { Modal, Navbar, Nav, ModalBody } from 'react-bootstrap';
 
 import '../../styles/scroll_nav.scss';
 import '../../App.css';
@@ -18,13 +18,12 @@ import Kalvin from './kalkal.jpg';
 import Camilo from './camilo.jpg';
 import Ben from './ben.jpg';
 import NSFEPSCoR from './nsfepscor.jpg'
-import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 
 export default class Layout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openedHowto: false,
+      howto: false,
       openedNvidia: false,
       sideBarVisible:true,
     };
@@ -41,9 +40,13 @@ export default class Layout extends Component {
     clearInterval(this.interval)
   }
 
-  toggleOpened() {
-    this.setState(prevState => ({ openedHowto: !prevState.openedHowto }))
+  openHowto() {
+    this.setState(prevState => ({howto: true}))
   }
+  closeHowto() {
+    this.setState(prevState => ({howto: false}))
+  }
+
   toggleOpened2() {
     this.setState(prevState => ({ openedNvidia: !prevState.openedNvidia }))
   }
@@ -76,7 +79,7 @@ export default class Layout extends Component {
         
         {/* Volume Viewer */}
         <Element name="VolumeViewer" className="element">
-          <div className="d-flex flex-column volume-renderer" id="app">
+          <div className="d-flex flex-column voume-renderer" id="app">
             {/* <div className="volume-renderer mx-1">   */}
               <ControlsPanel/>
               <VolumeRenderer/>
@@ -97,17 +100,18 @@ export default class Layout extends Component {
               <div className="light-page-subtitle">
                 <p>Learn How To Use it</p>
               </div>
-              <Button label="Guide" onClick={() => this.toggleOpened()} />
+              <Button label="Guide" onClick={() => this.openHowto()} />
               <Modal
-                size="lg"
+                size="xl"
                 backdrop="static"
-                keyboard={false}
-                show={this.state.openedHowto}
+                scrollable={true}
+                show={this.state.howto}
               >
-                <ModalHeader closeButton> <ModalTitle>Guide</ModalTitle> </ModalHeader>
-                <ModalBody> <Howto /> </ModalBody>
+                <ModalBody> 
+                  <Howto /> 
+                </ModalBody>
                 <Modal.Footer>
-                  <Button variant="primary" onClick={() => this.toggleOpened()}>
+                  <Button variant="primary" onClick={() => this.closeHowto()}>
                     Close
                   </Button>
                 </Modal.Footer>
