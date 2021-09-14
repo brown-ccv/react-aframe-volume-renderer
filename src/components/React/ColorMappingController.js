@@ -1,12 +1,11 @@
 import React, {Component} from 'react'
 import '../../App.css'
 import ReactModal from 'react-modal';
-//import DataTable from 'react-data-table-component'
 import {connect} from 'react-redux';
 import {myChangeColorMapAction, mySaveColorMappingState} from '../../redux/AppActions'
 import {DataTable} from 'primereact/datatable'
 import {Column} from 'primereact/column';
-import 'primereact/resources/themes/nova-light/theme.css';
+import 'primereact/resources/themes/nova/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 
@@ -86,7 +85,7 @@ export default connect(mapStateToProps,
     
     componentWillUnmount() {
         //-- save state
-       // console.log("componentWillUnmount: " +this.state.currentMapColor);
+        // console.log("componentWillUnmount: " +this.state.currentMapColor);
         this.props.mySaveColorMappingState(this.state.currentMapColor);
     }
     

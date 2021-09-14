@@ -33,22 +33,7 @@
 }
 
 .aframe-container {
-    height: 90vh !important;
-    width: 100vw !important;
-}
-
-.volume-renderer {
-  height: 80vh !important;
-}
-
-.controls-container {
-  height: 80vh !important;
-  width: 20vw !important;
-}
-
-.slices-container{
-  height: 30vh !important;
-  width: 20vw !important;
+  height: 90vh !important;
 }
 
 #opacityControls.pointer{
@@ -69,14 +54,6 @@
 
 .ccv-logo .v {
   fill: #FFC72C;
-}
-
-.p-sidebar {
-  position: absolute!important;
-}
-
-.p-sidebar-left {
-  top: auto !important;
 }
 
 .peopleLink {

@@ -24,7 +24,7 @@ export default class Howto extends Component {
         <img 
           src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/guide12.png" 
           alt="Example screenshot"
-          height="400px"
+          width="100%"
         />
         <br/>
         <br/>
@@ -37,7 +37,7 @@ export default class Howto extends Component {
         <img 
            src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/datasetbuttons.gif" 
            alt="Instructional gif on displaying data"
-           height="400px"
+           width="100%"
         />
         <br/>
         <br/>
@@ -49,7 +49,7 @@ export default class Howto extends Component {
         <img 
            src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/zoomInOut-Rotate.gif" 
            alt="Instructional gif on zooming in and out"
-           height="400px"
+           width="100%"
         />
         <br/>
         <br/>
@@ -61,7 +61,7 @@ export default class Howto extends Component {
         <img 
            src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/channels.gif" 
            alt="Instructional gif on selecting RGBA channels"
-           height="400px"
+           width="100%"
         />
         <br/>
         <br/>
@@ -76,7 +76,7 @@ export default class Howto extends Component {
         <img 
            src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/colorMappingTransfer.gif" 
            alt="Instructional gif on applying a color texture"
-           height="400px">
+           width="100%">
         </img>
         <br/>
         <br/>
@@ -85,9 +85,9 @@ export default class Howto extends Component {
           Lastly, use the ranged slices to cut through the dataset on three different axes.
         </p>
         <img 
-           src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/slice.gif" 
-           alt="Instructional gif on cutting through the dataset on an axis"
-           height="400px"
+          src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/slice.gif" 
+          alt="Instructional gif on cutting through the dataset on an axis"
+          width="100%"
         />
         <br/>
         <br/>
@@ -117,7 +117,7 @@ export default class Howto extends Component {
         <img 
           src="https://raw.githubusercontent.com/brown-ccv/react-aframe-volume-renderer/master/imgs/webvrNvidia2.gif" 
           alt="Instructional gif on enabling graphics accelerator on Mozilla Firefox"
-          height="400px"
+          width="100%"
         />
       </div>
     );
