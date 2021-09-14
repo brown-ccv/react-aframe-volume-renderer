@@ -45,7 +45,7 @@ export default connect(null, {myChangeVolumeAction})
 
   render () {
     return (
-      <div className="voume-renderer mx-1">
+      <div className="mx-1">
         <Flexbox justifyContent="center" className="my-3 mx-3">
           <Button 
             icon="pi pi-arrow-right" 
@@ -56,18 +56,17 @@ export default connect(null, {myChangeVolumeAction})
             value={this.state.currentVolume}
             options={options} 
             onChange={this.volumeSelectChanged} 
-          />
+          /> 
         </Flexbox>
 
         <Sidebar
-          className="ui-sidebar-md"
-          position="left"
-          modal={false}
+          modal={false} 
           visible={this.state.sideBarVisible} 
-          onHide={(e) => this.setState({sideBarVisible: false})}
+          onHide={(e) => this.setState({sideBarVisible:false})}
+          style={{width:'20em', height:'45em'}}
         >
           <Controls/>
-        </Sidebar> 
+        </Sidebar>
       </div>
     );
   }

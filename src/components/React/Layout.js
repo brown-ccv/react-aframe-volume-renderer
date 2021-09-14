@@ -77,12 +77,10 @@ export default class Layout extends Component {
         </Navbar>
         
         {/* Volume Viewer */}
-        <div>
           <Flexbox flexDirection="column" id="app" name="VolumeViewer">
             <ControlsPanel />
             <VolumeRenderer />
           </Flexbox>
-        </div>
 
         <Element name="Guide" className="element">
           <Flexbox flexDirection="column" alignContent="center">
