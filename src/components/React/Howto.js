@@ -1,15 +1,9 @@
 import React from 'react'
+import EnableNvidia from './EnableNvidia';
 
 export default function Howto() {
   return(
     <div>
-      <div>
-        <h3>
-          Web VR Volume Visualizer user guide 
-          <span role="img" aria-label="waving emoji">👋</span>
-        </h3>  
-      </div>
-        
       <ul >
         <li> <a href="#next">User Guide</a></li>
         <li><a href="#next2">Enable VR on Web Browser</a> </li>
@@ -118,6 +112,11 @@ export default function Howto() {
         alt="Instructional gif on enabling graphics accelerator on Mozilla Firefox"
         width="100%"
       />
+
+      <hr />
+      <hr />
+      <hr />
+      <EnableNvidia />
     </div>
   );
 }

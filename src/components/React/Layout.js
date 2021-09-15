@@ -18,6 +18,7 @@ import Kalvin from './kalkal.jpg';
 import Camilo from './camilo.jpg';
 import Ben from './ben.jpg';
 import NSFEPSCoR from './nsfepscor.jpg'
+import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 
 export default class Layout extends Component {
   constructor(props) {
@@ -101,6 +102,10 @@ export default class Layout extends Component {
                 scrollable={true}
                 show={this.state.howto}
               >
+                <ModalHeader>
+                  <h3>Web VR Volume Visualizer user guide 
+                  <span role="img" aria-label="waving emoji">👋</span></h3>
+                </ModalHeader>
                 <ModalBody> 
                   <Howto /> 
                 </ModalBody>
