@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Flexbox from 'flexbox-react';
 import { Button } from 'primereact/button';
 import { Element } from 'react-scroll'
-import { Modal, Navbar, Nav, ModalBody } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 
 import '../../styles/scroll_nav.scss';
 import '../../App.css';
@@ -18,7 +18,6 @@ import Kalvin from './kalkal.jpg';
 import Camilo from './camilo.jpg';
 import Ben from './ben.jpg';
 import NSFEPSCoR from './nsfepscor.jpg'
-import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 
 export default class Layout extends Component {
   constructor(props) {
@@ -96,25 +95,11 @@ export default class Layout extends Component {
                 <p>Learn How To Use it</p>
               </div>
               <Button label="Guide" onClick={() => this.openHowto()} />
-              <Modal
-                size="xl"
-                backdrop="static"
-                scrollable={true}
-                show={this.state.howto}
-              >
-                <ModalHeader>
-                  <h3>Web VR Volume Visualizer user guide 
-                  <span role="img" aria-label="waving emoji">👋</span></h3>
-                </ModalHeader>
-                <ModalBody> 
-                  <Howto /> 
-                </ModalBody>
-                <Modal.Footer>
-                  <Button variant="primary" onClick={() => this.closeHowto()}>
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+
+              <Howto 
+                show={this.state.howto} 
+                close={this.closeHowto.bind(this)}
+              />
             </div>
           </Flexbox>
         </Element>
