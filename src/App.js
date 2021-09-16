@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 import 'aframe'
 import 'aframe-event-set-component'
 import 'aframe-orbit-controls'
@@ -12,14 +12,8 @@ import './App.css'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-class App extends Component {
-  render () {
-    return (
-      <div>
-        <Layout/>
-      </div>
-    );
-  }
+export default function App() {
+  return (
+    <Layout />
+  );
 }
-
-export default App;

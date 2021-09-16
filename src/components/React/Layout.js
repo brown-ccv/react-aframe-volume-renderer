@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Flexbox from 'flexbox-react';
 import { Button } from 'primereact/button';
 import { Element } from 'react-scroll'
-import { Modal, Navbar, Nav, ModalBody } from 'react-bootstrap';
+import { Navbar, Nav } from 'react-bootstrap';
 
 import '../../styles/scroll_nav.scss';
 import '../../App.css';
@@ -95,21 +95,11 @@ export default class Layout extends Component {
                 <p>Learn How To Use it</p>
               </div>
               <Button label="Guide" onClick={() => this.openHowto()} />
-              <Modal
-                size="xl"
-                backdrop="static"
-                scrollable={true}
-                show={this.state.howto}
-              >
-                <ModalBody> 
-                  <Howto /> 
-                </ModalBody>
-                <Modal.Footer>
-                  <Button variant="primary" onClick={() => this.closeHowto()}>
-                    Close
-                  </Button>
-                </Modal.Footer>
-              </Modal>
+
+              <Howto 
+                show={this.state.howto} 
+                close={this.closeHowto.bind(this)}
+              />
             </div>
           </Flexbox>
         </Element>
