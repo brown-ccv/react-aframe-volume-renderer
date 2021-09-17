@@ -9,6 +9,8 @@ import myStore from './redux/AppStore.js';
 import './index.css';
 import './styles/custom.scss';
 
+import 'firebase.js';
+
 ReactDOM.render(
   <Provider store={myStore}>
     <App />
