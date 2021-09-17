@@ -77,11 +77,12 @@ export default connect(null, {myChangeVolumeAction})
             </Form.Group>
           </Col>
 
-          {/* <SelectButton 
+          {/* Model Section TO BE REMOVED */}
+          <SelectButton 
             value={this.state.currentVolume}
             options={options} 
             onChange={this.volumeSelectChanged} 
-          />  */}
+          /> 
         </Row>
         <Sidebar
           modal={false} 
