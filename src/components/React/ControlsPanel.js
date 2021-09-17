@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import Flexbox from 'flexbox-react';
 import { connect } from 'react-redux';
 import {Sidebar} from 'primereact/sidebar';
-import {Button} from 'primereact/button';
+// import {Button} from 'primereact/button';
 import {SelectButton} from 'primereact/selectbutton';
 
 import {myChangeVolumeAction} from '../../redux/AppActions'
 import Controls from './Controls';
+import { Col, Row, Button, Container, Form } from 'react-bootstrap';
 
 const options = [
   {value: './assets/models/48hr_20x_23_0.597976_ 0.597976_5.png:false', label: 'Spheroid old' },
@@ -45,20 +45,44 @@ export default connect(null, {myChangeVolumeAction})
 
   render () {
     return (
-      <div className="mx-1">
-        <Flexbox justifyContent="center" className="my-3 mx-3">
-          <Button 
-            icon="pi pi-arrow-right" 
-            label="Controls" 
-            onClick={(e) => this.setState({sideBarVisible: true})}
-          />
-          <SelectButton 
+      <Container fluid className="my-3">
+        <Row>
+          <Col className="text-center">
+            <Button 
+              variant="outline-primary"
+              active
+              onClick={(e) => this.setState({sideBarVisible: true})}
+            >
+              Controls
+            </Button>
+          </Col>
+
+          <Col>
+            <Form.Group>
+              <Form.Label as="legend" className="text-center">
+                Season
+              </Form.Label>
+              <Form.Check type="radio" label="Summer" />
+              <Form.Check type="radio" label="Winter" />
+            </Form.Group>
+          </Col>
+
+          <Col>
+            <Form.Group>
+              <Form.Label as="legend" className="text-center">
+                Tide
+              </Form.Label>
+              <Form.Check type="radio" label="High Tide" />
+              <Form.Check type="radio" label="Low Tide" />
+            </Form.Group>
+          </Col>
+
+          {/* <SelectButton 
             value={this.state.currentVolume}
             options={options} 
             onChange={this.volumeSelectChanged} 
-          /> 
-        </Flexbox>
-
+          />  */}
+        </Row>
         <Sidebar
           modal={false} 
           position="bottom"
@@ -68,7 +92,7 @@ export default connect(null, {myChangeVolumeAction})
         >
           <Controls/>
         </Sidebar>
-      </div>
+      </Container>
     );
   }
 })
