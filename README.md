@@ -1,9 +1,9 @@
-Aframe Volume Rendering
+# RIDDC Web Volume Rendering
 
 This project is an effor to integrate data visualization on VR and web browser technologies.
 This project was developed using react-js and Aframe (webvr - threejs -webgl2)
 
-##### Table of Contents  
+##### Table of Contents
 * [Installation](#Installation)
 * [About this project](#About)
 * [Live demo](#Demo)
@@ -12,7 +12,7 @@ This project was developed using react-js and Aframe (webvr - threejs -webgl2)
 <a name="Installation"/>
 ## Installation
 
-For local deployment, clone - download the repository and in the project directory run 
+For local deployment, clone - download the repository and in the project directory run
 
 #### `npm install`
 
@@ -31,7 +31,7 @@ You will also see any lint errors in the console.
 
 WebVR Volume Rendering.
 
-#### Introduction 
+#### Introduction
 
 A web based volume visualizer application to support scientific 3D data built on top of webgl that will facilitate the access from any web browser, plus the benefits of VR.
 
@@ -64,7 +64,7 @@ Following A-Frame’s philosophy, the application has a custom component that re
 
 Althoug it can be attached to a generic aframe entity:
 
-    <a-entity id="volumeCube"  myloader="path_to_data" position="0 0 0"> 
+    <a-entity id="volumeCube"  myloader="path_to_data" position="0 0 0">
 
 ‘Id’ and ‘class’ are identifiers of the html element during the application’s life cycle. Events and dynamic properties query for these names to change their internal properties such as position and color.
 
@@ -92,16 +92,16 @@ react-slider
 
 This code is located on the file src/components/my-loader.js. It registers the A-Frame component:
 
-    AFRAME.registerComponent('myloader', {  
-    
+    AFRAME.registerComponent('myloader', {
+
 Every component on A-Frame has a series of methods to be extended to determine its behavior  in the application. In our case we implemented:
 
 * schema:  Defines its attributes such as ‘volumeData’.
 * Init: Sets the initial state of the entity. Also, It loads the shaders and transfer functions.
 * Tick: check for events in the vr controllers to produce real time interaction with the data.
 
-    
-#### Structure of the project 
+
+#### Structure of the project
 
 The key folders of the project are ‘public’ and ‘src’
 
@@ -116,14 +116,14 @@ The A-Frame components are located in the ‘src’ folder:
 ![file_system1](./imgs/filesystem3.png)
 
 #### How to access it from the ccv server
- 
+
 Open your web browser and go to https://datasci.brown.edu/spheroid/ or https://datasci.brown.edu/simulation/.
 
 The VR mode is only supported by Mozilla FireFox. Please install this application if you want to use HMD device to visualize the data.
 
 #### How the application works
- 
-Once you open the application in a web browser, you can interact with the data in two different modes: 
+
+Once you open the application in a web browser, you can interact with the data in two different modes:
 * 2D mode: Left click and drag your mouse from left to right or vice versa to rotate the data.
 * 3D mode (use VR device): Two buttons are used to interact with the data
 
@@ -141,7 +141,7 @@ At this moment, VR on web browsers is only supported on Mozilla Firefox. In orde
 
 ![Mozilla1](./imgs/mozilla1.png)
 
-2. In the NVIDIA panel window, select the "Program Settings" Tab 
+2. In the NVIDIA panel window, select the "Program Settings" Tab
 
 ![Mozilla2](./imgs/mozilla2.png)
 
