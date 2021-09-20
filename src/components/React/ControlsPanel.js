@@ -14,6 +14,7 @@ const options = [
   {value: './assets/models/r06c03f04_90_1.935_1.935_5.00000.png:false', label: 'Spheroid 1 90 slices' },
   {value: './assets/models/r06c03f03_49_1.29_1.29_5.00000.png:false', label: 'Spheroid 2 cropped slices' },
   {value: './assets/models/r06c03f03_90_1.935_1.935_5.00000.png:false', label: 'Spheroid 2 90 slices' },
+  {value: './assets/models/bay_55_1_1_1.png:false', label: 'bay 54 slices' },
 ];
 
 export default connect(null, {myChangeVolumeAction})
