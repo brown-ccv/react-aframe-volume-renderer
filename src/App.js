@@ -15,7 +15,7 @@ import {VolumeContext} from './context/volume-context.js';
 
 export default function App() {
   const [volume, setVolume] = React.useState({ 
-    variable: 0,
+    measurement: 0,
     season: 0,
     tide: 0,
   })

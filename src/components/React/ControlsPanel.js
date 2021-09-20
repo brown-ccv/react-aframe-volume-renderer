@@ -24,7 +24,7 @@ export default function ControlPanel(props) {
             type="radio" 
             name="variable"
             value={volume.variable}
-            onChange={(val) => setVolume({...volume, variable: val})}
+            onChange={(val) => setVolume({...volume, measurement: val})}
           >
             <ToggleButton value={0}>Salinity</ToggleButton>
             <ToggleButton value={1}>Temperature</ToggleButton>
