@@ -35,10 +35,10 @@ export default connect(mapStateToProps)
 (class VolumeRenderer extends Component {
   getVolumePath = (volume) => {
     let path = "./assets/models/";
-
     volume.season ? path += "winter_" : path += "summer_";
     volume.tide ? path += "high_" : path += "low_";
     volume.measurement ? path += "temp" : path += "salt";
+    
     console.log(path + ".png")
     return path + ".png";
   };
