@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Spinner from './Spinner'
 import '../../App.css'
 import '../Aframe/arcball-camera'
+import { VolumeContext } from '../../context/volume-context';
 
 const mapStateToProps = state => {
   return { 
@@ -32,13 +33,15 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps)
 (class VolumeRenderer extends Component {
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      sideBarVisible:true,
-    };
-  }
+  getVolumePath = (volume) => {
+    let path = "./assets/models/";
+
+    volume.season ? path += "winter_" : path += "summer_";
+    volume.tide ? path += "high_" : path += "low_";
+    volume.measurement ? path += "temp" : path += "salt";
+    console.log(path + ".png")
+    return path + ".png";
+  };
 
   render () {
     return (
@@ -79,23 +82,50 @@ export default connect(mapStateToProps)
             cursor-listener 
           /> 
 
-        
-          <Entity 
+          <VolumeContext.Consumer>
+            {({volume}) => (
+              <Entity 
+                id="volumeCube" 
+                class="clickableMesh"   
+                myloader={{
+                  volumeData: this.getVolumePath(volume),
+                  rayCollided: false,
+                  transferFunction: this.props.transferFunction,
+                  colorMap: this.props.colorMap,
+                  opacity1: this.props.opacity1,
+                  opacity2: this.props.opacity2,
+                  lowNode: this.props.lowNode, 
+                  highNode:this.props.highNode,
+                  alphaXDataArray: this.props.alphaXDataArray,
+                  alphaYDataArray: this.props.alphaYDataArray,
+                  colorMapping: this.props.colorMapping,
+                  channel: this.props.channel,
+                  cameraState: this.props.cameraState
+                }}   
+                position="0 0 0"
+              />
+            )}
+          </VolumeContext.Consumer>
+          {/* <Entity 
             id="volumeCube" 
             class="clickableMesh"   
             myloader={{
-              volumeData:this.props.volumeData,rayCollided:false,
-              transferFunction:this.props.transferFunction,colorMap:this.props.colorMap,
-              opacity1:this.props.opacity1,opacity2:this.props.opacity2,
-              lowNode:this.props.lowNode,highNode:this.props.highNode,
-              alphaXDataArray:this.props.alphaXDataArray,
-              alphaYDataArray:this.props.alphaYDataArray,
-              colorMapping:this.props.colorMapping,
-              channel:this.props.channel,
-              cameraState:this.props.cameraState
+              volumeData: this.getVolumePath(),
+              rayCollided: false,
+              transferFunction: this.props.transferFunction,
+              colorMap: this.props.colorMap,
+              opacity1: this.props.opacity1,
+              opacity2: this.props.opacity2,
+              lowNode: this.props.lowNode, 
+              highNode:this.props.highNode,
+              alphaXDataArray: this.props.alphaXDataArray,
+              alphaYDataArray: this.props.alphaYDataArray,
+              colorMapping: this.props.colorMapping,
+              channel: this.props.channel,
+              cameraState: this.props.cameraState
             }}   
             position="0 0 0"
-          />
+          /> */}
           <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable" />
 
           {/* <Entity 

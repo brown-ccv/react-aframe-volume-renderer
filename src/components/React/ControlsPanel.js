@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import {Sidebar} from 'primereact/sidebar';
-import { Col, Row, Button, Container, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+import {Col, Row, Button, Container, ToggleButtonGroup, ToggleButton} from 'react-bootstrap';
 
 import Controls from './Controls';
 import {VolumeContext} from '../../context/volume-context';
