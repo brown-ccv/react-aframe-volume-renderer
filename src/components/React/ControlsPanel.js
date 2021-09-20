@@ -23,7 +23,7 @@ export default function ControlPanel(props) {
           <ToggleButtonGroup 
             type="radio" 
             name="variable"
-            value={volume.variable}
+            value={volume.measurement}
             onChange={(val) => setVolume({...volume, measurement: val})}
           >
             <ToggleButton value={0}>Salinity</ToggleButton>
