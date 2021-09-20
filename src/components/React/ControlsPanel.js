@@ -8,7 +8,8 @@ export default function ControlPanel(props) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [volume, setVolume] = useState({
     season: 0, 
-    tide: 1
+    tide: 0,
+    variable: 0,
   });
 
   return (
@@ -23,6 +24,18 @@ export default function ControlPanel(props) {
         <Col className="text-center">
           <ToggleButtonGroup 
             type="radio" 
+            name="variable"
+            value={volume.variable}
+            onChange={(val) => setVolume({...volume, variable: val})}
+          >
+            <ToggleButton value={0}>Salinity</ToggleButton>
+            <ToggleButton value={1}>Temperature</ToggleButton>
+          </ToggleButtonGroup>
+        </Col>
+
+        <Col className="text-center">
+          <ToggleButtonGroup 
+            type="radio" 
             name="season" 
             value={volume.season} 
             onChange={(val) => setVolume({...volume, season: val})}
@@ -30,7 +43,6 @@ export default function ControlPanel(props) {
             <ToggleButton value={0}>Summer</ToggleButton>
             <ToggleButton value={1}>Winter</ToggleButton>
           </ToggleButtonGroup>
-
         </Col>
 
         <Col className="text-center">
