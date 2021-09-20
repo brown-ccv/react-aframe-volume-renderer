@@ -1,16 +1,14 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {Sidebar} from 'primereact/sidebar';
 import { Col, Row, Button, Container, ToggleButtonGroup, ToggleButton } from 'react-bootstrap';
+
 import Controls from './Controls';
+import {VolumeContext} from '../../context/volume-context';
 
 export default function ControlPanel(props) {
-
   const [sidebarVisible, setSidebarVisible] = useState(false);
-  const [volume, setVolume] = useState({
-    season: 0, 
-    tide: 0,
-    variable: 0,
-  });
+
+  const {volume, setVolume} = useContext(VolumeContext)
 
   return (
     <Container fluid className="my-3">
@@ -21,7 +19,7 @@ export default function ControlPanel(props) {
           </Button>
         </Col>
 
-        <Col className="text-center">
+        <Col>
           <ToggleButtonGroup 
             type="radio" 
             name="variable"
