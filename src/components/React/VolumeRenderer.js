@@ -39,7 +39,6 @@ export default connect(mapStateToProps)
         <div id="modelLoaded" style={{display:'none'}}>
           <Spinner />
         </div>
-        {/*<input type="hidden" id="modelLoaded" name="custId" value="HERE" onchange={this.modelLoad}/>*/}
 
         <Scene id="myScene" background="color: black" embedded>
           <Entity 
@@ -96,15 +95,8 @@ export default connect(mapStateToProps)
               />
             )}
           </VolumeConsumer>
+          
           <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable" />
-
-          {/* <Entity 
-            id="myCamera" 
-            camera="active: true"  
-            look-controls  
-            orbit-controls="target: 0 0 0; minDistance: 0.0; maxDistance: 180; initialPosition: 0 0 2"  
-          /> */}
-          {/* <Entity id="myCamera" camera="active: true"  look-controls  position="0 0 2"  /> */}
           <Entity id="myCamera" camera="active: true" look-controls arcball-camera="initialPosition:0 0 2"   /> 
         </Scene>
       </div>
