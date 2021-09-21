@@ -1,5 +1,5 @@
 // Overrides Bootstrap Colors
-$blue:    #003C71;
+$indigo:    #025E73;
 $red:     #C00404;
 $yellow:  #FFC72C;
 $green:   #00B398;
@@ -19,4 +19,5 @@ $brown-200: #745D54;
 
 $theme-colors: (
   "primary": $purple,
+  "info": $indigo
 );

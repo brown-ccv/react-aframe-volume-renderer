@@ -4,6 +4,7 @@ import { Navbar, Nav, Button, Container, Row, Col } from 'react-bootstrap';
 import VolumeRenderer from './VolumeRenderer';
 import ControlsPanel from './ControlsPanel';
 import Howto from './Howto'
+import Footer from './Footer'
 
 export default function Layout(props) {
   const [showHowto, setShowHowto] = useState(false);
@@ -12,7 +13,7 @@ export default function Layout(props) {
     <div id="visualizer">
       <Navbar sticky="top" bg="light" expand="lg">
         <Navbar.Brand href="https://ridatadiscovery.org"><img
-          src="/ricaim-logo.svg"
+          src="/assets/images/ricaim-logo.svg"
           width="30"
           height="30"
           className="d-inline-block align-top"
@@ -58,6 +59,8 @@ export default function Layout(props) {
           </Col>
         </Row>
       </Container>
+
+      <Footer />
     </div>
   );
 }
