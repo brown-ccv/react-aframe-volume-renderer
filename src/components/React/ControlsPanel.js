@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import Flexbox from 'flexbox-react';
 import { connect } from 'react-redux';
 import {Sidebar} from 'primereact/sidebar';
 import {Button} from 'primereact/button';
@@ -34,7 +33,7 @@ export default connect(null, {myChangeVolumeAction})
       currentVolume: selected.value,
       currentData:selected
     });
-    
+
     if(selected.value != null) {
       var volumeProperties = selected.value.split(":");
       this.props.myChangeVolumeAction(volumeProperties[0],volumeProperties[1]);
@@ -46,23 +45,23 @@ export default connect(null, {myChangeVolumeAction})
   render () {
     return (
       <div className="mx-1">
-        <Flexbox justifyContent="center" className="my-3 mx-3">
-          <Button 
-            icon="pi pi-arrow-right" 
-            label="Controls" 
+        <div className="d-flex justify-content-center m-3">
+          <Button
+            icon="pi pi-arrow-right"
+            label="Controls"
             onClick={(e) => this.setState({sideBarVisible: true})}
           />
-          <SelectButton 
+          <SelectButton
             value={this.state.currentVolume}
-            options={options} 
-            onChange={this.volumeSelectChanged} 
-          /> 
-        </Flexbox>
+            options={options}
+            onChange={this.volumeSelectChanged}
+          />
+        </div>
 
         <Sidebar
-          modal={false} 
+          modal={false}
           position="bottom"
-          visible={this.state.sideBarVisible} 
+          visible={this.state.sideBarVisible}
           onHide={(e) => this.setState({sideBarVisible:false})}
           style={{width:'20em', height:'45em'}}
         >

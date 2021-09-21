@@ -3,11 +3,10 @@ import {Entity, Scene} from 'aframe-react';
 import React, {Component} from 'react'
 import { connect } from "react-redux";
 import Spinner from './Spinner'
-import '../../App.css'
 import '../Aframe/arcball-camera'
 
 const mapStateToProps = state => {
-  return { 
+  return {
     colorMapping: state.checkBoxValue,
     xSlideValueMin: state.xSlideValueMin,
     xSlideValueMax: state.xSlideValueMax,
@@ -34,7 +33,7 @@ export default connect(mapStateToProps)
 (class VolumeRenderer extends Component {
   constructor(props) {
     super(props);
-    
+
     this.state = {
       sideBarVisible:true,
     };
@@ -42,23 +41,23 @@ export default connect(mapStateToProps)
 
   render () {
     return (
-      <div className="aframe-container"> 
+      <div className="aframe-container">
         <div id="modelLoaded" style={{display:'none'}}>
           <Spinner />
         </div>
         {/*<input type="hidden" id="modelLoaded" name="custId" value="HERE" onchange={this.modelLoad}/>*/}
 
         <Scene id="myScene" background="color: black" embedded>
-          <Entity 
-            id="rhand" 
-            laser-controls="hand: right" 
-            raycaster="objects: .clickableMesh" 
-            my-buttons-check={{clipPlane:false,grabObject:false}} 
+          <Entity
+            id="rhand"
+            laser-controls="hand: right"
+            raycaster="objects: .clickableMesh"
+            my-buttons-check={{clipPlane:false,grabObject:false}}
             collider-check={{intersecting:false}}
           />
 
-          <Entity 
-            id="my2DclipplaneListener" 
+          <Entity
+            id="my2DclipplaneListener"
             render-2d-clipplane={{
               activateClipPlane:true,
               xCLipPlaneMin:this.props.xSlideValueMin,
@@ -70,19 +69,19 @@ export default connect(mapStateToProps)
               currenAxisAngle:"0 0 0",
               rotateAngle:"0 0 0",
               clipX:"0 0"
-            }} 
+            }}
           />
-          <a-plane 
-            class="clickable" id="my2Dclipplane" visible="false"  
-            height="1" width="1" 
-            material="color: red ; side:double; transparent:true;opacity:0.3" 
-            cursor-listener 
-          /> 
+          <a-plane
+            class="clickable" id="my2Dclipplane" visible="false"
+            height="1" width="1"
+            material="color: red ; side:double; transparent:true;opacity:0.3"
+            cursor-listener
+          />
 
-        
-          <Entity 
-            id="volumeCube" 
-            class="clickableMesh"   
+
+          <Entity
+            id="volumeCube"
+            class="clickableMesh"
             myloader={{
               volumeData:this.props.volumeData,rayCollided:false,
               transferFunction:this.props.transferFunction,colorMap:this.props.colorMap,
@@ -93,19 +92,19 @@ export default connect(mapStateToProps)
               colorMapping:this.props.colorMapping,
               channel:this.props.channel,
               cameraState:this.props.cameraState
-            }}   
+            }}
             position="0 0 0"
           />
           <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable" />
 
-          {/* <Entity 
-            id="myCamera" 
-            camera="active: true"  
-            look-controls  
-            orbit-controls="target: 0 0 0; minDistance: 0.0; maxDistance: 180; initialPosition: 0 0 2"  
+          {/* <Entity
+            id="myCamera"
+            camera="active: true"
+            look-controls
+            orbit-controls="target: 0 0 0; minDistance: 0.0; maxDistance: 180; initialPosition: 0 0 2"
           /> */}
           {/* <Entity id="myCamera" camera="active: true"  look-controls  position="0 0 2"  /> */}
-          <Entity id="myCamera" camera="active: true" look-controls arcball-camera="initialPosition:0 0 2"   /> 
+          <Entity id="myCamera" camera="active: true" look-controls arcball-camera="initialPosition:0 0 2"   />
         </Scene>
       </div>
     );

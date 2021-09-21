@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import '../../App.css'
 import ReactModal from 'react-modal';
 import {connect} from 'react-redux';
 import {myChangeColorMapAction, mySaveColorMappingState} from '../../redux/AppActions'
@@ -10,8 +9,8 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 
 const mapStateToProps = state => {
-  return { 
-    
+  return {
+
     volumeData: state.volumeData
    };
 };
@@ -28,23 +27,23 @@ const customStyles = {
   };
 
 const data = [
-    { 
+    {
       name: 'viridis',
       image: <img height="15x" width="100px"  src='./colormaps/viridis.png' alt=""/>
     },
-    { 
+    {
       name: 'natural',
       image: <img height="15x" width="100px"  src='./colormaps/natural.png' alt=""/>
     },
     {
       name: 'colors',
-      image: <img height="15x" width="100px"  src='./colormaps/colors.png' alt=""/> 
+      image: <img height="15x" width="100px"  src='./colormaps/colors.png' alt=""/>
     },
     {
       name: 'white black',
-      image: <img height="15x" width="100px"  src='./colormaps/whiteblack.png' alt=""/> 
+      image: <img height="15x" width="100px"  src='./colormaps/whiteblack.png' alt=""/>
     },
-  
+
   ];
 
 
@@ -59,13 +58,13 @@ const data = [
 //       selector: 'name',
 //     },
 //   ];
-  
 
-export default connect(mapStateToProps, 
+
+export default connect(mapStateToProps,
     {myChangeColorMapAction,mySaveColorMappingState}
 )
 (class ControlMappingController extends Component {
-    
+
     constructor(props) {
         super(props);
 
@@ -82,13 +81,13 @@ export default connect(mapStateToProps,
 
         ReactModal.setAppElement('body');
     }
-    
+
     componentWillUnmount() {
         //-- save state
         // console.log("componentWillUnmount: " +this.state.currentMapColor);
         this.props.mySaveColorMappingState(this.state.currentMapColor);
     }
-    
+
     showModal  = () => {
         this.setState({ colorMapModal: true });
      };
@@ -100,10 +99,10 @@ export default connect(mapStateToProps,
 
     datatable () {
        return  (
-        <DataTable  
+        <DataTable
           style={{width: '350px'}}
-          value={data} 
-          selection={this.state.colorMapSelected} 
+          value={data}
+          selection={this.state.colorMapSelected}
           onSelectionChange={this.handleDataTableSelected}
         >
           <Column selectionMode="single" />
@@ -113,7 +112,7 @@ export default connect(mapStateToProps,
        );
      }
 
-     handleDataTableSelected= (state) => { 
+     handleDataTableSelected= (state) => {
         this.setState({
             colorMapSelected:state.value,
             currentMapColor:state.value.image.props.src
@@ -122,22 +121,22 @@ export default connect(mapStateToProps,
 
     render () {
         let colorMapSelection;
-        if(this.state.currentMapColor !== '')  
+        if(this.state.currentMapColor !== '')
         {
-          colorMapSelection = <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width={this.props.width}></img>       
+          colorMapSelection = <img className="colorMapImg" src={this.state.currentMapColor} alt="color map" height="15" width={this.props.width}></img>
         }
         else {
-          colorMapSelection = ''; 
+          colorMapSelection = '';
         }
 
-        return ( 
+        return (
           <div>
             <button type= "button" onClick={this.showModal}>
                 color map
             </button>
             <br/>
             {colorMapSelection}
-            <ReactModal 
+            <ReactModal
               isOpen={this.state.colorMapModal}
               style={customStyles}
               contentLabel="Minimal Modal Example"
