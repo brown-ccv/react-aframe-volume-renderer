@@ -9,7 +9,7 @@ export default function ControlPanel(props) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
   const {
-    state: {toggles},
+    state: {options},
     dispatch
   } = useVolume();
 
@@ -25,15 +25,15 @@ export default function ControlPanel(props) {
         <Col>
           <ToggleButtonGroup 
             type="radio" 
-            name="variable"
-            value={toggles.measurement}
+            name="measurement"
+            value={options.measurement}
             onChange={val => dispatch({
               type: "TOGGLE_MEASUREMENT",
               payload: val,
             })}
           >
-            <ToggleButton value={0}>Salinity</ToggleButton>
-            <ToggleButton value={1}>Temperature</ToggleButton>
+            <ToggleButton value={'salt'}>Salinity</ToggleButton>
+            <ToggleButton value={'temp'}>Temperature</ToggleButton>
           </ToggleButtonGroup>
         </Col>
 
@@ -41,14 +41,14 @@ export default function ControlPanel(props) {
           <ToggleButtonGroup 
             type="radio" 
             name="season" 
-            value={toggles.season} 
+            value={options.season} 
             onChange={val => dispatch({
               type: "TOGGLE_SEASON",
               payload: val,
             })}
           >
-            <ToggleButton value={0}>Summer</ToggleButton>
-            <ToggleButton value={1}>Winter</ToggleButton>
+            <ToggleButton value={'summer'}>Summer</ToggleButton>
+            <ToggleButton value={'winter'}>Winter</ToggleButton>
           </ToggleButtonGroup>
         </Col>
 
@@ -56,14 +56,14 @@ export default function ControlPanel(props) {
           <ToggleButtonGroup 
             type="radio" 
             name="tide"
-            value={toggles.tide}
+            value={options.tide}
             onChange={val => dispatch({
               type: "TOGGLE_TIDE",
               payload: val,
             })}
           >
-            <ToggleButton value={0}>Low Tide</ToggleButton>
-            <ToggleButton value={1}>High Tide</ToggleButton>
+            <ToggleButton value={'low'}>Low Tide</ToggleButton>
+            <ToggleButton value={'high'}>High Tide</ToggleButton>
           </ToggleButtonGroup>
         </Col>
       </Row>

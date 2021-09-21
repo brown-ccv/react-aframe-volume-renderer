@@ -5,10 +5,10 @@ const VolumeContext = createContext();
 // Custom component to provide the Volume context
 function VolumeProvider(props) {
   const [state, dispatch] = useReducer(volumeReducer, {
-    toggles: {
-      measurement: 0,
-      season: 0, 
-      tide: 0,
+    options: {
+      measurement: 'salt',
+      season: 'summer', 
+      tide: 'low',
     },
     path: "./assets/models/summer_low_salt.png",
   })
@@ -33,11 +33,8 @@ function useVolume() {
 // Custom reducer to update the VolumeContext
 function volumeReducer(state, action) {
   function getPath() {
-    let path = "";
-    state.toggles.season ? path += "winter_" : path += "summer_";
-    state.toggles.tide ? path += "high_" : path += "low_";
-    state.toggles.measurement ? path += "temp" : path += "salt";
-    path += ".png"
+    const {season, tide, measurement} = state.options;
+    const path = `${season}_${tide}_${measurement}.png`
     
     console.log("Loading Model:", path)
     return "./assets/models/" + path;
@@ -45,17 +42,17 @@ function volumeReducer(state, action) {
 
   switch(action.type) {
     case "TOGGLE_MEASUREMENT": {
-      state.toggles = {...state.toggles, measurement: action.payload}
+      state.options = {...state.options, measurement: action.payload}
       state.path = getPath()
       return state;
     }
     case "TOGGLE_SEASON": {
-      state.toggles = {...state.toggles, season: action.payload}
+      state.options = {...state.options, season: action.payload}
       state.path = getPath()
       return state;
     }
     case "TOGGLE_TIDE": {
-      state.toggles = {...state.toggles, tide: action.payload}
+      state.options = {...state.options, tide: action.payload}
       state.path = getPath()
       return state;
     }
