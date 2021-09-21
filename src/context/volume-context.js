@@ -1,6 +1,7 @@
 import {createContext, useContext, useReducer} from "react";
 
 const VolumeContext = createContext();
+const pathPrefix = "./assets/models/"
 
 // Custom component to provide the Volume context
 function VolumeProvider(props) {
@@ -22,7 +23,7 @@ function VolumeProvider(props) {
 }
 
 // Custom hook to get the current VolumeContext 
-function useVolume() {
+function useVolumeContext() {
   const context = useContext(VolumeContext);
   if (context === undefined) {
     throw new Error("useVolume must be used within a VolumeProvider")
@@ -34,10 +35,10 @@ function useVolume() {
 function volumeReducer(state, action) {
   function getPath() {
     const {season, tide, measurement} = state.options;
-    const path = `${season}_${tide}_${measurement}.png`
+    const model = `${season}_${tide}_${measurement}.png`
     
-    console.log("Loading Model:", path)
-    return "./assets/models/" + path;
+    console.log("Loading Model:", model)
+    return pathPrefix + model;
   }
 
   switch(action.type) {
@@ -76,4 +77,4 @@ function VolumeConsumer(props) {
   )
 }
 
-export {useVolume, VolumeProvider, VolumeConsumer}
+export {useVolumeContext, VolumeProvider, VolumeConsumer}
