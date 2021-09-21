@@ -32,7 +32,7 @@ export default function Layout(props) {
       </Container>
 
       <Container fluid id="information" className="bg-secondary text-light">
-        <Row className="justify-content-md-center">
+        <Row className="justify-content-md-center py-5">
           <Col xs={8}>
             <div className="d-flex flex-column">
               <h1 className="my-4">
