@@ -96,31 +96,6 @@ export default connect(mapStateToProps)
               />
             )}
           </VolumeConsumer>
-
-          {/* <VolumeContext.Consumer>
-            {({volume}) => (
-              <Entity 
-                id="volumeCube" 
-                class="clickableMesh"   
-                myloader={{
-                  volumeData: this.getVolumePath(volume),
-                  rayCollided: false,
-                  transferFunction: this.props.transferFunction,
-                  colorMap: this.props.colorMap,
-                  opacity1: this.props.opacity1,
-                  opacity2: this.props.opacity2,
-                  lowNode: this.props.lowNode, 
-                  highNode:this.props.highNode,
-                  alphaXDataArray: this.props.alphaXDataArray,
-                  alphaYDataArray: this.props.alphaYDataArray,
-                  colorMapping: this.props.colorMapping,
-                  channel: this.props.channel,
-                  cameraState: this.props.cameraState
-                }}   
-                position="0 0 0"
-              />
-            )}
-          </VolumeContext.Consumer> */}
           <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable" />
 
           {/* <Entity 
