@@ -1,14 +1,17 @@
-import React, {useState, useContext} from 'react';
+import React, {useState} from 'react';
 import {Sidebar} from 'primereact/sidebar';
 import {Col, Row, Button, Container, ToggleButtonGroup, ToggleButton} from 'react-bootstrap';
 
 import Controls from './Controls';
-import {VolumeContext} from '../../context/volume-context';
+import { useVolume } from '../../context/volume-context';
 
 export default function ControlPanel(props) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
-  const {volume, setVolume} = useContext(VolumeContext)
+  const {
+    state: {selector},
+    dispatch
+  } = useVolume();
 
   return (
     <Container fluid className="my-3">
@@ -23,8 +26,11 @@ export default function ControlPanel(props) {
           <ToggleButtonGroup 
             type="radio" 
             name="variable"
-            value={volume.measurement}
-            onChange={(val) => setVolume({...volume, measurement: val})}
+            value={selector.measurement}
+            onChange={val => dispatch({
+              type: "TOGGLE_MEASUREMENT",
+              payload: val,
+            })}
           >
             <ToggleButton value={0}>Salinity</ToggleButton>
             <ToggleButton value={1}>Temperature</ToggleButton>
@@ -35,8 +41,11 @@ export default function ControlPanel(props) {
           <ToggleButtonGroup 
             type="radio" 
             name="season" 
-            value={volume.season} 
-            onChange={(val) => setVolume({...volume, season: val})}
+            value={selector.season} 
+            onChange={val => dispatch({
+              type: "TOGGLE_SEASON",
+              payload: val,
+            })}
           >
             <ToggleButton value={0}>Summer</ToggleButton>
             <ToggleButton value={1}>Winter</ToggleButton>
@@ -47,8 +56,11 @@ export default function ControlPanel(props) {
           <ToggleButtonGroup 
             type="radio" 
             name="tide"
-            value={volume.tide}
-            onChange={(val) => setVolume({...volume, tide: val})}
+            value={selector.tide}
+            onChange={val => dispatch({
+              type: "TOGGLE_TIDE",
+              payload: val,
+            })}
           >
             <ToggleButton value={0}>Low Tide</ToggleButton>
             <ToggleButton value={1}>High Tide</ToggleButton>

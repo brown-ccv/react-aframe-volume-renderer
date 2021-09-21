@@ -10,20 +10,10 @@ import './components/Aframe/render-2d-clipplane'
 import './components/Aframe/cursor-listener'
 import './App.css'
 import Layout from './components/React/Layout'
-import {VolumeContext} from './context/volume-context.js';
 
 
 export default function App() {
-  const [volume, setVolume] = React.useState({ 
-    measurement: 0,
-    season: 0,
-    tide: 0,
-  })
-  const value = {volume, setVolume}
-
   return (
-    <VolumeContext.Provider value={value}>
-      <Layout />
-    </VolumeContext.Provider>
+    <Layout />
   );
 }
