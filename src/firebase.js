@@ -13,7 +13,7 @@ const firebaseConfig = {
   storageBucket: "riddc-volume-viewer.appspot.com",
   messagingSenderId: "357016017864",
   appId: "1:357016017864:web:1e7e8c19e5fd48de15befd",
-  measurementId: "G-63QGRJJJQ3"
+  measurementId: "G-63QGRJJJQ3",
 };
 
 // Initialize Firebase

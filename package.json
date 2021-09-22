@@ -8,10 +8,9 @@
     "aframe-event-set-component": "^5.0.0",
     "aframe-orbit-controls": "^1.3.0",
     "aframe-react": "^4.4.0",
-    "bootstrap": "^5.1.1",
+    "bootstrap": "^4.6.0",
     "eslint-config-react-app": "^6.0.0",
     "firebase": "^9.0.2",
-    "flexbox-react": "^4.4.0",
     "node-sass": "^6.0.1",
     "primeicons": "^4.1.0",
     "primereact": "^6.5.1",
@@ -27,14 +26,12 @@
     "react-spinners": "^0.11.0",
     "redux": "^4.1.1"
   },
-  "optionalDependency": {
-    "brown-university-styles": "git+https://bitbucket.brown.edu/scm/react/brown-university-styles.git"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "prettier --write src"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -52,6 +49,16 @@
     ]
   },
   "devDependencies": {
-    "firebase-tools": "^9.18.0"
+    "firebase-tools": "^9.18.0",
+    "lint-staged": "^11.1.2",
+    "prettier": "^2.4.1"
+  },
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
   }
 }

@@ -1,5 +1,5 @@
-import React from 'react';
-import { RingLoader } from 'react-spinners';
+import React from "react";
+import { RingLoader } from "react-spinners";
 
 export default function Spinner(props) {
   return (
@@ -12,5 +12,5 @@ export default function Spinner(props) {
         />
       </div>
     </div>
-  )
+  );
 }
