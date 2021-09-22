@@ -32,8 +32,8 @@ export default function ControlPanel(props) {
               payload: val,
             })}
           >
-            <ToggleButton value={'salt'}>Salinity</ToggleButton>
-            <ToggleButton value={'temp'}>Temperature</ToggleButton>
+            <ToggleButton value='salt'>Salinity</ToggleButton>
+            <ToggleButton value='temp'>Temperature</ToggleButton>
           </ToggleButtonGroup>
         </Col>
 
@@ -47,8 +47,8 @@ export default function ControlPanel(props) {
               payload: val,
             })}
           >
-            <ToggleButton value={'summer'}>Summer</ToggleButton>
-            <ToggleButton value={'winter'}>Winter</ToggleButton>
+            <ToggleButton value='summer'>Summer</ToggleButton>
+            <ToggleButton value='winter'>Winter</ToggleButton>
           </ToggleButtonGroup>
         </Col>
 
@@ -62,8 +62,8 @@ export default function ControlPanel(props) {
               payload: val,
             })}
           >
-            <ToggleButton value={'low'}>Low Tide</ToggleButton>
-            <ToggleButton value={'high'}>High Tide</ToggleButton>
+            <ToggleButton value='low'>Low Tide</ToggleButton>
+            <ToggleButton value='high'>High Tide</ToggleButton>
           </ToggleButtonGroup>
         </Col>
       </Row>
