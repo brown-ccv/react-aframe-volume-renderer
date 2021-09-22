@@ -11,7 +11,7 @@ function VolumeProvider(props) {
       season: 'summer', 
       tide: 'low',
     },
-    path: "./assets/models/summer_low_salt.png",
+    path: `${pathPrefix}summer_low_salt.png`,
   })
 
   const value = {state, dispatch}
