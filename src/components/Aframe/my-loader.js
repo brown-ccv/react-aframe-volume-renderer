@@ -563,7 +563,7 @@ AFRAME.registerComponent("myloader", {
 
     if (oldData.volumeData !== this.data.volumeData) {
 		var parent_folder = this.data.volumeData.substr(0,this.data.volumeData.lastIndexOf("/")+1)
-	    console.log( "TTTTT" +this.data.volumeData);
+	    
 		fetch(this.data.volumeData).then(res => res.json())
 		.then(jsonData => {
 			// Do something with your data
