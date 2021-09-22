@@ -307,7 +307,7 @@ AFRAME.registerComponent('myloader', {
 	},
 
 
-	loadModel: function () {
+	loadModel: function (fullPath, volumeProperties) {
 
 		var currentVolume = this.el.getObject3D('mesh');
 		if (currentVolume !== undefined) {
@@ -320,7 +320,7 @@ AFRAME.registerComponent('myloader', {
 		}
 
 
-		if (this.data.volumeData !== "") {
+		if (fullPath !== "") {
 			
 			this.hiddenLabel.style.display = '';
 			var el = this.el;
@@ -334,6 +334,13 @@ AFRAME.registerComponent('myloader', {
 			var enabledColorMapping = this.colorMapEnabled;
 			var iam = this;
 			
+			var volumeDataFullPath = fullPath+volumeProperties["season"]+"-"+volumeProperties["tide"]+"-"+
+			               volumeProperties["variable"]+volumeProperties["extension"];
+			var x_dim = volumeProperties["x_spacing"]
+			var y_dim = volumeProperties["y_spacing"]
+			var z_dim = volumeProperties["z_spacing"]
+			var slice = volumeProperties["slices"]
+
 			if (this.data.transferFunction === "false") {
 				
 				useTransferFunction = false;
@@ -341,19 +348,21 @@ AFRAME.registerComponent('myloader', {
 				
 				useTransferFunction = true;
 			}
-
+			
 			//load as 2D texture
-			new THREE.TextureLoader().load(this.data.volumeData, function (texture) {
+			new THREE.TextureLoader().load(volumeDataFullPath, function (texture) {
 		
+
 				//read parameters from filename
-				var splittedName = data.volumeData.split("_");
-				var slice =  parseInt(splittedName[splittedName.length - 4]);
-				var d1 =  parseFloat(splittedName[splittedName.length - 3]);
-				var d2 =  parseFloat(splittedName[splittedName.length - 2]);
-				var d3 =  parseFloat(splittedName[splittedName.length - 1]);
+				//var splittedName = volumeFullPath.split("_");
+				// var slice =  parseInt(splittedName[splittedName.length - 4]);
+				// var d1 =  parseFloat(splittedName[splittedName.length - 3]);
+				// var d2 =  parseFloat(splittedName[splittedName.length - 2]);
+				// var d3 =  parseFloat(splittedName[splittedName.length - 1]);
+				
 				
 				var dim = Math.ceil(Math.sqrt(slice));
-				var spacing = [d1, d2, d3];
+				var spacing = [x_dim, y_dim, z_dim];
 				
 				var volumeScale = [	1.0 / (texture.image.width / dim * spacing[0]),
 									1.0 / (texture.image.height / dim * spacing[1]),
@@ -598,7 +607,20 @@ AFRAME.registerComponent('myloader', {
 		
 		if (oldData.volumeData !== this.data.volumeData) {
 			
-			this.loadModel();
+			if(this.data.volumeData.endsWith(".json") )
+			{
+			
+				var parent_folder = this.data.volumeData.substr(0,this.data.volumeData.lastIndexOf("/")+1)
+				
+				fetch(this.data.volumeData).then(res => res.json())
+				.then(jsonData => {
+					// Do something with your data
+					// var fullFilePath = parent_folder + jsonData['fileName']
+					// console.log("fullFilePath: "+fullFilePath)
+					this.loadModel(parent_folder,jsonData);		
+				
+				});
+			}
 		
 		}
 

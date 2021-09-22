@@ -1,0 +1,10 @@
+{
+  "slices":55,
+  "extension":".png",
+  "season":"summer", 
+  "tide":"low",
+  "variable":"temp",
+  "x_spacing":2.0, 
+  "y_spacing":2.0,
+  "z_spacing":1.0
+}
