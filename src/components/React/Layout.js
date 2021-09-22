@@ -28,7 +28,7 @@ export default function Layout(props) {
         </Nav>
       </Navbar>
 
-      <Container fluid id="visualizer">
+      <Container fluid id="visualizer" className="mb-3">
         <VolumeProvider>
           <ControlsPanel />
           <VolumeRenderer />
