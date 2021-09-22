@@ -1,0 +1,46 @@
+.footer-grid
+    display: grid
+    grid-template-areas: "section-a" "section-b" "bottom"
+    &-section-a
+        grid-area: section-a
+    &-section-b
+        grid-area: section-b
+    &-bottom
+        grid-area: bottom
+        text-align: center
+
+.copyright-span
+    margin-left: 1rem
+.footer
+    background-color: $beige
+    padding: 1rem 1.5rem 3rem
+.footer-logos
+    width: 100%
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: space-evenly
+.footer-left
+    display: flex
+    flex-direction: column
+    align-items: center
+    &-email
+        padding-top: 3rem
+        padding-bottom: 1rem
+.envelope-icon
+    margin-right: 1rem
+.footer-right
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: center
+    font-size: 0.8rem
+    .container
+        flex-basis: 70%
+
+
+.sponsor-logo
+  width: 8rem
+
+.nsf
+  margin-left: 2rem

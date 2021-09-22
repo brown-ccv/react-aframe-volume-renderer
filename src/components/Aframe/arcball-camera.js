@@ -17,7 +17,7 @@ AFRAME.registerComponent('arcball-camera', {
       this.controls = new THREE.TrackballControls(
         el.getObject3D('camera'), el.sceneEl.renderer.domElement
       );
-                                           
+
       this.meshObjectHandler = document.getElementById('volumeCube').object3D;
       this.controls.rotateSpeed = 1.0;
 	    this.controls.zoomSpeed = 1.2;
@@ -32,27 +32,30 @@ AFRAME.registerComponent('arcball-camera', {
       // this.onExitVR = this.onExitVR.bind(this);
       this.onWindowResize = this.onWindowResize.bind(this);
 
-      el.sceneEl.addEventListener('enter-vr', this.onEnterVR); 
+      el.sceneEl.addEventListener('enter-vr', this.onEnterVR);
       el.sceneEl.addEventListener('exit-vr', this.onExitVR);
 
       window.addEventListener( 'resize', this.onWindowResize, false );
-     
+
       el.getObject3D('camera').position.copy(this.data.initialPosition);
-      document.body.style.cursor = 'grab';
+
+      // set the pointer to grab/grabbing when over the vr canvas
+      const aCanvas = document.querySelector('.a-canvas');
+      aCanvas.style.cursor = 'grab';
 
       document.addEventListener('mousedown', () => {
-        document.body.style.cursor = 'grabbing';
+        aCanvas.style.cursor = 'grabbing';
       });
       document.addEventListener('mouseup', () => {
-        document.body.style.cursor = 'grab';
-      });      
+        aCanvas.style.cursor = 'grab';
+      });
     },
-    
+
 
     onWindowResize() {
       // this.controls.handleResize();
     },
-    
+
     bindMethods: function() {
       this.onEnterVR = bind(this.onEnterVR, this);
       this.onExitVR = bind(this.onExitVR, this);
@@ -80,8 +83,8 @@ AFRAME.registerComponent('arcball-camera', {
       console.log("target: ")
       console.log(this.controls.target);
       */
-       
-       
+
+
       var el = this.el;
       this.debugPosition = true;
       if (!AFRAME.utils.device.checkHeadsetConnected() &&
@@ -117,7 +120,7 @@ AFRAME.registerComponent('arcball-camera', {
       console.log("camera old pos")
       console.log(this.oldPosition);
       //el.getObject3D('camera').position.copy(this.oldPosition);
-      el.getObject3D('camera').position.set(0,0,2); 
+      el.getObject3D('camera').position.set(0,0,2);
       console.log("camera matrixWorld")
       console.log(el.getObject3D('camera').matrixWorld);
       console.log("target: ")
@@ -125,14 +128,14 @@ AFRAME.registerComponent('arcball-camera', {
       console.log("this.meshObjectHandler.matrixWorld");
       console.log(this.meshObjectHandler.matrixWorld);
       this.meshObjectHandler.position.set(0,0,0);
-        
+
       el.getObject3D('camera').matrixWorld.copy(this.oldMatrix);
       el.getObject3D('camera').updateMatrix();
       console.log("el.getObject3D('camera').matrixWorld")
       console.log(el.getObject3D('camera').matrixWorld);
       console.log("exit VR")
       //el.getObject3D('camera').position.set(0, 0, 0);
-      //if (el.hasAttribute('look-controls')) { 
+      //if (el.hasAttribute('look-controls')) {
       // }
       */
 
@@ -151,7 +154,7 @@ AFRAME.registerComponent('arcball-camera', {
       console.log(mesh);
       // console.log(this.el.getObject3D("mesh").matrixWorld);
       //this.meshObjectHandler.position.set(0,0,0);
-      
+
       if (el.hasAttribute('look-controls')) {
        el.setAttribute('look-controls', 'enabled', false);
        // this.meshObjectHandler.matrixWorld.copy(this.oldMatrix);
@@ -165,7 +168,7 @@ AFRAME.registerComponent('arcball-camera', {
       }
       if(this.debugPosition){
         // console.log(this.meshObjectHandler.position);
-      }     
+      }
     },
 
     remove: function() {

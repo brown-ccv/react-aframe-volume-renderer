@@ -23,8 +23,8 @@ export default function ControlPanel(props) {
         </Col>
 
         <Col>
-          <ToggleButtonGroup 
-            type="radio" 
+          <ToggleButtonGroup
+            type="radio"
             name="measurement"
             value={options.measurement}
             onChange={val => dispatch({
@@ -38,10 +38,10 @@ export default function ControlPanel(props) {
         </Col>
 
         <Col className="text-center">
-          <ToggleButtonGroup 
-            type="radio" 
-            name="season" 
-            value={options.season} 
+          <ToggleButtonGroup
+            type="radio"
+            name="season"
+            value={options.season}
             onChange={val => dispatch({
               type: "TOGGLE_SEASON",
               payload: val,
@@ -53,8 +53,8 @@ export default function ControlPanel(props) {
         </Col>
 
         <Col className="text-center">
-          <ToggleButtonGroup 
-            type="radio" 
+          <ToggleButtonGroup
+            type="radio"
             name="tide"
             value={options.tide}
             onChange={val => dispatch({
@@ -71,7 +71,7 @@ export default function ControlPanel(props) {
       <Sidebar
         modal={false}
         position="bottom"
-        visible={sidebarVisible} 
+        visible={sidebarVisible}
         onHide={(e) => setSidebarVisible(false)}
         style={{width:'20em', height:'45em'}}
       >
