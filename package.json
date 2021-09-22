@@ -30,7 +30,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "prettier --write src"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -50,8 +51,7 @@
   "devDependencies": {
     "firebase-tools": "^9.18.0",
     "lint-staged": "^11.1.2",
-    "prettier": "^2.4.1",
-    "lint": "prettier --write src"
+    "prettier": "^2.4.1"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
