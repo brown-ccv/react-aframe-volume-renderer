@@ -18,6 +18,7 @@ import Kalvin from './kalkal.jpg';
 import Camilo from './camilo.jpg';
 import Ben from './ben.jpg';
 import NSFEPSCoR from './nsfepscor.jpg'
+import { VolumeProvider } from '../../context/volume-context';
 
 export default class Layout extends Component {
   constructor(props) {
@@ -77,10 +78,12 @@ export default class Layout extends Component {
         </Navbar>
         
         {/* Volume Viewer */}
-          <Flexbox flexDirection="column" id="app" name="VolumeViewer">
+        <Flexbox flexDirection="column" id="app" name="VolumeViewer">
+          <VolumeProvider>
             <ControlsPanel />
             <VolumeRenderer />
-          </Flexbox>
+          </VolumeProvider>
+        </Flexbox>
 
         <Element name="Guide" className="element">
           <Flexbox flexDirection="column" alignContent="center">

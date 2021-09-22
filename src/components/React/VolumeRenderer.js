@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import Spinner from './Spinner'
 import '../../App.css'
 import '../Aframe/arcball-camera'
+import { VolumeConsumer } from '../../context/volume-context';
 
 const mapStateToProps = state => {
   return { 
@@ -32,21 +33,12 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps)
 (class VolumeRenderer extends Component {
-  constructor(props) {
-    super(props);
-    
-    this.state = {
-      sideBarVisible:true,
-    };
-  }
-
   render () {
     return (
       <div className="aframe-container"> 
         <div id="modelLoaded" style={{display:'none'}}>
           <Spinner />
         </div>
-        {/*<input type="hidden" id="modelLoaded" name="custId" value="HERE" onchange={this.modelLoad}/>*/}
 
         <Scene id="myScene" background="color: black" embedded>
           <Entity 
@@ -79,32 +71,32 @@ export default connect(mapStateToProps)
             cursor-listener 
           /> 
 
-        
-          <Entity 
-            id="volumeCube" 
-            class="clickableMesh"   
-            myloader={{
-              volumeData:this.props.volumeData,rayCollided:false,
-              transferFunction:this.props.transferFunction,colorMap:this.props.colorMap,
-              opacity1:this.props.opacity1,opacity2:this.props.opacity2,
-              lowNode:this.props.lowNode,highNode:this.props.highNode,
-              alphaXDataArray:this.props.alphaXDataArray,
-              alphaYDataArray:this.props.alphaYDataArray,
-              colorMapping:this.props.colorMapping,
-              channel:this.props.channel,
-              cameraState:this.props.cameraState
-            }}   
-            position="0 0 0"
-          />
+          <VolumeConsumer>
+            {({state}) => (
+              <Entity 
+                id="volumeCube" 
+                class="clickableMesh"   
+                myloader={{
+                  volumeData: state.path,
+                  rayCollided: false,
+                  transferFunction: this.props.transferFunction,
+                  colorMap: this.props.colorMap,
+                  opacity1: this.props.opacity1,
+                  opacity2: this.props.opacity2,
+                  lowNode: this.props.lowNode, 
+                  highNode:this.props.highNode,
+                  alphaXDataArray: this.props.alphaXDataArray,
+                  alphaYDataArray: this.props.alphaYDataArray,
+                  colorMapping: this.props.colorMapping,
+                  channel: this.props.channel,
+                  cameraState: this.props.cameraState
+                }}   
+                position="0 0 0"
+              />
+            )}
+          </VolumeConsumer>
+          
           <a-entity cursor="rayOrigin:mouse" raycaster="objects: .clickable" />
-
-          {/* <Entity 
-            id="myCamera" 
-            camera="active: true"  
-            look-controls  
-            orbit-controls="target: 0 0 0; minDistance: 0.0; maxDistance: 180; initialPosition: 0 0 2"  
-          /> */}
-          {/* <Entity id="myCamera" camera="active: true"  look-controls  position="0 0 2"  /> */}
           <Entity id="myCamera" camera="active: true" look-controls arcball-camera="initialPosition:0 0 2"   /> 
         </Scene>
       </div>

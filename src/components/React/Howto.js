@@ -4,7 +4,6 @@ import { Button } from 'primereact/button';
 import ModalHeader from 'react-bootstrap/esm/ModalHeader';
 
 export default function Howto(props) {
-  console.log(props)
   return(
     
     <div>
