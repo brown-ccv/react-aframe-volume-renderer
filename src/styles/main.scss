@@ -1,15 +1,15 @@
 // Override Bootstrap Variables
-@import 'variables';
+@import "variables";
 
 // Import Bootstrap
-@import '~bootstrap/scss/bootstrap.scss';
+@import "~bootstrap/scss/bootstrap.scss";
 
-@import '_footer';
+@import "_footer";
 
 .aframe-container {
   height: 90vh !important;
 }
 
-#opacityControls.pointer{
+#opacityControls.pointer {
   cursor: pointer;
 }

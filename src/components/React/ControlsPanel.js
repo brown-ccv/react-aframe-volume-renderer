@@ -1,16 +1,23 @@
-import React, {useState} from 'react';
-import {Sidebar} from 'primereact/sidebar';
-import {Col, Row, Button, Container, ToggleButtonGroup, ToggleButton} from 'react-bootstrap';
+import React, { useState } from "react";
+import { Sidebar } from "primereact/sidebar";
+import {
+  Col,
+  Row,
+  Button,
+  Container,
+  ToggleButtonGroup,
+  ToggleButton,
+} from "react-bootstrap";
 
-import Controls from './Controls';
-import { useVolumeContext } from '../../context/volume-context';
+import Controls from "./Controls";
+import { useVolumeContext } from "../../context/volume-context";
 
 export default function ControlPanel(props) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
   const {
-    state: {options},
-    dispatch
+    state: { options },
+    dispatch,
   } = useVolumeContext();
 
   return (
@@ -27,13 +34,15 @@ export default function ControlPanel(props) {
             type="radio"
             name="measurement"
             value={options.measurement}
-            onChange={val => dispatch({
-              type: "TOGGLE_MEASUREMENT",
-              payload: val,
-            })}
+            onChange={(val) =>
+              dispatch({
+                type: "TOGGLE_MEASUREMENT",
+                payload: val,
+              })
+            }
           >
-            <ToggleButton value='salt'>Salinity</ToggleButton>
-            <ToggleButton value='temp'>Temperature</ToggleButton>
+            <ToggleButton value="salt">Salinity</ToggleButton>
+            <ToggleButton value="temp">Temperature</ToggleButton>
           </ToggleButtonGroup>
         </Col>
 
@@ -42,13 +51,15 @@ export default function ControlPanel(props) {
             type="radio"
             name="season"
             value={options.season}
-            onChange={val => dispatch({
-              type: "TOGGLE_SEASON",
-              payload: val,
-            })}
+            onChange={(val) =>
+              dispatch({
+                type: "TOGGLE_SEASON",
+                payload: val,
+              })
+            }
           >
-            <ToggleButton value='summer'>Summer</ToggleButton>
-            <ToggleButton value='winter'>Winter</ToggleButton>
+            <ToggleButton value="summer">Summer</ToggleButton>
+            <ToggleButton value="winter">Winter</ToggleButton>
           </ToggleButtonGroup>
         </Col>
 
@@ -57,13 +68,15 @@ export default function ControlPanel(props) {
             type="radio"
             name="tide"
             value={options.tide}
-            onChange={val => dispatch({
-              type: "TOGGLE_TIDE",
-              payload: val,
-            })}
+            onChange={(val) =>
+              dispatch({
+                type: "TOGGLE_TIDE",
+                payload: val,
+              })
+            }
           >
-            <ToggleButton value='low'>Low Tide</ToggleButton>
-            <ToggleButton value='high'>High Tide</ToggleButton>
+            <ToggleButton value="low">Low Tide</ToggleButton>
+            <ToggleButton value="high">High Tide</ToggleButton>
           </ToggleButtonGroup>
         </Col>
       </Row>
@@ -73,9 +86,9 @@ export default function ControlPanel(props) {
         position="bottom"
         visible={sidebarVisible}
         onHide={(e) => setSidebarVisible(false)}
-        style={{width:'20em', height:'45em'}}
+        style={{ width: "20em", height: "45em" }}
       >
-        <Controls/>
+        <Controls />
       </Sidebar>
     </Container>
   );

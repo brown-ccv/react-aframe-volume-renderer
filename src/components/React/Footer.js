@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export default function Footer(props) {
   return (
@@ -29,13 +29,23 @@ export default function Footer(props) {
             />
           </div>
           <p className="footer-left-email">
-            <a href="mailto:ridatadiscoverycenter@brown.edu">ridatadiscoverycenter@brown.edu</a>
+            <a href="mailto:ridatadiscoverycenter@brown.edu">
+              ridatadiscoverycenter@brown.edu
+            </a>
           </p>
         </div>
       </section>
       <section className="footer-grid-section-b">
         <div className="footer-right">
-          <p className="container">This material is based upon work conducted by the Rhode Island Consortium for Coastal Ecology Assessment, Innovation & Modeling (RI C-AIM), and supported in full by the National Science Foundation EPSCoR Cooperative Agreement 1655221. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the author(s) and do not necessarily reflect the views of the National Science Foundation.</p>
+          <p className="container">
+            This material is based upon work conducted by the Rhode Island
+            Consortium for Coastal Ecology Assessment, Innovation & Modeling (RI
+            C-AIM), and supported in full by the National Science Foundation
+            EPSCoR Cooperative Agreement 1655221. Any opinions, findings, and
+            conclusions or recommendations expressed in this material are those
+            of the author(s) and do not necessarily reflect the views of the
+            National Science Foundation.
+          </p>
           <img
             src="assets/images/nsf.svg"
             width="128"
@@ -50,5 +60,5 @@ export default function Footer(props) {
         <span className="copyright-span">Narragansett Bay Volume Renderer</span>
       </section>
     </footer>
-  )
+  );
 }
