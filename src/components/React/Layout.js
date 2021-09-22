@@ -6,6 +6,8 @@ import ControlsPanel from './ControlsPanel';
 import Howto from './Howto'
 import Footer from './Footer'
 
+import { VolumeProvider } from '../../context/volume-context';
+
 export default function Layout(props) {
   const [showHowto, setShowHowto] = useState(false);
 
@@ -27,8 +29,10 @@ export default function Layout(props) {
       </Navbar>
 
       <Container fluid id="visualizer">
-        <ControlsPanel />
-        <VolumeRenderer />
+        <VolumeProvider>
+          <ControlsPanel />
+          <VolumeRenderer />
+        </VolumeProvider>
       </Container>
 
       <Container fluid id="information" className="bg-secondary text-light">
@@ -40,8 +44,7 @@ export default function Layout(props) {
               </h1>
 
               <p className="my-4">
-                The main
-                goal of the project is to provide an easily accessible and interactive
+                The main goal of the project is to provide an easily accessible and interactive
                 environment to explore and showcase volumetric Naragansett Bay data with the added
                 benefits of Virtual Reality If VR-capable hardware is available.<br/>
               </p>
