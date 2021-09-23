@@ -1,7 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 
 const VolumeContext = createContext();
-const pathPrefix = "./assets/models/";
 
 // Custom component to provide the Volume context
 function VolumeProvider(props) {
