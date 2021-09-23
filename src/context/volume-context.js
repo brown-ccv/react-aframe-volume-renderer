@@ -34,16 +34,31 @@ function useVolumeContext() {
 function volumeReducer(state, action) {
   switch (action.type) {
     case "TOGGLE_MEASUREMENT": {
-      state.options = { ...state.options, measurement: action.payload };
-      return state;
+      return {
+        options: {
+          ...state.options,
+          measurement: action.payload
+        },
+        path: getPath()
+      };
     }
     case "TOGGLE_SEASON": {
-      state.options = { ...state.options, season: action.payload };
-      return state;
+      return {
+        options: {
+          ...state.options,
+          season: action.payload
+        },
+        path: getPath()
+      };
     }
     case "TOGGLE_TIDE": {
-      state.options = { ...state.options, tide: action.payload };
-      return state;
+      return {
+        options: {
+          ...state.options,
+          tide: action.payload
+        },
+        path: getPath()
+      };
     }
     default: {
       throw new Error(`Unhandled action type: ${action.type}`);
