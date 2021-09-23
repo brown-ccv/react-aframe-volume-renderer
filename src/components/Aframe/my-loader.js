@@ -73,6 +73,8 @@ AFRAME.registerComponent("myloader", {
     this.updateTransfertexture = this.updateTransfertexture.bind(this);
     this.updateColorMapping = this.updateColorMapping.bind(this);
     this.debugScene = this.debugScene.bind(this);
+    this.loadNarragansettBatDatasetValues =
+      this.loadNarragansettBatDatasetValues.bind(this);
 
     //window.addEventListener('keydown', this.debugScene);
     this.el.addEventListener("raycaster-intersected", this.onCollide);
@@ -213,6 +215,21 @@ AFRAME.registerComponent("myloader", {
     cameraEl.setAttribute("camera", "active", true);
 
     this.hiddenLabel = document.getElementById("modelLoaded");
+
+    this.datasetName = new Set();
+    this.datasetVariable = new Set();
+    this.datasetValue = new Set();
+    loadDatasetValues = this.loadDatasetValues();
+
+    fetch(this.data.volumeData)
+      .then((res) => res.json())
+      .then((jsonData) => {
+        loadNarragansettBatDatasetValues(jsonData);
+      });
+  },
+
+  loadNarragansettBatDatasetValues: function (jsonData) {
+    let names = jsonData["Name"];
   },
 
   debugScene: function (evt) {
@@ -319,9 +336,9 @@ AFRAME.registerComponent("myloader", {
       var useTransferFunction;
       var hiddenLabel = this.hiddenLabel;
       var enabledColorMapping = this.colorMapEnabled;
-      
-	  const updateColorMapping = this.updateColorMapping;
-	  const updateTransferTexture = this.updateTransferTexture;
+
+      const updateColorMapping = this.updateColorMapping;
+      const updateTransferTexture = this.updateTransferTexture;
 
       var volumeDataFullPath =
         fullPath +
@@ -580,16 +597,18 @@ AFRAME.registerComponent("myloader", {
     }
 
     if (oldData.volumeData !== this.data.volumeData) {
-      var parent_folder = this.data.volumeData.substr(
-        0,
-        this.data.volumeData.lastIndexOf("/") + 1
-      );
+      console.log("this.data.volumeData");
+      console.log(this.data.volumeData);
 
-	  fetch(this.data.volumeData).then(res => res.json())
-		.then(jsonData => {
-			this.loadModel(parent_folder,jsonData);		
-		});
+      //   var parent_folder = this.data.volumeData.substr(
+      //     0,
+      //     this.data.volumeData.lastIndexOf("/") + 1
+      //   );
 
+      //   fetch(this.data.volumeData).then(res => res.json())
+      // 	.then(jsonData => {
+      // 		this.loadModel(parent_folder,jsonData);
+      // 	});
     }
   },
 

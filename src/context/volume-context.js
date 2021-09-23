@@ -1,7 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 
 const VolumeContext = createContext();
-const pathPrefix = "./assets/models/";
 
 // Custom component to provide the Volume context
 function VolumeProvider(props) {
@@ -11,7 +10,7 @@ function VolumeProvider(props) {
       season: "summer",
       tide: "low",
     },
-    path: `${pathPrefix}summer_low_salt.json`,
+    // path: `${pathPrefix}summer_low_salt.json`,
   });
 
   const value = { state, dispatch };
@@ -33,28 +32,17 @@ function useVolumeContext() {
 
 // Custom reducer to update the VolumeContext
 function volumeReducer(state, action) {
-  function getPath() {
-    const { season, tide, measurement } = state.options;
-    const model = `${season}_${tide}_${measurement}.json`;
-
-    console.log("Loading Model:", model);
-    return pathPrefix + model;
-  }
-
   switch (action.type) {
     case "TOGGLE_MEASUREMENT": {
       state.options = { ...state.options, measurement: action.payload };
-      state.path = getPath();
       return state;
     }
     case "TOGGLE_SEASON": {
       state.options = { ...state.options, season: action.payload };
-      state.path = getPath();
       return state;
     }
     case "TOGGLE_TIDE": {
       state.options = { ...state.options, tide: action.payload };
-      state.path = getPath();
       return state;
     }
     default: {
