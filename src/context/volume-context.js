@@ -5,14 +5,17 @@ const VolumeContext = createContext();
 
 // Custom component to provide the Volume context
 function VolumeProvider(props) {
-  console.log(config)
   const [state, dispatch] = useReducer(volumeReducer, {
-    config: config,
     selection: {
       season: config.season[0],
       tide: config.tide[0],
       measurement: config.measurement[0],
     },
+    slices: 55,
+    extension: ".png",
+    x_spacing: 2.0, 
+    y_spacing: 2.0,
+    z_spacing: 1.0
   });
 
   const value = { state, dispatch };
