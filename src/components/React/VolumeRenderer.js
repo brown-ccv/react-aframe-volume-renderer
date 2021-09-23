@@ -73,7 +73,6 @@ export default connect(mapStateToProps)(
 
             <VolumeConsumer>
               {({ state }) => (
-                // const test = state.selection
                 <Entity
                   id="volumeCube"
                   class="clickableMesh"
@@ -91,8 +90,7 @@ export default connect(mapStateToProps)(
                     colorMapping: this.props.colorMapping,
                     channel: this.props.channel,
                     cameraState: this.props.cameraState,
-                    path: `./assets/models/${state.selection.season}_
-                      ${state.selection.tide}_${state.selection.measurement}.png`,
+                    path: `./assets/models/${state.selection.season}_${state.selection.tide}_${state.selection.measurement}.png`,
                     slices: state.slices,
                     extension: state.extension,
                     x_spacing: state.x_spacing,
