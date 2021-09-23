@@ -1,6 +1,7 @@
 /* globals AFRAME THREE */
 import "../../shaders/ccvLibVolumeShader.js";
-
+import config from "../../assets/config.json"
+//import * as config
 var bind = AFRAME.utils.bind;
 
 // var KEYS = [
@@ -73,8 +74,7 @@ AFRAME.registerComponent("myloader", {
     this.updateTransfertexture = this.updateTransfertexture.bind(this);
     this.updateColorMapping = this.updateColorMapping.bind(this);
     this.debugScene = this.debugScene.bind(this);
-    this.loadNarragansettBatDatasetValues =
-      this.loadNarragansettBatDatasetValues.bind(this);
+    
 
     //window.addEventListener('keydown', this.debugScene);
     this.el.addEventListener("raycaster-intersected", this.onCollide);
@@ -215,17 +215,7 @@ AFRAME.registerComponent("myloader", {
     cameraEl.setAttribute("camera", "active", true);
 
     this.hiddenLabel = document.getElementById("modelLoaded");
-
-    this.datasetName = new Set();
-    this.datasetVariable = new Set();
-    this.datasetValue = new Set();
-    loadDatasetValues = this.loadDatasetValues();
-
-    fetch(this.data.volumeData)
-      .then((res) => res.json())
-      .then((jsonData) => {
-        loadNarragansettBatDatasetValues(jsonData);
-      });
+    
   },
 
   loadNarragansettBatDatasetValues: function (jsonData) {
@@ -597,18 +587,15 @@ AFRAME.registerComponent("myloader", {
     }
 
     if (oldData.volumeData !== this.data.volumeData) {
-      console.log("this.data.volumeData");
-      console.log(this.data.volumeData);
+        var parent_folder = this.data.volumeData.substr(
+          0,
+          this.data.volumeData.lastIndexOf("/") + 1
+        );
 
-      //   var parent_folder = this.data.volumeData.substr(
-      //     0,
-      //     this.data.volumeData.lastIndexOf("/") + 1
-      //   );
-
-      //   fetch(this.data.volumeData).then(res => res.json())
-      // 	.then(jsonData => {
-      // 		this.loadModel(parent_folder,jsonData);
-      // 	});
+        fetch(this.data.volumeData).then(res => res.json())
+      	.then(jsonData => {
+      		this.loadModel(parent_folder,jsonData);
+      	});
     }
   },
 

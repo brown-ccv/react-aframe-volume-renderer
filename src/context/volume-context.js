@@ -39,7 +39,7 @@ function volumeReducer(state, action) {
           ...state.options,
           measurement: action.payload
         },
-        path: getPath()
+        
       };
     }
     case "TOGGLE_SEASON": {
@@ -48,7 +48,7 @@ function volumeReducer(state, action) {
           ...state.options,
           season: action.payload
         },
-        path: getPath()
+        
       };
     }
     case "TOGGLE_TIDE": {
@@ -57,7 +57,7 @@ function volumeReducer(state, action) {
           ...state.options,
           tide: action.payload
         },
-        path: getPath()
+        
       };
     }
     default: {
