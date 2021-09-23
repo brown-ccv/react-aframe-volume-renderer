@@ -299,117 +299,135 @@ AFRAME.registerComponent("myloader", {
   },
 
   loadModel: function (fullPath, volumeProperties) {
+    var currentVolume = this.el.getObject3D("mesh");
+    if (currentVolume !== undefined) {
+      //clear mesh
+      currentVolume.geometry.dispose();
+      currentVolume.material.dispose();
+      this.el.removeObject3D("mesh");
+      this.el.sceneEl.object3D.dispose();
+      currentVolume = undefined;
+    }
 
-	  var currentVolume = this.el.getObject3D('mesh');
-	  if (currentVolume !== undefined) {
-			//clear mesh
-		  currentVolume.geometry.dispose();
-		  currentVolume.material.dispose();
-		  this.el.removeObject3D('mesh');
-		  this.el.sceneEl.object3D.dispose();
-		  currentVolume = undefined;
-		}
+    if (fullPath !== "") {
+      this.hiddenLabel.style.display = "";
+      var el = this.el;
+      var data = this.data;
+      var canvasWidth = this.myCanvas.width;
+      var canvasHeight = this.myCanvas.height;
+      var colorMap = null;
+      var useTransferFunction;
+      var hiddenLabel = this.hiddenLabel;
+      var enabledColorMapping = this.colorMapEnabled;
+      
+	  const updateColorMapping = this.updateColorMapping;
+	  const updateTransferTexture = this.updateTransferTexture;
 
-	   if (fullPath !== "") {
-		  this.hiddenLabel.style.display = '';
-		  var el = this.el;
-		  var data = this.data;		
-		  var myWidth = this.myCanvas.width;
-		  var myheight = this.myCanvas.height;
-		  var colorMap = null;
-		  var useTransferFunction;
-		  var hiddenLabel = this.hiddenLabel;
-		  var enabledColorMapping = this.colorMapEnabled;
-		  var iam = this;
+      var volumeDataFullPath =
+        fullPath +
+        volumeProperties["season"] +
+        "-" +
+        volumeProperties["tide"] +
+        "-" +
+        volumeProperties["variable"] +
+        volumeProperties["extension"];
+      var x_dim = volumeProperties["x_spacing"];
+      var y_dim = volumeProperties["y_spacing"];
+      var z_dim = volumeProperties["z_spacing"];
+      var slice = volumeProperties["slices"];
 
-		  var volumeDataFullPath = fullPath + volumeProperties["season"] + "-" + volumeProperties["tide"] + "-" +
-				volumeProperties["variable"] + volumeProperties["extension"];
-		  var x_dim = volumeProperties["x_spacing"]
-		  var y_dim = volumeProperties["y_spacing"]
-		  var z_dim = volumeProperties["z_spacing"]
-		  var slice = volumeProperties["slices"]
+      if (this.data.transferFunction === "false") {
+        useTransferFunction = false;
+      } else {
+        useTransferFunction = true;
+      }
 
-		  if (this.data.transferFunction === "false") {
-			useTransferFunction = false;
-		  } else {
-            useTransferFunction = true;
-		  }
+      //load as 2D texture
+      new THREE.TextureLoader().load(
+        volumeDataFullPath,
+        function (texture) {
+          var dim = Math.ceil(Math.sqrt(slice));
+          var spacing = [x_dim, y_dim, z_dim];
 
-		   //load as 2D texture
-		  new THREE.TextureLoader().load(volumeDataFullPath, function (texture) {
+          var volumeScale = [
+            1.0 / ((texture.image.width / dim) * spacing[0]),
+            1.0 / ((texture.image.height / dim) * spacing[1]),
+            1.0 / (slice * spacing[2]),
+          ];
 
-			var dim = Math.ceil(Math.sqrt(slice));
-			var spacing = [x_dim, y_dim, z_dim];
+          var zScale = volumeScale[0] / volumeScale[2];
 
-			var volumeScale = [1.0 / (texture.image.width / dim * spacing[0]),
-			  1.0 / (texture.image.height / dim * spacing[1]),
-			  1.0 / (slice * spacing[2])];
+          texture.minFilter = texture.magFilter = THREE.LinearFilter;
+          texture.unpackAlignment = 1;
+          texture.needsUpdate = true;
 
-			var zScale = volumeScale[0] / volumeScale[2];
+          // Material
+          var shader = THREE.ShaderLib["ccvLibVolumeRenderShader"];
+          var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
+          uniforms["u_data"].value = texture;
+          // uniforms["useLut"].value = true;
+          uniforms["u_lut"].value = colorMap;
+          uniforms["clipPlane"].value = new THREE.Matrix4();
+          uniforms["clipping"].value = false;
+          uniforms["threshold"].value = 1;
+          uniforms["multiplier"].value = 1;
+          uniforms["slice"].value = slice;
+          uniforms["dim"].value = dim;
 
-			texture.minFilter = texture.magFilter = THREE.LinearFilter;
-			texture.unpackAlignment = 1;
-			texture.needsUpdate = true;
+          if (!useTransferFunction) {
+            console.log("NOT USING LUT");
+            uniforms["channel"].value = 6;
+            uniforms["useLut"].value = false;
+          } else {
+            console.log("USING LUT");
+            uniforms["useLut"].value = false;
+          }
+          uniforms["step_size"].value = new THREE.Vector3(
+            1 / 100,
+            1 / 100,
+            1 / 100
+          );
 
-			// Material
-			var shader = THREE.ShaderLib['ccvLibVolumeRenderShader'];
-			var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
-			uniforms["u_data"].value = texture;
-			// uniforms["useLut"].value = true;
-			uniforms["u_lut"].value = colorMap;
-			uniforms["clipPlane"].value = new THREE.Matrix4();
-			uniforms["clipping"].value = false;
-			uniforms["threshold"].value = 1;
-			uniforms["multiplier"].value = 1;
-			uniforms["slice"].value = slice;
-			uniforms["dim"].value = dim;
+          uniforms["viewPort"].value = new THREE.Vector2(
+            canvasWidth,
+            canvasHeight
+          );
+          uniforms["P_inv"].value = new THREE.Matrix4();
+          uniforms["depth"].value = null;
+          uniforms["zScale"].value = zScale;
+          uniforms["controllerPoseMatrix"].value = new THREE.Matrix4();
+          uniforms["grabMesh"].value = false;
+          uniforms["box_min"].value = new THREE.Vector3(0, 0, 0);
+          uniforms["box_max"].value = new THREE.Vector3(1, 1, 1);
 
-			if (!useTransferFunction) {
-				console.log("NOT USING LUT");
-				uniforms["channel"].value = 6;
-				uniforms["useLut"].value = false;
-			} else {
-				console.log("USING LUT");
-				uniforms["useLut"].value = false;
-			}
-			uniforms["step_size"].value = new THREE.Vector3(1 / 100, 1 / 100, 1 / 100);
+          var material = new THREE.ShaderMaterial({
+            uniforms: uniforms,
+            transparent: true,
+            vertexShader: shader.vertexShader,
+            fragmentShader: shader.fragmentShader,
+            side: THREE.BackSide, // The volume shader uses the backface as its "reference point"
+          });
 
-			uniforms["viewPort"].value = new THREE.Vector2(myWidth, myheight);
-			uniforms["P_inv"].value = new THREE.Matrix4();
-			uniforms["depth"].value = null;
-			uniforms["zScale"].value = zScale;
-			uniforms["controllerPoseMatrix"].value = new THREE.Matrix4();
-			uniforms["grabMesh"].value = false;
-			uniforms["box_min"].value = new THREE.Vector3(0, 0, 0);;
-			uniforms["box_max"].value = new THREE.Vector3(1, 1, 1);;
+          // Mesh
+          var geometry = new THREE.BoxGeometry(1, 1, 1);
 
-			var material = new THREE.ShaderMaterial({
-				uniforms: uniforms,
-				transparent: true,
-				vertexShader: shader.vertexShader,
-				fragmentShader: shader.fragmentShader,
-				side: THREE.BackSide // The volume shader uses the backface as its "reference point"
-			});
-			
-			// Mesh
-			var geometry = new THREE.BoxGeometry(1, 1, 1);
-				
-				el.setObject3D('mesh', new THREE.Mesh(geometry, material));
-				data.modelLoaded = true;
-				material.needsUpdate = true;
+          el.setObject3D("mesh", new THREE.Mesh(geometry, material));
+          data.modelLoaded = true;
+          material.needsUpdate = true;
 
-				hiddenLabel.style.display = 'none';
-				console.log("MODEL LOADED");
-				if (enabledColorMapping) {
-					iam.updateColorMapping();
-					iam.updateTransfertexture();
-				}
-
-
-			}, function () { }, function () { console.log("Could not load the data, Data not found") });
-		}
-
-
+          hiddenLabel.style.display = "none";
+          console.log("MODEL LOADED");
+          if (enabledColorMapping) {
+            updateColorMapping();
+            updateTransferTexture();
+          }
+        },
+        function () {},
+        function () {
+          console.log("Could not load the data, Data not found");
+        }
+      );
+    }
   },
 
   onCollide: function (event) {
@@ -562,16 +580,16 @@ AFRAME.registerComponent("myloader", {
     }
 
     if (oldData.volumeData !== this.data.volumeData) {
-		var parent_folder = this.data.volumeData.substr(0,this.data.volumeData.lastIndexOf("/")+1)
-	    
-		fetch(this.data.volumeData).then(res => res.json())
+      var parent_folder = this.data.volumeData.substr(
+        0,
+        this.data.volumeData.lastIndexOf("/") + 1
+      );
+
+	  fetch(this.data.volumeData).then(res => res.json())
 		.then(jsonData => {
-			// Do something with your data
-			// var fullFilePath = parent_folder + jsonData['fileName']
-			// console.log("fullFilePath: "+fullFilePath)
 			this.loadModel(parent_folder,jsonData);		
-		
 		});
+
     }
   },
 
