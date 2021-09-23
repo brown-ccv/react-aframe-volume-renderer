@@ -1,13 +1,7 @@
 /* globals AFRAME THREE */
 import "../../shaders/ccvLibVolumeShader.js";
-import config from "../../assets/config.json"
-//import * as config
-var bind = AFRAME.utils.bind;
 
-// var KEYS = [
-// 	'KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyP',
-// 	'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ArrowDown'
-// ];
+var bind = AFRAME.utils.bind;
 
 AFRAME.registerComponent("collider-check", {
   dependencies: ["raycaster", "my-buttons-check"],
