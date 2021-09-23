@@ -562,16 +562,17 @@ AFRAME.registerComponent("myloader", {
     }
 
     if (oldData.volumeData !== this.data.volumeData) {
-		var parent_folder = this.data.volumeData.substr(0,this.data.volumeData.lastIndexOf("/")+1)
-	    
-		fetch(this.data.volumeData).then(res => res.json())
-		.then(jsonData => {
-			// Do something with your data
-			// var fullFilePath = parent_folder + jsonData['fileName']
-			// console.log("fullFilePath: "+fullFilePath)
-			this.loadModel(parent_folder,jsonData);		
-		
-		});
+      console.log("Loading File Path", this.data.volumeData)
+		  var parent_folder = this.data.volumeData.substr(0,this.data.volumeData.lastIndexOf("/")+1)
+      
+		  fetch(this.data.volumeData).then(res => res.json())
+		  .then(jsonData => {
+		  	// Do something with your data
+		  	// var fullFilePath = parent_folder + jsonData['fileName']
+		  	// console.log("fullFilePath: "+fullFilePath)
+		  	this.loadModel(parent_folder,jsonData);		
+      
+		  });
     }
   },
 
