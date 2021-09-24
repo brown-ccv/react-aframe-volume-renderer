@@ -1,6 +1,5 @@
 /* globals AFRAME THREE */
 import "../../shaders/ccvLibVolumeShader.js";
-import config from "../../assets/config.json";
 //import * as config
 var bind = AFRAME.utils.bind;
 
@@ -8,8 +7,6 @@ var bind = AFRAME.utils.bind;
 // 	'KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyP',
 // 	'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ArrowDown'
 // ];
-
-const datFolderPath = "./assets/models/";
 
 AFRAME.registerComponent("collider-check", {
   dependencies: ["raycaster", "my-buttons-check"],
@@ -216,10 +213,6 @@ AFRAME.registerComponent("myloader", {
     cameraEl.setAttribute("camera", "active", true);
 
     this.hiddenLabel = document.getElementById("modelLoaded");
-  },
-
-  loadNarragansettBatDatasetValues: function (jsonData) {
-    let names = jsonData["Name"];
   },
 
   debugScene: function (evt) {
