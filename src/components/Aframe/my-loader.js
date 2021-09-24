@@ -296,8 +296,9 @@ AFRAME.registerComponent("myloader", {
     }
   },
 
-  loadModel: function (volueDataObject) {
+  loadModel: function () {
     var currentVolume = this.el.getObject3D("mesh");
+	const {x_spacing, y_spacing, z_spacing, slices, path} = this.data;
     if (currentVolume !== undefined) {
       //clear mesh
       currentVolume.geometry.dispose();
@@ -307,7 +308,7 @@ AFRAME.registerComponent("myloader", {
       currentVolume = undefined;
     }
 
-    if (volueDataObject.path !== "") {
+    if (path !== "") {
       this.hiddenLabel.style.display = "";
       var el = this.el;
       var data = this.data;
@@ -320,11 +321,7 @@ AFRAME.registerComponent("myloader", {
 
       const updateColorMapping = this.updateColorMapping;
       const updateTransferTexture = this.updateTransferTexture;
-
-      var x_dim = volueDataObject.x_spacing;
-      var y_dim = volueDataObject.y_spacing;
-      var z_dim = volueDataObject.z_spacing;
-      var slice = volueDataObject.slices;
+	  
 
       if (this.data.transferFunction === "false") {
         useTransferFunction = false;
@@ -334,15 +331,15 @@ AFRAME.registerComponent("myloader", {
 
       //load as 2D texture
       new THREE.TextureLoader().load(
-        volueDataObject.path,
+        path,
         function (texture) {
-          var dim = Math.ceil(Math.sqrt(slice));
-          var spacing = [x_dim, y_dim, z_dim];
+          var dim = Math.ceil(Math.sqrt(slices));
+          var spacing = [x_spacing, y_spacing, z_spacing];
 
           var volumeScale = [
             1.0 / ((texture.image.width / dim) * spacing[0]),
             1.0 / ((texture.image.height / dim) * spacing[1]),
-            1.0 / (slice * spacing[2]),
+            1.0 / (slices * spacing[2]),
           ];
 
           var zScale = volumeScale[0] / volumeScale[2];
@@ -361,7 +358,7 @@ AFRAME.registerComponent("myloader", {
           uniforms["clipping"].value = false;
           uniforms["threshold"].value = 1;
           uniforms["multiplier"].value = 1;
-          uniforms["slice"].value = slice;
+          uniforms["slice"].value = slices;
           uniforms["dim"].value = dim;
 
           if (!useTransferFunction) {
@@ -570,8 +567,7 @@ AFRAME.registerComponent("myloader", {
     }
 
     if (oldData.path !== this.data.path) {
-	 console.log(this.data.path)	;
-      this.loadModel(this.data);
+      this.loadModel();
     }
   },
 
