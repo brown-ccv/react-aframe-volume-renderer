@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
-import config from "../assets/config.json"
+import config from "../assets/config.json";
 
 const VolumeContext = createContext();
 
@@ -13,9 +13,9 @@ function VolumeProvider(props) {
     },
     slices: 55,
     extension: ".png",
-    x_spacing: 2.0, 
+    x_spacing: 2.0,
     y_spacing: 2.0,
-    z_spacing: 1.0
+    z_spacing: 1.0,
   });
 
   const value = { state, dispatch };
@@ -42,7 +42,7 @@ function volumeReducer(state, action) {
       return {
         selection: {
           ...state.selection,
-          measurement: action.payload
+          measurement: action.payload,
         },
       };
     }
@@ -50,7 +50,7 @@ function volumeReducer(state, action) {
       return {
         selection: {
           ...state.selection,
-          season: action.payload
+          season: action.payload,
         },
       };
     }
@@ -58,7 +58,7 @@ function volumeReducer(state, action) {
       return {
         selection: {
           ...state.selection,
-          tide: action.payload
+          tide: action.payload,
         },
       };
     }

@@ -1,7 +1,13 @@
 /* globals AFRAME THREE */
 import "../../shaders/ccvLibVolumeShader.js";
-
+import config from "../../assets/config.json";
+//import * as config
 var bind = AFRAME.utils.bind;
+
+// var KEYS = [
+// 	'KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyP',
+// 	'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ArrowDown'
+// ];
 
 const datFolderPath = "./assets/models/";
 
@@ -40,8 +46,6 @@ AFRAME.registerComponent("entity-collider-check", {
 });
 
 AFRAME.registerComponent("myloader", {
-  // PATH CONTAINS THE FULL PATH TO THE PNG
-  // SLICES, EXTENSION, X_SPACING, ETC - are all data from the config file
   schema: {
     volumeData: { type: "string", default: "" },
     rayCollided: { type: "boolean", default: false },
@@ -58,12 +62,6 @@ AFRAME.registerComponent("myloader", {
     channel: { type: "number", default: 6 },
     cameraState: { type: "string", default: "" },
     myMeshPosition: { type: "vec3", default: "" },
-    path: {type: "string", default: ""},
-    slices: {type: "number", default: 0},
-    extension: {type: "string", default: ".png"},
-    x_spacing: {type: "number", default: 0},
-    y_spacing: {type: "number", default: 0},
-    z_spacing: {type: "number", default: 0},
   },
 
   init: function () {
@@ -78,7 +76,6 @@ AFRAME.registerComponent("myloader", {
     this.updateTransfertexture = this.updateTransfertexture.bind(this);
     this.updateColorMapping = this.updateColorMapping.bind(this);
     this.debugScene = this.debugScene.bind(this);
-    
 
     //window.addEventListener('keydown', this.debugScene);
     this.el.addEventListener("raycaster-intersected", this.onCollide);
@@ -219,11 +216,10 @@ AFRAME.registerComponent("myloader", {
     cameraEl.setAttribute("camera", "active", true);
 
     this.hiddenLabel = document.getElementById("modelLoaded");
-    
   },
 
   loadNarragansettBatDatasetValues: function (jsonData) {
-    // let names = jsonData["Name"];
+    let names = jsonData["Name"];
   },
 
   debugScene: function (evt) {
@@ -309,7 +305,7 @@ AFRAME.registerComponent("myloader", {
     }
   },
 
-  loadModel: function (fullPath) {
+  loadModel: function (volueDataObject) {
     var currentVolume = this.el.getObject3D("mesh");
     if (currentVolume !== undefined) {
       //clear mesh
@@ -319,7 +315,8 @@ AFRAME.registerComponent("myloader", {
       this.el.sceneEl.object3D.dispose();
       currentVolume = undefined;
     }
-    if (fullPath !== "") {
+
+    if (volueDataObject.path !== "") {
       this.hiddenLabel.style.display = "";
       var el = this.el;
       var data = this.data;
@@ -333,11 +330,10 @@ AFRAME.registerComponent("myloader", {
       const updateColorMapping = this.updateColorMapping;
       const updateTransferTexture = this.updateTransferTexture;
 
-      
-      var x_dim = 2;
-      var y_dim = 2;
-      var z_dim = 1;
-      var slice = 55;
+      var x_dim = volueDataObject.x_spacing;
+      var y_dim = volueDataObject.y_spacing;
+      var z_dim = volueDataObject.z_spacing;
+      var slice = volueDataObject.slices;
 
       if (this.data.transferFunction === "false") {
         useTransferFunction = false;
@@ -347,7 +343,7 @@ AFRAME.registerComponent("myloader", {
 
       //load as 2D texture
       new THREE.TextureLoader().load(
-        fullPath,
+        volueDataObject.path,
         function (texture) {
           var dim = Math.ceil(Math.sqrt(slice));
           var spacing = [x_dim, y_dim, z_dim];
@@ -582,22 +578,8 @@ AFRAME.registerComponent("myloader", {
       }
     }
 
-    if (oldData.volumeData !== this.data.volumeData) {
-		
-		
-		// let fileName = this.data.volumeData["season"]+"_"+
-		//                this.data.volumeData["tide"]+"_"+
-		// 			   this.data.volumeData["measurement"]+".png";
-		let datasetfullPath = datFolderPath+"share_slices55_2_2_1.png";
-		console.log(datasetfullPath);
-
-        // var parent_folder = this.data.volumeData.substr(
-        //   0,
-        //   this.data.volumeData.lastIndexOf("/") + 1
-        // );
-
-        this.loadModel(datasetfullPath);
-      	
+    if (oldData.path !== this.data.path) {
+      this.loadModel(this.data);
     }
   },
 
