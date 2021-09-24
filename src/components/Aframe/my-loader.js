@@ -1,13 +1,7 @@
 /* globals AFRAME THREE */
 import "../../shaders/ccvLibVolumeShader.js";
-import config from "../../assets/config.json"
-//import * as config
-var bind = AFRAME.utils.bind;
 
-// var KEYS = [
-// 	'KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyP',
-// 	'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ArrowDown'
-// ];
+var bind = AFRAME.utils.bind;
 
 const datFolderPath = "./assets/models/";
 
@@ -46,6 +40,8 @@ AFRAME.registerComponent("entity-collider-check", {
 });
 
 AFRAME.registerComponent("myloader", {
+  // PATH CONTAINS THE FULL PATH TO THE PNG
+  // SLICES, EXTENSION, X_SPACING, ETC - are all data from the config file
   schema: {
     volumeData: { type: "string", default: "" },
     rayCollided: { type: "boolean", default: false },
@@ -62,6 +58,12 @@ AFRAME.registerComponent("myloader", {
     channel: { type: "number", default: 6 },
     cameraState: { type: "string", default: "" },
     myMeshPosition: { type: "vec3", default: "" },
+    path: {type: "string", default: ""},
+    slices: {type: "number", default: 0},
+    extension: {type: "string", default: ".png"},
+    x_spacing: {type: "number", default: 0},
+    y_spacing: {type: "number", default: 0},
+    z_spacing: {type: "number", default: 0},
   },
 
   init: function () {
@@ -221,7 +223,7 @@ AFRAME.registerComponent("myloader", {
   },
 
   loadNarragansettBatDatasetValues: function (jsonData) {
-    let names = jsonData["Name"];
+    // let names = jsonData["Name"];
   },
 
   debugScene: function (evt) {
@@ -317,7 +319,6 @@ AFRAME.registerComponent("myloader", {
       this.el.sceneEl.object3D.dispose();
       currentVolume = undefined;
     }
-
     if (fullPath !== "") {
       this.hiddenLabel.style.display = "";
       var el = this.el;

@@ -1,16 +1,21 @@
 import { createContext, useContext, useReducer } from "react";
+import config from "../assets/config.json"
 
 const VolumeContext = createContext();
 
 // Custom component to provide the Volume context
 function VolumeProvider(props) {
   const [state, dispatch] = useReducer(volumeReducer, {
-    options: {
-      measurement: "salt",
-      season: "summer",
-      tide: "low",
+    selection: {
+      season: config.season[0],
+      tide: config.tide[0],
+      measurement: config.measurement[0],
     },
-    // path: `${pathPrefix}summer_low_salt.json`,
+    slices: 55,
+    extension: ".png",
+    x_spacing: 2.0, 
+    y_spacing: 2.0,
+    z_spacing: 1.0
   });
 
   const value = { state, dispatch };
@@ -35,29 +40,26 @@ function volumeReducer(state, action) {
   switch (action.type) {
     case "TOGGLE_MEASUREMENT": {
       return {
-        options: {
-          ...state.options,
+        selection: {
+          ...state.selection,
           measurement: action.payload
         },
-        
       };
     }
     case "TOGGLE_SEASON": {
       return {
-        options: {
-          ...state.options,
+        selection: {
+          ...state.selection,
           season: action.payload
         },
-        
       };
     }
     case "TOGGLE_TIDE": {
       return {
-        options: {
-          ...state.options,
+        selection: {
+          ...state.selection,
           tide: action.payload
         },
-        
       };
     }
     default: {
