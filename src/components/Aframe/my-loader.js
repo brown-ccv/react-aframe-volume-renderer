@@ -1,6 +1,5 @@
 /* globals AFRAME THREE */
 import "../../shaders/ccvLibVolumeShader.js";
-//import * as config
 var bind = AFRAME.utils.bind;
 
 // var KEYS = [
