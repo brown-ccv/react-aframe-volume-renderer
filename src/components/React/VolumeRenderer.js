@@ -31,12 +31,15 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps)(
   class VolumeRenderer extends Component {
     render() {
+     
+
       return (
+        
         <div className="aframe-container">
           <div id="modelLoaded" style={{ display: "none" }}>
             <Spinner />
           </div>
-
+          
           <Scene id="myScene" background="color: black" embedded>
             <Entity
               id="rhand"
@@ -76,7 +79,7 @@ export default connect(mapStateToProps)(
                 <Entity
                   id="volumeCube"
                   class="clickableMesh"
-                  myloader={{ 
+                  myloader={{
                     rayCollided: false,
                     transferFunction: this.props.transferFunction,
                     colorMap: this.props.colorMap,

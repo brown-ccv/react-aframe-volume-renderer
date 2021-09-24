@@ -78,7 +78,7 @@ export default connect(mapStateToProps, {
       this.state = {
         colorMapSelected: "",
         colorMapModal: false,
-        currentMapColor: "./colormaps/viridis.png",
+        currentMapColor: "./colormaps/haline.png",
       };
 
       this.showModal = this.showModal.bind(this);
@@ -137,7 +137,7 @@ export default connect(mapStateToProps, {
             className="colorMapImg"
             src={this.state.currentMapColor}
             alt="color map"
-            height="15"
+            height="1"
             width={this.props.width}
           ></img>
         );

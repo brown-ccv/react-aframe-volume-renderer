@@ -81,7 +81,7 @@ AFRAME.registerComponent("myloader", {
     this.colorTransfer = new Uint8Array(3 * 256);
 
     this.group = new THREE.Group();
-    //this.el.sceneEl.object3D.add(group);
+    
     this.colorMap = {
       img: null,
       data: null,
@@ -442,7 +442,7 @@ AFRAME.registerComponent("myloader", {
     // var alpha = this.alphaData;
     var colorTransfer = this.colorTransfer;
     var iam = this;
-    this.colorMap.img.onload = function (data) {
+    this.colorMap.img.onload = function () {
       colorCanvas.height = imgHeight;
       colorCanvas.width = imgWidth;
       var colorContext = colorCanvas.getContext("2d");
