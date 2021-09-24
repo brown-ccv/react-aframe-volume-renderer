@@ -77,7 +77,6 @@ export default connect(mapStateToProps)(
                   id="volumeCube"
                   class="clickableMesh"
                   myloader={{
-                    volumeData: state.options,
                     rayCollided: false,
                     transferFunction: this.props.transferFunction,
                     colorMap: this.props.colorMap,

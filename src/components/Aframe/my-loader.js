@@ -44,7 +44,6 @@ AFRAME.registerComponent("entity-collider-check", {
 
 AFRAME.registerComponent("myloader", {
   schema: {
-    volumeData: { type: "string", default: "" },
     rayCollided: { type: "boolean", default: false },
     modelLoaded: { type: "boolean", default: false },
     transferFunction: { type: "string", default: "false" },
@@ -572,6 +571,7 @@ AFRAME.registerComponent("myloader", {
     }
 
     if (oldData.path !== this.data.path) {
+	 console.log(this.data.path)	;
       this.loadModel(this.data);
     }
   },
