@@ -78,7 +78,7 @@ export default connect(mapStateToProps, {
       this.state = {
         colorMapSelected: "",
         colorMapModal: false,
-        currentMapColor: "./colormaps/haline.png",
+        currentMapColor: "./colormaps/thermal.png",
       };
 
       this.showModal = this.showModal.bind(this);
@@ -130,24 +130,24 @@ export default connect(mapStateToProps, {
     };
 
     render() {
-      let colorMapSelection;
-      if (this.state.currentMapColor !== "") {
-        colorMapSelection = (
-          <img
-            className="colorMapImg"
-            src={this.state.currentMapColor}
-            alt="color map"
-            height="1"
-            width={this.props.width}
-          ></img>
-        );
-      } else {
-        colorMapSelection = "";
-      }
+      let colorMapSelection = "";
+      // if (this.state.currentMapColor !== "") {
+      //   colorMapSelection = (
+      //     <img
+      //       className="colorMapImg"
+      //       src={this.state.currentMapColor}
+      //       alt="color map"
+      //       height="1"
+      //       width={this.props.width}
+      //     ></img>
+      //   );
+      // } else {
+      //   colorMapSelection = "";
+      // }
 
       return (
         <div>
-          <button type="button" onClick={this.showModal}>
+          {/* <button type="button" onClick={this.showModal}>
             color map
           </button>
           <br />
@@ -160,8 +160,8 @@ export default connect(mapStateToProps, {
             {(this.BasicSelectable = this.datatable())}
             <br />
             <button onClick={this.handleCloseModal}>Apply</button>
-          </ReactModal>
-        </div>
+          </ReactModal>*/}
+        </div> 
       );
     }
   }

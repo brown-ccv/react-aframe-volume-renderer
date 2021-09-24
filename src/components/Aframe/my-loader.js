@@ -68,7 +68,7 @@ AFRAME.registerComponent("myloader", {
     this.onSelectStart = this.onSelectStart.bind(this);
     this.onClearCollide = this.onClearCollide.bind(this);
     this.loadModel = this.loadModel.bind(this);
-    this.updateTransfertexture = this.updateTransfertexture.bind(this);
+    this.updateTransferTexture = this.updateTransferTexture.bind(this);
     this.updateColorMapping = this.updateColorMapping.bind(this);
     this.debugScene = this.debugScene.bind(this);
 
@@ -221,7 +221,7 @@ AFRAME.registerComponent("myloader", {
     // }
   },
 
-  updateTransfertexture: function () {
+  updateTransferTexture: function () {
     var imageTransferData = new Uint8Array(4 * 256);
     for (var i = 0; i < 256; i++) {
       imageTransferData[i * 4 + 0] = this.colorTransfer[i * 3 + 0];
@@ -322,6 +322,7 @@ AFRAME.registerComponent("myloader", {
       const updateColorMapping = this.updateColorMapping;
       const updateTransferTexture = this.updateTransferTexture;
 	  
+	  var iam = this;
 
       if (this.data.transferFunction === "false") {
         useTransferFunction = false;
@@ -404,10 +405,10 @@ AFRAME.registerComponent("myloader", {
 
           hiddenLabel.style.display = "none";
           console.log("MODEL LOADED");
-          if (enabledColorMapping) {
-            updateColorMapping();
-            updateTransferTexture();
-          }
+          //if (enabledColorMapping) {
+		  updateColorMapping();
+          updateTransferTexture();
+          //}
         },
         function () {},
         function () {
@@ -455,7 +456,7 @@ AFRAME.registerComponent("myloader", {
         colorTransfer[i * 3 + 2] = colorData[i * 4 + 2];
       }
       iam.colorTransfer = colorTransfer;
-      iam.updateTransfertexture();
+      iam.updateTransferTexture();
     };
     this.colorMap.img.src = imgColorImage.src;
   },
@@ -487,20 +488,21 @@ AFRAME.registerComponent("myloader", {
     ) {
       //this part updates the color mapping
       this.colorMapEnabled = this.data.colorMapping;
-      if (!this.colorMapEnabled) {
-        if (this.el.getObject3D("mesh") !== undefined) {
-          let material = this.el.getObject3D("mesh").material;
-          material.uniforms.u_lut.value = null;
-          material.uniforms.useLut.value = false;
-          material.uniforms.channel.value = this.data.channel;
-          material.needsUpdate = true;
-        }
-      } else {
-        this.updateColorMapping();
-      }
+	  //this.updateColorMapping();
+    //   if (!this.colorMapEnabled) {
+    //     if (this.el.getObject3D("mesh") !== undefined) {
+    //       let material = this.el.getObject3D("mesh").material;
+    //       material.uniforms.u_lut.value = null;
+    //       material.uniforms.useLut.value = false;
+    //       material.uniforms.channel.value = this.data.channel;
+    //       material.needsUpdate = true;
+    //     }
+    //   } else {
+    //     this.updateColorMapping();
+    //   }
     }
-
-    if (this.colorMapEnabled) {
+	this.updateColorMapping();
+    if (true) {
       // this part updates the opacity control points
       if (
         (this.data.alphaXDataArray !== undefined &&
@@ -527,7 +529,7 @@ AFRAME.registerComponent("myloader", {
           }
         }
 
-        this.updateTransfertexture();
+        this.updateTransferTexture();
       }
 
       if (
@@ -535,7 +537,7 @@ AFRAME.registerComponent("myloader", {
         oldData.colorMap !== undefined &&
         oldData.colorMap !== this.data.colorMap
       ) {
-        if (this.data.transferFunction) {
+        if (true) {
           var imgColorImage = document.querySelector(".colorMapImg");
           var imgWidth = imgColorImage.width;
           var imgHeight = imgColorImage.height;
@@ -559,7 +561,7 @@ AFRAME.registerComponent("myloader", {
               colorTransfer[i * 3 + 2] = colorData[i * 4 + 2];
             }
             iam.colorTransfer = colorTransfer;
-            iam.updateTransfertexture();
+            iam.updateTransferTexture();
           };
           this.colorMap.img.src = imgColorImage.src;
         }

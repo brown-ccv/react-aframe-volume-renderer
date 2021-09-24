@@ -30,8 +30,19 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps)(
   class VolumeRenderer extends Component {
+    
+
     render() {
      
+      let colorMapSelection = (
+        <img
+          className="colorMapImg"
+          src="./colormaps/haline.png"
+          alt="color map"
+          height="1"
+          width="255"
+        ></img>
+      );
 
       return (
         
@@ -39,7 +50,7 @@ export default connect(mapStateToProps)(
           <div id="modelLoaded" style={{ display: "none" }}>
             <Spinner />
           </div>
-          
+          {colorMapSelection}
           <Scene id="myScene" background="color: black" embedded>
             <Entity
               id="rhand"
