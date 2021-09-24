@@ -9,6 +9,8 @@ var bind = AFRAME.utils.bind;
 // 	'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ArrowDown'
 // ];
 
+const datFolderPath = "./assets/models/";
+
 AFRAME.registerComponent("collider-check", {
   dependencies: ["raycaster", "my-buttons-check"],
 
@@ -305,7 +307,7 @@ AFRAME.registerComponent("myloader", {
     }
   },
 
-  loadModel: function (fullPath, volumeProperties) {
+  loadModel: function (fullPath) {
     var currentVolume = this.el.getObject3D("mesh");
     if (currentVolume !== undefined) {
       //clear mesh
@@ -330,18 +332,11 @@ AFRAME.registerComponent("myloader", {
       const updateColorMapping = this.updateColorMapping;
       const updateTransferTexture = this.updateTransferTexture;
 
-      var volumeDataFullPath =
-        fullPath +
-        volumeProperties["season"] +
-        "-" +
-        volumeProperties["tide"] +
-        "-" +
-        volumeProperties["variable"] +
-        volumeProperties["extension"];
-      var x_dim = volumeProperties["x_spacing"];
-      var y_dim = volumeProperties["y_spacing"];
-      var z_dim = volumeProperties["z_spacing"];
-      var slice = volumeProperties["slices"];
+      
+      var x_dim = 2;
+      var y_dim = 2;
+      var z_dim = 1;
+      var slice = 55;
 
       if (this.data.transferFunction === "false") {
         useTransferFunction = false;
@@ -351,7 +346,7 @@ AFRAME.registerComponent("myloader", {
 
       //load as 2D texture
       new THREE.TextureLoader().load(
-        volumeDataFullPath,
+        fullPath,
         function (texture) {
           var dim = Math.ceil(Math.sqrt(slice));
           var spacing = [x_dim, y_dim, z_dim];
@@ -587,15 +582,21 @@ AFRAME.registerComponent("myloader", {
     }
 
     if (oldData.volumeData !== this.data.volumeData) {
-        var parent_folder = this.data.volumeData.substr(
-          0,
-          this.data.volumeData.lastIndexOf("/") + 1
-        );
+		
+		
+		// let fileName = this.data.volumeData["season"]+"_"+
+		//                this.data.volumeData["tide"]+"_"+
+		// 			   this.data.volumeData["measurement"]+".png";
+		let datasetfullPath = datFolderPath+"share_slices55_2_2_1.png";
+		console.log(datasetfullPath);
 
-        fetch(this.data.volumeData).then(res => res.json())
-      	.then(jsonData => {
-      		this.loadModel(parent_folder,jsonData);
-      	});
+        // var parent_folder = this.data.volumeData.substr(
+        //   0,
+        //   this.data.volumeData.lastIndexOf("/") + 1
+        // );
+
+        this.loadModel(datasetfullPath);
+      	
     }
   },
 
