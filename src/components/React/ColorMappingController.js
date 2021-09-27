@@ -130,36 +130,24 @@ export default connect(mapStateToProps, {
     };
 
     render() {
-      // if (this.state.currentMapColor !== "") {
-      //   colorMapSelection = (
-      //     <img
-      //       className="colorMapImg"
-      //       src={this.state.currentMapColor}
-      //       alt="color map"
-      //       height="1"
-      //       width={this.props.width}
-      //     ></img>
-      //   );
-      // } else {
-      //   colorMapSelection = "";
-      // }
+      
 
       return (
         <div>
-          {/* <button type="button" onClick={this.showModal}>
+          <button type="button" onClick={this.showModal}>
             color map
           </button>
           <br />
-          {colorMapSelection}
+          
           <ReactModal
             isOpen={this.state.colorMapModal}
             style={customStyles}
-            contentLabel="Minimal Modal Example"
+            contentLabel="Color pick Modal"
           >
             {(this.BasicSelectable = this.datatable())}
             <br />
             <button onClick={this.handleCloseModal}>Apply</button>
-          </ReactModal>*/}
+          </ReactModal>
         </div> 
       );
     }
