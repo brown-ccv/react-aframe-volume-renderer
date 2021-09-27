@@ -130,15 +130,13 @@ export default connect(mapStateToProps, {
     };
 
     render() {
-      
-
       return (
         <div>
           <button type="button" onClick={this.showModal}>
             color map
           </button>
           <br />
-          
+
           <ReactModal
             isOpen={this.state.colorMapModal}
             style={customStyles}
@@ -148,7 +146,7 @@ export default connect(mapStateToProps, {
             <br />
             <button onClick={this.handleCloseModal}>Apply</button>
           </ReactModal>
-        </div> 
+        </div>
       );
     }
   }
