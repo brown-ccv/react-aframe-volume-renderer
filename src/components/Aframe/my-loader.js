@@ -8,7 +8,6 @@ var bind = AFRAME.utils.bind;
 // ];
 
 
-
 AFRAME.registerComponent("collider-check", {
   dependencies: ["raycaster", "my-buttons-check"],
 
@@ -74,10 +73,11 @@ AFRAME.registerComponent("myloader", {
     this.updateTransferTexture = this.updateTransferTexture.bind(this);
     this.updateColorMapping = this.updateColorMapping.bind(this);
     this.debugScene = this.debugScene.bind(this);
+
 	this.updateOpacityData = this.updateOpacityData.bind(this);	
 	this.colorMapNeedsUpdate = false;
 	this.currentColorMap = "";
-	
+
 
     //window.addEventListener('keydown', this.debugScene);
     this.el.addEventListener("raycaster-intersected", this.onCollide);
@@ -86,13 +86,12 @@ AFRAME.registerComponent("myloader", {
       this.onClearCollide
     );
     //this.colorTransfer = new Uint8Array(3 * 256);
-	this.colorTransferMap = new Map();
-
+    this.colorTransferMap = new Map();
 
     this.group = new THREE.Group();
 
 
-	//this.colorTransfer = new Uint8Array(3 * 256);
+    //this.colorTransfer = new Uint8Array(3 * 256);
 
     this.isVrModeOn = false;
     this.mySpeed = 0.1;
@@ -216,7 +215,6 @@ AFRAME.registerComponent("myloader", {
 
     this.hiddenLabel = document.getElementById("modelLoaded");
 
-	
   },
 
   debugScene: function (evt) {
@@ -255,7 +253,6 @@ AFRAME.registerComponent("myloader", {
 		  material.needsUpdate = true;
 		}
 	}
-	
   },
 
   bindMethods: function () {
@@ -310,7 +307,7 @@ AFRAME.registerComponent("myloader", {
 
   loadModel: function () {
     var currentVolume = this.el.getObject3D("mesh");
-	const {x_spacing, y_spacing, z_spacing, slices, path} = this.data;
+    const { x_spacing, y_spacing, z_spacing, slices, path } = this.data;
     if (currentVolume !== undefined) {
       //clear mesh
       currentVolume.geometry.dispose();
@@ -330,15 +327,15 @@ AFRAME.registerComponent("myloader", {
       var useTransferFunction;
       var hiddenLabel = this.hiddenLabel;
       
-	  var updateColorMapping = this.updateColorMapping;
-	  
+	    var updateColorMapping = this.updateColorMapping;
+
 
       if (this.data.transferFunction === "false") {
         useTransferFunction = false;
       } else {
         useTransferFunction = true;
       }
-	  
+
       //load as 2D texture
       new THREE.TextureLoader().load(
         path,
@@ -413,7 +410,8 @@ AFRAME.registerComponent("myloader", {
 
           hiddenLabel.style.display = "none";
           console.log("MODEL LOADED");
-		  updateColorMapping();
+
+		      updateColorMapping();
 	      
         },
         function () {},
@@ -440,6 +438,7 @@ AFRAME.registerComponent("myloader", {
   },
 
   updateColorMapping: function () {
+
 	if(!this.colorTransferMap.has( this.currentColorMap))
 	{
 		var colorCanvas = document.createElement("canvas");
@@ -507,27 +506,27 @@ AFRAME.registerComponent("myloader", {
     }
   },
 
+
   updateOpacityData: function(arrayX,arrayY)
   {
 
 	this.newAlphaData = [];
 
-	for (var i = 0; i <= arrayX.length - 2; i++) {
-	  var scaledColorInit = arrayX[i] * 255;
-	  var scaledColorEnd = arrayX[i + 1] * 255;
 
-	  var scaledAplhaInit = arrayY[i] * 255;
-	  var scaledAlphaEnd = arrayY[i + 1] * 255;
+    for (var i = 0; i <= arrayX.length - 2; i++) {
+      var scaledColorInit = arrayX[i] * 255;
+      var scaledColorEnd = arrayX[i + 1] * 255;
 
-	  var deltaX = scaledColorEnd - scaledColorInit;
+      var scaledAplhaInit = arrayY[i] * 255;
+      var scaledAlphaEnd = arrayY[i + 1] * 255;
 
-	  for (var j = 1 / deltaX; j < 1; j += 1 / deltaX) {
-		// linear interpolation
-		this.newAlphaData.push(
-		  scaledAplhaInit * (1 - j) + scaledAlphaEnd * j
-		);
-	  }
-	}
+      var deltaX = scaledColorEnd - scaledColorInit;
+
+      for (var j = 1 / deltaX; j < 1; j += 1 / deltaX) {
+        // linear interpolation
+        this.newAlphaData.push(scaledAplhaInit * (1 - j) + scaledAlphaEnd * j);
+      }
+    }
   },
 
   getMesh: function () {

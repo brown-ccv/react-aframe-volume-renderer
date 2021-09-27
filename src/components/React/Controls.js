@@ -20,7 +20,6 @@ import ColorMapControl from "./ColorMappingController";
 import { Checkbox } from "primereact/checkbox";
 import { Dropdown } from "primereact/dropdown";
 
-
 const channelOptions = [
   { value: 6, label: "Default" },
   { value: 1, label: "Red" },
@@ -148,7 +147,6 @@ export default connect(mapStateToProps, {
               <Checkbox
                 id="colorMapCheckBox"
                 tooltip="Enabled when a Volume is loaded"
-                
                 onChange={this.handleCheckBoxInputChange}
                 checked={this.state.activateColorMapping}
               ></Checkbox>
