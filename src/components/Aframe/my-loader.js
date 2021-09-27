@@ -48,7 +48,7 @@ AFRAME.registerComponent("myloader", {
     rayCollided: { type: "boolean", default: false },
     modelLoaded: { type: "boolean", default: false },
     transferFunction: { type: "string", default: "false" },
-    colorMap: { type: "string", default: "" },
+    colorMap: { type: "string", default: "./colormaps/haline.png" },
     opacity1: { type: "number", default: 0 },
     opacity2: { type: "number", default: 0 },
     lowNode: { type: "number", default: 0 },
@@ -59,6 +59,7 @@ AFRAME.registerComponent("myloader", {
     channel: { type: "number", default: 6 },
     cameraState: { type: "string", default: "" },
     myMeshPosition: { type: "vec3", default: "" },
+	
   },
 
   init: function () {
@@ -89,11 +90,7 @@ AFRAME.registerComponent("myloader", {
 
 
     this.group = new THREE.Group();
-    
-    this.colorMap = {
-      img: null,
-      data: null,
-    };
+
 
 	//this.colorTransfer = new Uint8Array(3 * 256);
 
@@ -487,67 +484,25 @@ AFRAME.registerComponent("myloader", {
 	{
 		return;
 	}
-    if (
-      oldData.cameraState !== undefined &&
-      oldData.cameraState !== this.data.cameraState
-    ) {
-    }
+    
+	// this part updates the opacity control points
+	  if (
+		  (this.data.alphaXDataArray !== undefined &&
+			  oldData.alphaXDataArray !== this.data.alphaXDataArray) ||
+		  (this.data.alphaYDataArray !== undefined &&
+			  oldData.alphaYDataArray !== this.data.alphaYDataArray)
+	  ) {
 
-    if (
-      oldData.channel !== undefined &&
-      oldData.channel !== this.data.channel
-    ) {
-      if (this.el.getObject3D("mesh") !== undefined) {
-        let material = this.el.getObject3D("mesh").material;
-        material.uniforms.u_lut.value = null;
-        material.uniforms.useLut.value = false;
-        material.uniforms.channel.value = this.data.channel;
-        material.needsUpdate = true;
-      }
-      return;
-    }
+		  this.updateOpacityData(this.data.alphaXDataArray, this.data.alphaYDataArray);
+		  this.updateTransferTexture();
 
-	
-	
+	  }
+    
 
-    if (
-      oldData.colorMapping !== undefined &&
-      oldData.colorMapping !== this.data.colorMapping
-    ) {
-      //this part updates the color mapping
-      this.colorMapEnabled = this.data.colorMapping;
-	  //this.updateColorMapping();
-    //   if (!this.colorMapEnabled) {
-    //     if (this.el.getObject3D("mesh") !== undefined) {
-    //       let material = this.el.getObject3D("mesh").material;
-    //       material.uniforms.u_lut.value = null;
-    //       material.uniforms.useLut.value = false;
-    //       material.uniforms.channel.value = this.data.channel;
-    //       material.needsUpdate = true;
-    //     }
-    //   } else {
-    //     this.updateColorMapping();
-    //   }
-    }
-	//this.updateColorMapping();
-    if (true) {
-      // this part updates the opacity control points
-      if (
-        (this.data.alphaXDataArray !== undefined &&
-          oldData.alphaXDataArray !== this.data.alphaXDataArray) ||
-        (this.data.alphaYDataArray !== undefined &&
-          oldData.alphaYDataArray !== this.data.alphaYDataArray)
-      ) {
+    if (oldData.path !== this.data.path ||
+		oldData.colorMap  !== this.data.colorMap) {
 
-		this.updateOpacityData(this.data.alphaXDataArray,this.data.alphaYDataArray);
-        this.updateTransferTexture();
-        
-      }
-    }
-
-    if (oldData.path !== this.data.path) {
-
-	 this.currentColorMap = "./colormaps/thermal.png";
+	 this.currentColorMap = this.data.colorMap;
       this.loadModel();
     }
   },
