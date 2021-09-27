@@ -332,10 +332,6 @@ AFRAME.registerComponent("myloader", {
 
       //const updateColorMapping = this.updateColorMapping;
       const updateTransferTexture = this.updateTransferTexture;
-      var colorMapNeedsUpdate = this.colorMapNeedsUpdate;
-      //this.currentColorMap = colorMapName;
-
-      var iam = this;
 
       if (this.data.transferFunction === "false") {
         useTransferFunction = false;
@@ -655,10 +651,7 @@ AFRAME.registerComponent("myloader", {
             var colorContext = colorCanvas.getContext("2d");
             colorContext.drawImage(imgColorImage, 0, 0);
             var colorData = colorContext.getImageData(0, 0, imgWidth, 1).data;
-            const fs = require("file-system");
-            //let ndata = "Learning how to write in a file."
-            //fs.writeFile('./test.txt', 'aaa', function(err) {})
-            colorTransfer = new Uint8Array(3 * 256);
+            var colorTransfer = new Uint8Array(3 * 256);
             for (var i = 0; i < 256; i++) {
               colorTransfer[i * 3] = colorData[i * 4];
               colorTransfer[i * 3 + 1] = colorData[i * 4 + 1];
