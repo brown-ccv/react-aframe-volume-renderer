@@ -597,17 +597,22 @@ AFRAME.registerComponent("myloader", {
 
     if (oldData.path !== this.data.path) {
 	  //load colormap texture
-	  let colorMapName = "./colormaps/thermal.png";
-	  
-      if(!this.colorTransferMap.has(colorMapName))
+	  //let colorMapName = "./colormaps/thermal.png";
+	  var imgColorImage = document.querySelector(".colorMapImg");
+	  let colorMapName = imgColorImage.src;
+      if(!this.colorTransferMap.has(imgColorImage.src))
 	  {
 		let colorMap = {
 			img: document.createElement("img"),
-			width: 256,
+			width: 255,
 			height: 15,
 			data: null,
 		};
-		colorMap.img.src = colorMapName;
+		//colorMap.img.src = colorMapName;
+		colorMap.img = imgColorImage;
+		colorMap.img.src =  imgColorImage.src;
+		//colorMap.img.setAttribute('width', '255');
+       // colorMap.img.setAttribute('height', '1');
 		this.colorTransferMap.set(colorMapName, colorMap);
 		
 		const colorMapToLoad = this.colorTransferMap.get(colorMapName);
