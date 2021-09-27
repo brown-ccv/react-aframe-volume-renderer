@@ -74,28 +74,23 @@ AFRAME.registerComponent("myloader", {
 
     this.updateOpacityData = this.updateOpacityData.bind(this);
     this.colorMapNeedsUpdate = false;
-    this.currentColorMap = "";
+    this.currentColorMap = this.data.colorMap;
 
-    //window.addEventListener('keydown', this.debugScene);
     this.el.addEventListener("raycaster-intersected", this.onCollide);
     this.el.addEventListener(
       "raycaster-intersected-cleared",
       this.onClearCollide
     );
-    //this.colorTransfer = new Uint8Array(3 * 256);
+
     this.colorTransferMap = new Map();
 
     this.group = new THREE.Group();
-
-    //this.colorTransfer = new Uint8Array(3 * 256);
 
     this.isVrModeOn = false;
     this.mySpeed = 0.1;
 
     this.sceneHandler = this.el.sceneEl;
     this.group = new THREE.Group();
-
-    //this.sceneHandler.add( group );
 
     this.controllerHandler = document.getElementById("rhand").object3D; //.getAttribute('my-buttons-check');
     this.controllerHandler.el.addEventListener(
@@ -105,10 +100,10 @@ AFRAME.registerComponent("myloader", {
 
     this.clipPlaneListenerHandler = document.getElementById(
       "my2DclipplaneListener"
-    ).object3D; //.getAttribute('my-buttons-check');
+    ).object3D;
     this.clip2DPlaneRendered = false;
 
-    this.clipPlaneHandler = document.getElementById("my2Dclipplane").object3D; //.getAttribute('my-buttons-check');
+    this.clipPlaneHandler = document.getElementById("my2Dclipplane").object3D;
 
     this.controllerHandler.matrixAutoUpdate = false;
     this.grabState =
@@ -127,7 +122,6 @@ AFRAME.registerComponent("myloader", {
     this.el.sceneEl.addEventListener("enter-vr", this.onEnterVR);
     this.el.sceneEl.addEventListener("exit-vr", this.onExitVR);
 
-    //this.opacityControlPoints = [0, 0.1, 0.3, 0.5, 0.75, 0.8, 0.6, 0.5, 0.0];
     this.opacityControlPoints = [0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
 
     var jet_values = [
@@ -212,19 +206,10 @@ AFRAME.registerComponent("myloader", {
     this.hiddenLabel = document.getElementById("modelLoaded");
   },
 
-  debugScene: function (evt) {
-    // var els = sceneEl.querySelectorAll('*');
-    // console.log("Elements");
-    // for (var i = 0; i < els.length; i++) {
-    // 	console.log(els[i]);
-    // }
-  },
+  debugScene: function (evt) {},
 
   updateTransferTexture: function () {
-    if (
-      this.currentColorMap !== "" &&
-      this.colorTransferMap.has(this.currentColorMap)
-    ) {
+    if (this.colorTransferMap.has(this.currentColorMap)) {
       var colorTransfer = this.colorTransferMap.get(this.currentColorMap).data;
       var imageTransferData = new Uint8Array(4 * 256);
       for (var i = 0; i < 256; i++) {
@@ -256,26 +241,9 @@ AFRAME.registerComponent("myloader", {
     this.onExitVR = bind(this.onExitVR, this);
   },
 
-  onEnterVR: function () {
-    /*var scope = this;
-		if (this.el.getObject3D("mesh") !== undefined) {
-			console.log("my-loader onEnterVR 1 : ");
-			console.log(this.el.getObject3D("mesh").position);
-			
-			console.log("my-loader onEnterVR this.vrPosition : ");
-			console.log(this.data.myMeshPosition);
-			this.el.getObject3D("mesh").position.copy(
-				          this.data.myMeshPosition
-			) ;
-			console.log("my-loader onEnterVR 2	 : ");
-			console.log(this.el.getObject3D("mesh").position);
-		//	this.el.getObject3D("mesh").rotation.set( this.vrRotation);
-			this.el.sceneEl.object3D.add(this.el.getObject3D("mesh"));
-		}*/
-  },
+  onEnterVR: function () {},
 
   onExitVR: function () {
-    // var scope = this;
     if (this.el.getObject3D("mesh") !== undefined) {
       console.log("my-loader onExitVR 1: ");
       console.log(this.el.getObject3D("mesh").position);
@@ -284,7 +252,6 @@ AFRAME.registerComponent("myloader", {
       this.data.myMeshPosition.y = this.el.getObject3D("mesh").position.y;
       this.data.myMeshPosition.z = this.el.getObject3D("mesh").position.z;
 
-      //oldPos.copy(this.el.getObject3D("mesh").position);
       console.log("my-loader onExitVR this.data.myMeshPosition 1 : ");
       console.log(this.data.myMeshPosition);
 
@@ -294,7 +261,7 @@ AFRAME.registerComponent("myloader", {
       console.log(this.data.myMeshPosition);
 
       this.el.getObject3D("mesh").rotation.set(0, 0, 0);
-      //this.el.sceneEl.object3D.add(this.el.getObject3D("mesh"));
+
       console.log("my-loader onExitVR 2: ");
       console.log(this.el.getObject3D("mesh").position);
       this.debugVRPos = true;
@@ -320,16 +287,11 @@ AFRAME.registerComponent("myloader", {
       var canvasWidth = this.myCanvas.width;
       var canvasHeight = this.myCanvas.height;
 
-      var useTransferFunction;
+      const useTransferFunction =
+        this.data.transferFunction === "false" ? false : true;
       var hiddenLabel = this.hiddenLabel;
 
-      var updateColorMapping = this.updateColorMapping;
-
-      if (this.data.transferFunction === "false") {
-        useTransferFunction = false;
-      } else {
-        useTransferFunction = true;
-      }
+      const updateColorMapping = this.updateColorMapping;
 
       //load as 2D texture
       new THREE.TextureLoader().load(
@@ -434,19 +396,22 @@ AFRAME.registerComponent("myloader", {
   updateColorMapping: function () {
     if (!this.colorTransferMap.has(this.currentColorMap)) {
       var colorCanvas = document.createElement("canvas");
-      var iam = this;
-      let newColorMap = {
+
+      const imgWidth = 255;
+      const imgHeight = 15;
+      const newColorMap = {
         img: document.createElement("img"),
-        width: 255,
-        height: 15,
+        width: imgWidth,
+        height: imgHeight,
         data: null,
       };
-      var imgWidth = newColorMap.width;
-      var imgHeight = newColorMap.height;
 
       newColorMap.img.src = this.currentColorMap;
       this.colorTransferMap.set(this.currentColorMap, newColorMap);
       const mappedColorMap = newColorMap;
+
+      const updateTransferTexture = this.updateTransferTexture;
+
       newColorMap.img.onload = function (data) {
         colorCanvas.height = imgHeight;
         colorCanvas.width = imgWidth;
@@ -460,7 +425,7 @@ AFRAME.registerComponent("myloader", {
           colorTransfer[i * 3 + 2] = colorData[i * 4 + 2];
         }
         mappedColorMap.data = colorTransfer;
-        iam.updateTransferTexture();
+        updateTransferTexture();
       };
     } else {
       this.updateTransferTexture();
@@ -486,11 +451,11 @@ AFRAME.registerComponent("myloader", {
       this.updateTransferTexture();
     }
 
-    if (
-      oldData.path !== this.data.path ||
-      oldData.colorMap !== this.data.colorMap
-    ) {
+    if (oldData.colorMap !== this.data.colorMap) {
       this.currentColorMap = this.data.colorMap;
+    }
+
+    if (oldData.path !== this.data.path) {
       this.loadModel();
     }
   },
@@ -578,9 +543,6 @@ AFRAME.registerComponent("myloader", {
           }
         }
       } else if (this.controllerHandler !== undefined && isVrModeActive) {
-        //Input - Controllermatrix
-        // var controllerMatrix = this.controllerHandler.matrixWorld;
-
         if (
           !this.controllerHandler.el.getAttribute("my-buttons-check")
             .grabObject &&
