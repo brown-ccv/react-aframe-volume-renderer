@@ -298,7 +298,7 @@ AFRAME.registerComponent("myloader", {
 
   loadModel: function () {
     var currentVolume = this.el.getObject3D("mesh");
-	const {x_spacing, y_spacing, z_spacing, slices, path} = this.data;
+    const { x_spacing, y_spacing, z_spacing, slices, path } = this.data;
     if (currentVolume !== undefined) {
       //clear mesh
       currentVolume.geometry.dispose();
@@ -321,7 +321,6 @@ AFRAME.registerComponent("myloader", {
 
       const updateColorMapping = this.updateColorMapping;
       const updateTransferTexture = this.updateTransferTexture;
-	  
 
       if (this.data.transferFunction === "false") {
         useTransferFunction = false;
