@@ -1,17 +1,21 @@
 import { createContext, useContext, useReducer } from "react";
+import config from "../assets/config.json";
 
 const VolumeContext = createContext();
-const pathPrefix = "./assets/models/";
 
 // Custom component to provide the Volume context
 function VolumeProvider(props) {
   const [state, dispatch] = useReducer(volumeReducer, {
-    options: {
-      measurement: "salt",
-      season: "summer",
-      tide: "low",
+    selection: {
+      season: config.season[0],
+      tide: config.tide[0],
+      measurement: config.measurement[0],
     },
-    path: `${pathPrefix}summer_low_salt.png`,
+    slices: 55,
+    extension: ".png",
+    x_spacing: 2.0,
+    y_spacing: 2.0,
+    z_spacing: 1.0,
   });
 
   const value = { state, dispatch };
@@ -33,40 +37,29 @@ function useVolumeContext() {
 
 // Custom reducer to update the VolumeContext
 function volumeReducer(state, action) {
-  function getPath() {
-    const { season, tide, measurement } = state.options;
-    const model = `${season}_${tide}_${measurement}.png`;
-
-    console.log("Loading Model:", model);
-    return pathPrefix + model;
-  }
-
   switch (action.type) {
     case "TOGGLE_MEASUREMENT": {
       return {
-        options: {
-          ...state.options,
-          measurement: action.payload
+        selection: {
+          ...state.selection,
+          measurement: action.payload,
         },
-        path: getPath()
       };
     }
     case "TOGGLE_SEASON": {
       return {
-        options: {
-          ...state.options,
-          season: action.payload
+        selection: {
+          ...state.selection,
+          season: action.payload,
         },
-        path: getPath()
       };
     }
     case "TOGGLE_TIDE": {
       return {
-        options: {
-          ...state.options,
-          tide: action.payload
+        selection: {
+          ...state.selection,
+          tide: action.payload,
         },
-        path: getPath()
       };
     }
     default: {

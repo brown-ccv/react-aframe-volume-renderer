@@ -77,7 +77,6 @@ export default connect(mapStateToProps)(
                   id="volumeCube"
                   class="clickableMesh"
                   myloader={{
-                    volumeData: state.path,
                     rayCollided: false,
                     transferFunction: this.props.transferFunction,
                     colorMap: this.props.colorMap,
@@ -90,6 +89,12 @@ export default connect(mapStateToProps)(
                     colorMapping: this.props.colorMapping,
                     channel: this.props.channel,
                     cameraState: this.props.cameraState,
+                    path: `./assets/models/${state.selection.season}-${state.selection.tide}-${state.selection.measurement}.png`,
+                    slices: state.slices,
+                    extension: state.extension,
+                    x_spacing: state.x_spacing,
+                    y_spacing: state.y_spacing,
+                    z_spacing: state.z_spacing,
                   }}
                   position="0 0 0"
                 />

@@ -1,6 +1,5 @@
 /* globals AFRAME THREE */
 import "../../shaders/ccvLibVolumeShader.js";
-
 var bind = AFRAME.utils.bind;
 
 // var KEYS = [
@@ -44,7 +43,6 @@ AFRAME.registerComponent("entity-collider-check", {
 
 AFRAME.registerComponent("myloader", {
   schema: {
-    volumeData: { type: "string", default: "" },
     rayCollided: { type: "boolean", default: false },
     modelLoaded: { type: "boolean", default: false },
     transferFunction: { type: "string", default: "false" },
@@ -300,6 +298,7 @@ AFRAME.registerComponent("myloader", {
 
   loadModel: function () {
     var currentVolume = this.el.getObject3D("mesh");
+    const { x_spacing, y_spacing, z_spacing, slices, path } = this.data;
     if (currentVolume !== undefined) {
       //clear mesh
       currentVolume.geometry.dispose();
@@ -309,18 +308,19 @@ AFRAME.registerComponent("myloader", {
       currentVolume = undefined;
     }
 
-    if (this.data.volumeData !== "") {
+    if (path !== "") {
       this.hiddenLabel.style.display = "";
       var el = this.el;
       var data = this.data;
-      //var transferTexture = this.transferTexture ;
-      var myWidth = this.myCanvas.width;
-      var myheight = this.myCanvas.height;
+      var canvasWidth = this.myCanvas.width;
+      var canvasHeight = this.myCanvas.height;
       var colorMap = null;
       var useTransferFunction;
       var hiddenLabel = this.hiddenLabel;
       var enabledColorMapping = this.colorMapEnabled;
-      var iam = this;
+
+      const updateColorMapping = this.updateColorMapping;
+      const updateTransferTexture = this.updateTransferTexture;
 
       if (this.data.transferFunction === "false") {
         useTransferFunction = false;
@@ -330,22 +330,15 @@ AFRAME.registerComponent("myloader", {
 
       //load as 2D texture
       new THREE.TextureLoader().load(
-        this.data.volumeData,
+        path,
         function (texture) {
-          //read parameters from filename
-          var splittedName = data.volumeData.split("_");
-          var slice = parseInt(splittedName[splittedName.length - 4]);
-          var d1 = parseFloat(splittedName[splittedName.length - 3]);
-          var d2 = parseFloat(splittedName[splittedName.length - 2]);
-          var d3 = parseFloat(splittedName[splittedName.length - 1]);
-
-          var dim = Math.ceil(Math.sqrt(slice));
-          var spacing = [d1, d2, d3];
+          var dim = Math.ceil(Math.sqrt(slices));
+          var spacing = [x_spacing, y_spacing, z_spacing];
 
           var volumeScale = [
             1.0 / ((texture.image.width / dim) * spacing[0]),
             1.0 / ((texture.image.height / dim) * spacing[1]),
-            1.0 / (slice * spacing[2]),
+            1.0 / (slices * spacing[2]),
           ];
 
           var zScale = volumeScale[0] / volumeScale[2];
@@ -364,7 +357,7 @@ AFRAME.registerComponent("myloader", {
           uniforms["clipping"].value = false;
           uniforms["threshold"].value = 1;
           uniforms["multiplier"].value = 1;
-          uniforms["slice"].value = slice;
+          uniforms["slice"].value = slices;
           uniforms["dim"].value = dim;
 
           if (!useTransferFunction) {
@@ -373,7 +366,6 @@ AFRAME.registerComponent("myloader", {
             uniforms["useLut"].value = false;
           } else {
             console.log("USING LUT");
-            //uniforms["channel"].value = 6 ;
             uniforms["useLut"].value = false;
           }
           uniforms["step_size"].value = new THREE.Vector3(
@@ -382,7 +374,10 @@ AFRAME.registerComponent("myloader", {
             1 / 100
           );
 
-          uniforms["viewPort"].value = new THREE.Vector2(myWidth, myheight);
+          uniforms["viewPort"].value = new THREE.Vector2(
+            canvasWidth,
+            canvasHeight
+          );
           uniforms["P_inv"].value = new THREE.Matrix4();
           uniforms["depth"].value = null;
           uniforms["zScale"].value = zScale;
@@ -398,22 +393,19 @@ AFRAME.registerComponent("myloader", {
             fragmentShader: shader.fragmentShader,
             side: THREE.BackSide, // The volume shader uses the backface as its "reference point"
           });
-          // Mesh
 
+          // Mesh
           var geometry = new THREE.BoxGeometry(1, 1, 1);
-          //geometry.translate( -0.5, - 0.5, - 0.5 );
 
           el.setObject3D("mesh", new THREE.Mesh(geometry, material));
           data.modelLoaded = true;
-
-          // material.uniforms.diffuse.value.setHex ( 0xFF0000 );
           material.needsUpdate = true;
 
           hiddenLabel.style.display = "none";
           console.log("MODEL LOADED");
           if (enabledColorMapping) {
-            iam.updateColorMapping();
-            iam.updateTransfertexture();
+            updateColorMapping();
+            updateTransferTexture();
           }
         },
         function () {},
@@ -573,7 +565,7 @@ AFRAME.registerComponent("myloader", {
       }
     }
 
-    if (oldData.volumeData !== this.data.volumeData) {
+    if (oldData.path !== this.data.path) {
       this.loadModel();
     }
   },

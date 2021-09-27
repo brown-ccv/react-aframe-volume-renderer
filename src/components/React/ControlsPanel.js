@@ -16,7 +16,7 @@ export default function ControlPanel(props) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
 
   const {
-    state: { options },
+    state: { selection },
     dispatch,
   } = useVolumeContext();
 
@@ -33,7 +33,7 @@ export default function ControlPanel(props) {
           <ToggleButtonGroup
             type="radio"
             name="measurement"
-            value={options.measurement}
+            value={selection.measurement}
             onChange={(val) =>
               dispatch({
                 type: "TOGGLE_MEASUREMENT",
@@ -50,7 +50,7 @@ export default function ControlPanel(props) {
           <ToggleButtonGroup
             type="radio"
             name="season"
-            value={options.season}
+            value={selection.season}
             onChange={(val) =>
               dispatch({
                 type: "TOGGLE_SEASON",
@@ -67,7 +67,7 @@ export default function ControlPanel(props) {
           <ToggleButtonGroup
             type="radio"
             name="tide"
-            value={options.tide}
+            value={selection.tide}
             onChange={(val) =>
               dispatch({
                 type: "TOGGLE_TIDE",
