@@ -222,6 +222,8 @@ AFRAME.registerComponent("myloader", {
     cameraEl.setAttribute("camera", "active", true);
 
     this.hiddenLabel = document.getElementById("modelLoaded");
+
+	this.initOpacityData = false;
 	
   },
 
@@ -240,7 +242,7 @@ AFRAME.registerComponent("myloader", {
       imageTransferData[i * 4 + 0] = colorTransfer[i * 3 + 0];
       imageTransferData[i * 4 + 1] = colorTransfer[i * 3 + 1];
       imageTransferData[i * 4 + 2] = colorTransfer[i * 3 + 2];
-      imageTransferData[i * 4 + 3] = 1.0;
+      imageTransferData[i * 4 + 3] = this.newAlphaData[i];
     }
 
 
@@ -483,6 +485,14 @@ AFRAME.registerComponent("myloader", {
 
   update: function (oldData) {
 
+    if(!this.initOpacityData)
+	{
+		const opacityXPoints = [0, 0.11739130434782609, 0.34782608695652173, 1];
+		const opacityYPoints = [0, 0.11739130434782609, 0.34782608695652173, 1];
+        this.updateOpacityData(opacityXPoints,opacityYPoints);
+		this.initOpacityData= true;
+	}
+
 	if(this.colorMapNeedsUpdate == true)
 	{
         if(!this.colorTransferMap.has( this.currentColorMap))
@@ -605,24 +615,27 @@ AFRAME.registerComponent("myloader", {
         (this.data.alphaYDataArray !== undefined &&
           oldData.alphaYDataArray !== this.data.alphaYDataArray)
       ) {
-        this.newAlphaData = [];
 
-        for (var i = 0; i <= this.data.alphaXDataArray.length - 2; i++) {
-          var scaledColorInit = this.data.alphaXDataArray[i] * 255;
-          var scaledColorEnd = this.data.alphaXDataArray[i + 1] * 255;
+		this.updateOpacityData(this.data.alphaXDataArray,this.data.alphaYDataArray);
 
-          var scaledAplhaInit = this.data.alphaYDataArray[i] * 255;
-          var scaledAlphaEnd = this.data.alphaYDataArray[i + 1] * 255;
+        // this.newAlphaData = [];
 
-          var deltaX = scaledColorEnd - scaledColorInit;
+        // for (var i = 0; i <= this.data.alphaXDataArray.length - 2; i++) {
+        //   var scaledColorInit = this.data.alphaXDataArray[i] * 255;
+        //   var scaledColorEnd = this.data.alphaXDataArray[i + 1] * 255;
 
-          for (var j = 1 / deltaX; j < 1; j += 1 / deltaX) {
-            // linear interpolation
-            this.newAlphaData.push(
-              scaledAplhaInit * (1 - j) + scaledAlphaEnd * j
-            );
-          }
-        }
+        //   var scaledAplhaInit = this.data.alphaYDataArray[i] * 255;
+        //   var scaledAlphaEnd = this.data.alphaYDataArray[i + 1] * 255;
+
+        //   var deltaX = scaledColorEnd - scaledColorInit;
+
+        //   for (var j = 1 / deltaX; j < 1; j += 1 / deltaX) {
+        //     // linear interpolation
+        //     this.newAlphaData.push(
+        //       scaledAplhaInit * (1 - j) + scaledAlphaEnd * j
+        //     );
+        //   }
+        // }
 
         //this.updateTransferTexture();
       }
@@ -724,6 +737,28 @@ AFRAME.registerComponent("myloader", {
 	 this.currentColorMap = "./colormaps/thermal.png";
       this.loadModel();
     }
+  },
+
+  updateOpacityData: function(arrayX,arrayY)
+  {
+	this.newAlphaData = [];
+
+	for (var i = 0; i <= arrayX.length - 2; i++) {
+	  var scaledColorInit = arrayX[i] * 255;
+	  var scaledColorEnd = arrayX[i + 1] * 255;
+
+	  var scaledAplhaInit = arrayY[i] * 255;
+	  var scaledAlphaEnd = arrayY[i + 1] * 255;
+
+	  var deltaX = scaledColorEnd - scaledColorInit;
+
+	  for (var j = 1 / deltaX; j < 1; j += 1 / deltaX) {
+		// linear interpolation
+		this.newAlphaData.push(
+		  scaledAplhaInit * (1 - j) + scaledAlphaEnd * j
+		);
+	  }
+	}
   },
 
   getMesh: function () {
