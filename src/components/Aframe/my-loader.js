@@ -7,6 +7,13 @@ var bind = AFRAME.utils.bind;
 // 	'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ArrowDown'
 // ];
 
+let colorMap = {
+	img: null,
+	data: null,
+};
+
+
+
 AFRAME.registerComponent("collider-check", {
   dependencies: ["raycaster", "my-buttons-check"],
 
@@ -71,6 +78,8 @@ AFRAME.registerComponent("myloader", {
     this.updateTransferTexture = this.updateTransferTexture.bind(this);
     this.updateColorMapping = this.updateColorMapping.bind(this);
     this.debugScene = this.debugScene.bind(this);
+	this.colorMapNeedsUpdate = false;
+	this.currentColorMap = "";
 
     //window.addEventListener('keydown', this.debugScene);
     this.el.addEventListener("raycaster-intersected", this.onCollide);
@@ -78,7 +87,9 @@ AFRAME.registerComponent("myloader", {
       "raycaster-intersected-cleared",
       this.onClearCollide
     );
-    this.colorTransfer = new Uint8Array(3 * 256);
+    //this.colorTransfer = new Uint8Array(3 * 256);
+	this.colorTransferMap = new Map();
+
 
     this.group = new THREE.Group();
     
@@ -87,8 +98,7 @@ AFRAME.registerComponent("myloader", {
       data: null,
     };
 
-    this.colorMap.img = document.createElement("img");
-    this.colorTransfer = new Uint8Array(3 * 256);
+	//this.colorTransfer = new Uint8Array(3 * 256);
 
     this.isVrModeOn = false;
     this.mySpeed = 0.1;
@@ -211,6 +221,7 @@ AFRAME.registerComponent("myloader", {
     cameraEl.setAttribute("camera", "active", true);
 
     this.hiddenLabel = document.getElementById("modelLoaded");
+	
   },
 
   debugScene: function (evt) {
@@ -221,14 +232,16 @@ AFRAME.registerComponent("myloader", {
     // }
   },
 
-  updateTransferTexture: function () {
+  updateTransferTexture: function (colorMapName) {
+	var colorTransfer = this.colorTransferMap.get(colorMapName).data;
     var imageTransferData = new Uint8Array(4 * 256);
     for (var i = 0; i < 256; i++) {
-      imageTransferData[i * 4 + 0] = this.colorTransfer[i * 3 + 0];
-      imageTransferData[i * 4 + 1] = this.colorTransfer[i * 3 + 1];
-      imageTransferData[i * 4 + 2] = this.colorTransfer[i * 3 + 2];
-      imageTransferData[i * 4 + 3] = this.newAlphaData[i];
+      imageTransferData[i * 4 + 0] = colorTransfer[i * 3 + 0];
+      imageTransferData[i * 4 + 1] = colorTransfer[i * 3 + 1];
+      imageTransferData[i * 4 + 2] = colorTransfer[i * 3 + 2];
+      imageTransferData[i * 4 + 3] = 255.0;
     }
+
 
     var transferTexture = new THREE.DataTexture(
       imageTransferData,
@@ -296,7 +309,7 @@ AFRAME.registerComponent("myloader", {
     }
   },
 
-  loadModel: function () {
+  loadModel: function (colorMapName) {
     var currentVolume = this.el.getObject3D("mesh");
 	const {x_spacing, y_spacing, z_spacing, slices, path} = this.data;
     if (currentVolume !== undefined) {
@@ -314,14 +327,16 @@ AFRAME.registerComponent("myloader", {
       var data = this.data;
       var canvasWidth = this.myCanvas.width;
       var canvasHeight = this.myCanvas.height;
-      var colorMap = null;
+      //var colorMap = colorMapToLoad;
       var useTransferFunction;
       var hiddenLabel = this.hiddenLabel;
       var enabledColorMapping = this.colorMapEnabled;
 
-      const updateColorMapping = this.updateColorMapping;
+      //const updateColorMapping = this.updateColorMapping;
       const updateTransferTexture = this.updateTransferTexture;
-	  
+	  var colorMapNeedsUpdate = this.colorMapNeedsUpdate;
+	  this.currentColorMap = colorMapName;
+
 	  var iam = this;
 
       if (this.data.transferFunction === "false") {
@@ -329,7 +344,7 @@ AFRAME.registerComponent("myloader", {
       } else {
         useTransferFunction = true;
       }
-
+	  
       //load as 2D texture
       new THREE.TextureLoader().load(
         path,
@@ -354,7 +369,7 @@ AFRAME.registerComponent("myloader", {
           var uniforms = THREE.UniformsUtils.clone(shader.uniforms);
           uniforms["u_data"].value = texture;
           // uniforms["useLut"].value = true;
-          uniforms["u_lut"].value = colorMap;
+          uniforms["u_lut"].value = null;
           uniforms["clipPlane"].value = new THREE.Matrix4();
           uniforms["clipping"].value = false;
           uniforms["threshold"].value = 1;
@@ -405,9 +420,12 @@ AFRAME.registerComponent("myloader", {
 
           hiddenLabel.style.display = "none";
           console.log("MODEL LOADED");
+		  
+		  iam.colorMapNeedsUpdate = true;
+	      //currentColorMapName = colorMapName;
           //if (enabledColorMapping) {
-		  updateColorMapping();
-          updateTransferTexture();
+		  //updateColorMapping();
+          //updateTransferTexture(colorMapName);
           //}
         },
         function () {},
@@ -482,6 +500,15 @@ AFRAME.registerComponent("myloader", {
       return;
     }
 
+	if(this.colorMapNeedsUpdate == true)
+	{
+		this.updateTransferTexture(this.currentColorMap);
+		this.colorMapNeedsUpdate= false;
+		this.currentColorMap = "";
+
+	}
+	
+
     if (
       oldData.colorMapping !== undefined &&
       oldData.colorMapping !== this.data.colorMapping
@@ -501,7 +528,7 @@ AFRAME.registerComponent("myloader", {
     //     this.updateColorMapping();
     //   }
     }
-	this.updateColorMapping();
+	//this.updateColorMapping();
     if (true) {
       // this part updates the opacity control points
       if (
@@ -529,11 +556,11 @@ AFRAME.registerComponent("myloader", {
           }
         }
 
-        this.updateTransferTexture();
+        //this.updateTransferTexture();
       }
 
       if (
-        this.colorMapEnabled &&
+        false &&
         oldData.colorMap !== undefined &&
         oldData.colorMap !== this.data.colorMap
       ) {
@@ -569,7 +596,43 @@ AFRAME.registerComponent("myloader", {
     }
 
     if (oldData.path !== this.data.path) {
-      this.loadModel();
+	  //load colormap texture
+	  let colorMapName = "./colormaps/thermal.png";
+	  
+      if(!this.colorTransferMap.has(colorMapName))
+	  {
+		let colorMap = {
+			img: document.createElement("img"),
+			width: 256,
+			height: 15,
+			data: null,
+		};
+		colorMap.img.src = colorMapName;
+		this.colorTransferMap.set(colorMapName, colorMap);
+		
+		const colorMapToLoad = this.colorTransferMap.get(colorMapName);
+		
+		var colorCanvas = document.createElement("canvas");
+        const doLoadModel = this.loadModel;
+
+		colorMapToLoad.img.onload = function (data){
+            colorCanvas.height = colorMapToLoad.width;
+            colorCanvas.width = colorMapToLoad.height;
+            var colorContext = colorCanvas.getContext("2d");
+            colorContext.drawImage(colorMapToLoad.img, 0, 0);
+            var colorData = colorContext.getImageData(0, 0,  colorMapToLoad.width, 1).data;
+            colorTransfer = new Uint8Array(3 * 256);
+            for (var i = 0; i < 256; i++) {
+              colorTransfer[i * 3] = colorData[i * 4];
+              colorTransfer[i * 3 + 1] = colorData[i * 4 + 1];
+              colorTransfer[i * 3 + 2] = colorData[i * 4 + 2];
+            }
+            colorMapToLoad.data = colorTransfer;
+			doLoadModel(colorMapName);
+            
+          }; 
+	  }
+      //this.loadModel();
     }
   },
 
