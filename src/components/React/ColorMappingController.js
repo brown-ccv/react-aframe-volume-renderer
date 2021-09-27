@@ -130,7 +130,6 @@ export default connect(mapStateToProps, {
     };
 
     render() {
-      let colorMapSelection = "";
       // if (this.state.currentMapColor !== "") {
       //   colorMapSelection = (
       //     <img
