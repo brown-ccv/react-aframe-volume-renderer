@@ -7,11 +7,6 @@ var bind = AFRAME.utils.bind;
 // 	'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ArrowDown'
 // ];
 
-let colorMap = {
-	img: null,
-	data: null,
-};
-
 
 
 AFRAME.registerComponent("collider-check", {
