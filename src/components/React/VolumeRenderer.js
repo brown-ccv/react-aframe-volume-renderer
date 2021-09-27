@@ -30,14 +30,8 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps)(
   class VolumeRenderer extends Component {
-    
-
     render() {
-     
-     
-
       return (
-        
         <div className="aframe-container">
           <div id="modelLoaded" style={{ display: "none" }}>
             <Spinner />

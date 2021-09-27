@@ -19,7 +19,7 @@ export default function ControlPanel(props) {
     state: { selection },
     dispatch,
   } = useVolumeContext();
-  
+
   return (
     <Container fluid className="my-3">
       <Row>
