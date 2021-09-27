@@ -160,7 +160,7 @@ export default connect(mapStateToProps, {
             <br />
             <button onClick={this.handleCloseModal}>Apply</button>
           </ReactModal>*/}
-        </div> 
+        </div>
       );
     }
   }
