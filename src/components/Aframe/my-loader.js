@@ -453,6 +453,7 @@ AFRAME.registerComponent("myloader", {
 
     if (oldData.colorMap !== this.data.colorMap) {
       this.currentColorMap = this.data.colorMap;
+      this.updateColorMapping();
     }
 
     if (oldData.path !== this.data.path) {
