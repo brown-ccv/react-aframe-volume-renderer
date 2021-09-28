@@ -33,31 +33,14 @@ export default connect(null, {
     constructor(props) {
       super(props);
       this.state = {
-        currentVolume: "",
         xslideValue: 0,
         yslideValue: 0,
         zslideValue: 0,
-        activateColorMapping: false,
-        currentChannel: 6,
-        currentData: null,
-        dataCurrentChannel: null,
-        dataRange: [0.0, 100.0],
       };
-      this.handleCheckBoxInputChange =
-        this.handleCheckBoxInputChange.bind(this);
+
       this.xSlideHandleChange = this.xSlideHandleChange.bind(this);
       this.ySlideHandleChange = this.ySlideHandleChange.bind(this);
       this.zSlideHandleChange = this.zSlideHandleChange.bind(this);
-      this.volumeSelectChanged = this.volumeSelectChanged.bind(this);
-      this.channelSelectChanged = this.channelSelectChanged.bind(this);
-      this.resetCamera = this.resetCamera.bind(this);
-    }
-
-    handleCheckBoxInputChange(event) {
-      const target = event.target;
-      const value = target.type === "checkbox" ? target.checked : target.value;
-      this.props.myCheckButtonAction(value);
-      this.setState({ activateColorMapping: value });
     }
 
     xSlideHandleChange = (value) => {
@@ -74,27 +57,6 @@ export default connect(null, {
       this.setState({ zslideValue: value });
       this.props.myZSlideAction(value[0], value[1]);
     };
-
-    volumeSelectChanged = (selected) => {
-      this.setState({
-        currentVolume: selected.value,
-        currentData: selected,
-      });
-      let volumeProperties = selected.value.split(":");
-      this.props.myChangeVolumeAction(volumeProperties[0], volumeProperties[1]);
-    };
-
-    channelSelectChanged = (selected) => {
-      this.setState({
-        currentChannel: selected.value,
-        dataCurrentChannel: selected,
-      });
-      this.props.myChannelChanged(selected.value);
-    };
-
-    resetCamera() {
-      this.props.myCameraReset();
-    }
 
     render() {
       return (
