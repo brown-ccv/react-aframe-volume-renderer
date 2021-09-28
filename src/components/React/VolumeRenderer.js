@@ -30,6 +30,16 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps)(
   class VolumeRenderer extends Component {
+
+    colorMap(cm) {
+      console.log("COLOR MAP", cm)
+      return cm;
+    }
+    path(state) {
+      console.log(state)
+      return `./assets/models/${state.selection.season}-${state.selection.tide}-${state.selection.measurement}.png`
+    }
+
     render() {
       return (
         <div className="aframe-container">
@@ -78,7 +88,8 @@ export default connect(mapStateToProps)(
                   myloader={{
                     rayCollided: false,
                     transferFunction: this.props.transferFunction,
-                    colorMap: this.props.colorMap,
+                    // colorMap: this.props.colorMap,
+                    colorMap: this.colorMap(),
                     opacity1: this.props.opacity1,
                     opacity2: this.props.opacity2,
                     lowNode: this.props.lowNode,
@@ -88,7 +99,8 @@ export default connect(mapStateToProps)(
                     colorMapping: this.props.colorMapping,
                     channel: this.props.channel,
                     cameraState: this.props.cameraState,
-                    path: `./assets/models/${state.selection.season}-${state.selection.tide}-${state.selection.measurement}.png`,
+                    // path: `./assets/models/${state.selection.season}-${state.selection.tide}-${state.selection.measurement}.png`,
+                    path: this.path(state),
                     slices: state.slices,
                     extension: state.extension,
                     x_spacing: state.x_spacing,
