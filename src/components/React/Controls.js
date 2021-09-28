@@ -76,7 +76,7 @@ export default connect(null, {
                 <Range
                   allowCross={false}
                   step={0.0009}
-                  defaultValue={[0, 1]}
+                  defaultValue={[range.min, range.max]}
                   min={range.min}
                   max={range.max}
                   onChange={this.xSlideHandleChange}
@@ -87,7 +87,7 @@ export default connect(null, {
                 <Range
                   allowCross={false}
                   step={0.0009}
-                  defaultValue={[0, 1]}
+                  defaultValue={[range.min, range.max]}
                   min={range.min}
                   max={range.max}
                   onChange={this.ySlideHandleChange}
@@ -98,7 +98,7 @@ export default connect(null, {
                 <Range
                   allowCross={false}
                   step={0.0009}
-                  defaultValue={[0, 1]}
+                  defaultValue={[range.min, range.max]}
                   min={range.min}
                   max={range.max}
                   onChange={this.zSlideHandleChange}
