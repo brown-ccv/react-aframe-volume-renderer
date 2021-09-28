@@ -1,5 +1,5 @@
 {
-  "season": ["winter", "summer"],
+  "season": ["summer", "winter"],
   "tide": ["low", "high"],
   "measurement": ["salt", "temp"],
   "slices": 55,

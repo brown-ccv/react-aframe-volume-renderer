@@ -28,7 +28,7 @@ export default function ControlPanel(props) {
             Options
           </Button>
         </Col>
-        <Col>
+        <Col className="text-center">
           <ToggleButtonGroup
             type="radio"
             name="measurement"
