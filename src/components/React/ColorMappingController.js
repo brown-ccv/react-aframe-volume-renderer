@@ -39,20 +39,20 @@ export default connect(mapStateToProps, { changeColorMap })(
           <Dropdown>
             <Dropdown.Toggle variant="outline-primary" className="fullWidth">
               <img
-                // src={this.props.colorMap.src}
+                src={this.props.colorMap.src}
                 alt="Selected color map"
                 height="15"
                 width="65%"
                 className="mr-2"
               />
-              {/* {this.props.colorMap.name} */}
+              {this.props.colorMap.name}
             </Dropdown.Toggle>
             <Dropdown.Menu>
               {colorMaps.map(color => {
                 return (
                   <Dropdown.Item
                     key={color.name}
-                    // active={this.props.colorMap === color}
+                    active={this.props.colorMap === color}
                     onClick={() => this.handleClick(color)}
                   >
                     <img

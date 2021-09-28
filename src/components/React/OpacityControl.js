@@ -321,7 +321,7 @@ export default connect(mapStateToProps, { mySendAlphaPoints })(
         <div>
           <canvas ref="canvas" id="opacityControls" />
           <img
-            // src={this.props.colorMap.src}
+            src={this.props.colorMap.src}
             alt="Selected color map"
             height="15"
             width="250px"
