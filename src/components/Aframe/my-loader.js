@@ -488,8 +488,6 @@ AFRAME.registerComponent("myloader", {
   tick: function (time, timeDelta) {
     // Do something on every scene tick or frame.
     if (this.debugVRPos) {
-      console.log("tick this.data.myMeshPosition");
-      console.log(this.data.myMeshPosition);
       this.debugVRPos = false;
     }
 

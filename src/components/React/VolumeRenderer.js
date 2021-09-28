@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import Spinner from "./Spinner";
 import "../Aframe/arcball-camera";
 import { VolumeConsumer } from "../../context/volume-context";
+import { volumePosition, volumeRotation, volumeScale } from "../../assets/config.json"
 
 const mapStateToProps = (state) => {
   return {
@@ -94,9 +95,9 @@ export default connect(mapStateToProps)(
                     y_spacing: state.y_spacing,
                     z_spacing: state.z_spacing,
                   }}
-                  position="0 0 0"
-                  rotation="-55 0 0"
-                  scale="1 -1 1"
+                  position={volumePosition}
+                  rotation={volumeRotation}
+                  scale={volumeScale}
                 />
               )}
             </VolumeConsumer>
