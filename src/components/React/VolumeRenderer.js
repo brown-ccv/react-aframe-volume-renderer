@@ -36,7 +36,7 @@ export default connect(mapStateToProps)(
       return cm;
     }
     path(state) {
-      console.log(state)
+      console.log("STATE", state)
       return `./assets/models/${state.selection.season}-${state.selection.tide}-${state.selection.measurement}.png`
     }
 
