@@ -12,11 +12,11 @@ function VolumeProvider(props) {
       tide: config.tide[0],
       measurement: config.measurement[0],
     },
-    slices: 55,
-    extension: ".png",
-    x_spacing: 2.0,
-    y_spacing: 2.0,
-    z_spacing: 1.0,
+    slices: config.slices,
+    // extension: ".png",
+    x_spacing: config.x_spacing,
+    y_spacing: config.y_spacing,
+    z_spacing: config.z_spacing,
   });
 
   const value = { state, dispatch };
@@ -45,7 +45,7 @@ function volumeReducer(state, action) {
       const thermal = config.colorMaps[1]
       console.log(haline, thermal)
       // changeColorMap(action.payload === "salt" ? haline : thermal)
-      
+
       return {
         selection: {
           ...state.selection,
