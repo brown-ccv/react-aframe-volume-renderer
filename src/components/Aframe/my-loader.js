@@ -94,7 +94,7 @@ AFRAME.registerComponent("myloader", {
     this.sceneHandler = this.el.sceneEl;
     this.group = new THREE.Group();
 
-    this.controllerHandler = document.getElementById("rhand").object3D; //.getAttribute('my-buttons-check');
+    this.controllerHandler = document.getElementById("rhand").object3D;
     this.controllerHandler.el.addEventListener(
       "selectstart",
       this.onSelectStart
@@ -368,7 +368,7 @@ AFRAME.registerComponent("myloader", {
           material.needsUpdate = true;
 
           hiddenLabel.style.display = "none";
-          console.log("MODEL LOADED");
+          console.log("MODEL LOADED:", path);
 
           updateColorMapping();
         },
