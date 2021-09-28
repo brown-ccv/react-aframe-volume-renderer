@@ -16,15 +16,6 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, { changeColorMap })(
   class ColorMapControl extends Component {
-    constructor(props) {
-      super(props);
-      this.handleClick = this.handleClick.bind(this);
-    }
-
-    handleClick(color) {
-      this.props.changeColorMap(color);
-    }
-
     render() {
       return (
         <div className="fullWidth">
@@ -46,7 +37,8 @@ export default connect(mapStateToProps, { changeColorMap })(
                   <Dropdown.Item
                     key={color.name}
                     active={this.props.colorMap === color}
-                    onClick={() => this.handleClick(color)}
+                    // onClick={() => this.handleClick(color)}
+                    onClick={() => this.props.changeColorMap(color)}
                   >
                     <img
                       src={color.src}
