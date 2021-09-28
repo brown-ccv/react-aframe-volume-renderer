@@ -8,15 +8,12 @@ const initialState = {
   ySlideValueMax: 0,
   zSlideValueMin: 0,
   zSlideValueMax: 0,
-  volumeData: "",
   transferFunction: false,
   colorMap: config.colorMaps[0],
   opacity1: 0,
   opacity2: 1,
   lowNode: 0,
   highNode: 1,
-  // alphaXDataArray: null,
-  // alphaYDataArray: null,
   alphaXDataArray: [0, 0.11739130434782609, 0.34782608695652173, 1],
   alphaYDataArray: [0, 0.11739130434782609, 0.34782608695652173, 1],
   currentColorMap: "",
@@ -24,7 +21,6 @@ const initialState = {
 };
 
 export const myReducer = function readCheckBox(
-  // state = { initialState },
   state = initialState,
   action
 ) {
@@ -33,7 +29,6 @@ export const myReducer = function readCheckBox(
       return {
         ...state,
         checkBoxValue: action.payload,
-        volumeData: action.payload2,
       };
     }
     case "XSLIDE_CHANGED": {
@@ -41,7 +36,6 @@ export const myReducer = function readCheckBox(
         ...state,
         xSlideValueMin: action.payload,
         xSlideValueMax: action.payload2,
-        volumeData: action.payload3,
       };
     }
     case "YSLIDE_CHANGED": {
@@ -49,7 +43,6 @@ export const myReducer = function readCheckBox(
         ...state,
         ySlideValueMin: action.payload,
         ySlideValueMax: action.payload2,
-        volumeData: action.payload3,
       };
     }
     case "ZSLIDE_CHANGED": {
@@ -57,14 +50,11 @@ export const myReducer = function readCheckBox(
         ...state,
         zSlideValueMin: action.payload,
         zSlideValueMax: action.payload2,
-        volumeData: action.payload3,
       };
     }
     case "VOLUME_CHANGED": {
       return {
         ...state,
-        volumeData: action.payload,
-        volumeData2: action.payload,
         transferFunction: action.payload2,
       };
     }
@@ -73,7 +63,6 @@ export const myReducer = function readCheckBox(
         ...state,
         colorMap: action.payload,
         transferFunction: action.payload !== "" ? true : false,
-        volumeData: action.payload2,
       };
     }
     case "OPACITY1_CHANGED": {
@@ -105,7 +94,6 @@ export const myReducer = function readCheckBox(
         ...state,
         alphaXDataArray: action.payload,
         alphaYDataArray: action.payload2,
-        volumeData: action.payload3,
       };
     }
     case "SAVE_COLOR_DATA": {
@@ -118,7 +106,6 @@ export const myReducer = function readCheckBox(
       return {
         ...state,
         channel: action.payload,
-        volumeData: action.payload2,
       };
     }
     default: {
@@ -130,7 +117,6 @@ export const myReducer = function readCheckBox(
         ySlideValueMax: 1,
         zSlideValueMin: 0,
         zSlideValueMax: 1,
-        volumeData: state.volumeData,
         transferFunction: state.transferFunction,
         colorMap: state.colorMap,
         opacity1: state.opacity1,

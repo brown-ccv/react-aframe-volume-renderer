@@ -14,7 +14,6 @@ const mapStateToProps = (state) => {
     ySlideValueMax: state.ySlideValueMax,
     zSlideValueMin: state.zSlideValueMin,
     zSlideValueMax: state.zSlideValueMax,
-    volumeData: state.volumeData,
     transferFunction: state.transferFunction,
     colorMap: state.colorMap,
     opacity1: state.opacity1,
