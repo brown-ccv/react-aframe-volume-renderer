@@ -32,7 +32,7 @@ export default connect(mapStateToProps)(
   class VolumeRenderer extends Component {
     colorMap(cm) {
       console.log("COLOR MAP:", cm);
-      // return "./assets/images/colormaps/thermal.png"
+      return "./assets/images/colormaps/rgb.png"
       return cm;
     }
     path(state) {
