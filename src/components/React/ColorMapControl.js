@@ -37,7 +37,6 @@ export default connect(mapStateToProps, { changeColorMap })(
                   <Dropdown.Item
                     key={color.name}
                     active={this.props.colorMap === color}
-                    // onClick={() => this.handleClick(color)}
                     onClick={() => this.props.changeColorMap(color)}
                   >
                     <img
