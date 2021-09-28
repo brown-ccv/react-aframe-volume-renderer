@@ -82,10 +82,9 @@ export default function ControlPanel(props) {
 
       <Sidebar
         modal={false}
-        position="bottom"
+        position="left"
         visible={sidebarVisible}
         onHide={(e) => setSidebarVisible(false)}
-        style={{ width: "20em", height: "45em" }}
       >
         <Controls />
       </Sidebar>
