@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-
+import { Container, Form, Row } from "react-bootstrap";
 import Slider from "rc-slider";
-
 import "rc-slider/assets/index.css";
 
 import { connect } from "react-redux";
@@ -17,27 +16,10 @@ import {
 
 import OpacityControl from "./OpacityControl";
 import ColorMapControl from "./ColorMappingController";
-import { Checkbox } from "primereact/checkbox";
-import { Dropdown } from "primereact/dropdown";
-
-const channelOptions = [
-  { value: 6, label: "Default" },
-  { value: 1, label: "Red" },
-  { value: 2, label: "Green" },
-  { value: 3, label: "Blue" },
-  { value: 4, label: "Alpha" },
-];
 
 const Range = Slider.Range;
 
-const mapStateToProps = (state) => {
-  return {
-    currentColorMap: state.currentColorMap,
-    volumeData: state.volumeData,
-  };
-};
-
-export default connect(mapStateToProps, {
+export default connect(null, {
   myCheckButtonAction,
   myXSlideAction,
   myYSlideAction,
@@ -67,37 +49,29 @@ export default connect(mapStateToProps, {
       this.zSlideHandleChange = this.zSlideHandleChange.bind(this);
       this.volumeSelectChanged = this.volumeSelectChanged.bind(this);
       this.channelSelectChanged = this.channelSelectChanged.bind(this);
-      this.volumeChangedEvent = this.volumeChangedEvent.bind(this);
       this.resetCamera = this.resetCamera.bind(this);
     }
 
     handleCheckBoxInputChange(event) {
       const target = event.target;
       const value = target.type === "checkbox" ? target.checked : target.value;
-      this.props.myCheckButtonAction(value, this.props.volumeData);
+      this.props.myCheckButtonAction(value);
       this.setState({ activateColorMapping: value });
     }
 
     xSlideHandleChange = (value) => {
       this.setState({ xslideValue: value });
-      this.props.myXSlideAction(value[0], value[1], this.props.volumeData);
+      this.props.myXSlideAction(value[0], value[1]);
     };
 
     ySlideHandleChange = (value) => {
       this.setState({ yslideValue: value });
-      this.props.myYSlideAction(value[0], value[1], this.props.volumeData);
+      this.props.myYSlideAction(value[0], value[1]);
     };
 
     zSlideHandleChange = (value) => {
       this.setState({ zslideValue: value });
-      this.props.myZSlideAction(value[0], value[1], this.props.volumeData);
-    };
-
-    volumeChangedEvent = () => {
-      console.log("volumeChangedEvent");
-      return this.props.volumeData === "" || this.props.volumeData === undefined
-        ? true
-        : false;
+      this.props.myZSlideAction(value[0], value[1]);
     };
 
     volumeSelectChanged = (selected) => {
@@ -114,7 +88,7 @@ export default connect(mapStateToProps, {
         currentChannel: selected.value,
         dataCurrentChannel: selected,
       });
-      this.props.myChannelChanged(selected.value, this.props.volumeData);
+      this.props.myChannelChanged(selected.value);
     };
 
     resetCamera() {
@@ -123,107 +97,53 @@ export default connect(mapStateToProps, {
 
     render() {
       return (
-        <div id="controls">
-          <div>
-            <br />
-            <div
-              style={this.props.volumeData !== "" ? {} : { display: "none" }}
-            >
-              <label>Channel</label>
-              <br />
-              <Dropdown
-                disabled={this.state.activateColorMapping}
-                value={this.state.dataCurrentChannel}
-                options={channelOptions}
-                onChange={this.channelSelectChanged}
-                placeholder="Select Channel"
-              />
-              <br />
-            </div>
+        <Container fluid id="controls">
+          <Row className="my-3">
+            <ColorMapControl width="250" />
+          </Row>
+          <Row className="my-3">
+            <OpacityControl width="250" />
+          </Row>
 
-            <label>
-              <br />
-              Enable Color Map &nbsp;
-              <Checkbox
-                id="colorMapCheckBox"
-                tooltip="Enabled when a Volume is loaded"
-                onChange={this.handleCheckBoxInputChange}
-                checked={this.state.activateColorMapping}
-              ></Checkbox>
-            </label>
-
-            <div
-              style={
-                this.state.activateColorMapping && this.props.volumeData !== ""
-                  ? {}
-                  : { display: "none" }
-              }
-            >
-              <ColorMapControl width="255" />
-              <OpacityControl width="250" />
-            </div>
-          </div>
-
-          <div>
-            <label>
-              X Slide <br />
-            </label>
-            <Range
-              disabled={
-                this.props.volumeData === "" ||
-                this.props.volumeData === undefined
-                  ? true
-                  : false
-              }
-              allowCross={false}
-              step={0.0009}
-              defaultValue={[0, 1]}
-              min={0}
-              max={1}
-              onChange={this.xSlideHandleChange}
-            />
-            <br />
-
-            <label>
-              {" "}
-              Y Slide <br />
-            </label>
-            <Range
-              disabled={
-                this.props.volumeData === "" ||
-                this.props.volumeData === undefined
-                  ? true
-                  : false
-              }
-              allowCross={false}
-              step={0.0009}
-              defaultValue={[0, 1]}
-              min={0}
-              max={1}
-              onChange={this.ySlideHandleChange}
-            />
-            <br />
-
-            <label>
-              {" "}
-              Z Slide <br />{" "}
-            </label>
-            <Range
-              disabled={
-                this.props.volumeData === "" ||
-                this.props.volumeData === undefined
-                  ? true
-                  : false
-              }
-              allowCross={false}
-              step={0.0009}
-              defaultValue={[0, 1]}
-              min={0}
-              max={1}
-              onChange={this.zSlideHandleChange}
-            />
-          </div>
-        </div>
+          <Row className="mt-5">
+            <h4>Clip</h4>
+            <Form className="fullWidth">
+              <Form.Group>
+                <Form.Label> X </Form.Label>
+                <Range
+                  allowCross={false}
+                  step={0.0009}
+                  defaultValue={[0, 1]}
+                  min={0}
+                  max={1}
+                  onChange={this.xSlideHandleChange}
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label> Y </Form.Label>
+                <Range
+                  allowCross={false}
+                  step={0.0009}
+                  defaultValue={[0, 1]}
+                  min={0}
+                  max={1}
+                  onChange={this.ySlideHandleChange}
+                />
+              </Form.Group>
+              <Form.Group>
+                <Form.Label> Z </Form.Label>
+                <Range
+                  allowCross={false}
+                  step={0.0009}
+                  defaultValue={[0, 1]}
+                  min={0}
+                  max={1}
+                  onChange={this.zSlideHandleChange}
+                />
+              </Form.Group>
+            </Form>
+          </Row>
+        </Container>
       );
     }
   }
