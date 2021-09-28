@@ -36,7 +36,6 @@ export default connect(mapStateToProps)(
           <div id="modelLoaded" style={{ display: "none" }}>
             <Spinner />
           </div>
-
           <Scene id="myScene" background="color: black" embedded>
             <Entity
               id="rhand"
@@ -97,6 +96,8 @@ export default connect(mapStateToProps)(
                     z_spacing: state.z_spacing,
                   }}
                   position="0 0 0"
+                  rotation="-55 0 0"
+                  scale="1 -1 1"
                 />
               )}
             </VolumeConsumer>
@@ -109,7 +110,7 @@ export default connect(mapStateToProps)(
               id="myCamera"
               camera="active: true"
               look-controls
-              arcball-camera="initialPosition:0 0 2"
+              arcball-camera="initialPosition:0 0 1"
             />
           </Scene>
         </div>

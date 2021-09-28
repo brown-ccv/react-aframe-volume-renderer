@@ -109,6 +109,8 @@ export const myReducer = function readCheckBox(
         transferFunction: false,
         volumeData: "",
         currentColorMap: "",
+        alphaXDataArray: [0, 0.11739130434782609, 0.34782608695652173, 1],
+        alphaYDataArray: [0, 0.11739130434782609, 0.34782608695652173, 1],
       };
     }
   }

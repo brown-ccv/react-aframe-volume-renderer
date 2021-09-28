@@ -28,7 +28,6 @@ export default function ControlPanel(props) {
             Options
           </Button>
         </Col>
-
         <Col>
           <ToggleButtonGroup
             type="radio"

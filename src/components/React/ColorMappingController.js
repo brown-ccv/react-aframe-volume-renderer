@@ -78,7 +78,7 @@ export default connect(mapStateToProps, {
       this.state = {
         colorMapSelected: "",
         colorMapModal: false,
-        currentMapColor: "./colormaps/viridis.png",
+        currentMapColor: "./colormaps/thermal.png",
       };
 
       this.showModal = this.showModal.bind(this);
@@ -130,32 +130,17 @@ export default connect(mapStateToProps, {
     };
 
     render() {
-      let colorMapSelection;
-      if (this.state.currentMapColor !== "") {
-        colorMapSelection = (
-          <img
-            className="colorMapImg"
-            src={this.state.currentMapColor}
-            alt="color map"
-            height="15"
-            width={this.props.width}
-          ></img>
-        );
-      } else {
-        colorMapSelection = "";
-      }
-
       return (
         <div>
           <button type="button" onClick={this.showModal}>
             color map
           </button>
           <br />
-          {colorMapSelection}
+
           <ReactModal
             isOpen={this.state.colorMapModal}
             style={customStyles}
-            contentLabel="Minimal Modal Example"
+            contentLabel="Color pick Modal"
           >
             {(this.BasicSelectable = this.datatable())}
             <br />
