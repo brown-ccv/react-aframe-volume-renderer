@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { changeColorMap })(
-  class ControlMappingController extends Component {
+  class ColorMapControl extends Component {
     constructor(props) {
       super(props);
       this.handleClick = this.handleClick.bind(this);

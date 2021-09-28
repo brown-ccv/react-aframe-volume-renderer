@@ -15,7 +15,7 @@ import {
 } from "../../redux/AppActions";
 
 import OpacityControl from "./OpacityControl";
-import ColorMapControl from "./ColorMappingController";
+import ColorMapControl from "./ColorMapControl";
 import { range } from "../../assets/config.json";
 
 const Range = Slider.Range;
