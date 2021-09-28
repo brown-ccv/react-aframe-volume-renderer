@@ -30,14 +30,13 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps)(
   class VolumeRenderer extends Component {
-
     colorMap(cm) {
-      console.log("COLOR MAP", cm)
+      console.log("COLOR MAP", cm);
       return cm;
     }
     path(state) {
-      console.log("STATE", state)
-      return `./assets/models/${state.selection.season}-${state.selection.tide}-${state.selection.measurement}.png`
+      console.log("STATE", state);
+      return `./assets/models/${state.selection.season}-${state.selection.tide}-${state.selection.measurement}.png`;
     }
 
     render() {
