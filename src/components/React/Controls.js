@@ -16,6 +16,7 @@ import {
 
 import OpacityControl from "./OpacityControl";
 import ColorMapControl from "./ColorMappingController";
+import { range } from "../../assets/config.json"
 
 const Range = Slider.Range;
 
@@ -114,8 +115,8 @@ export default connect(null, {
                   allowCross={false}
                   step={0.0009}
                   defaultValue={[0, 1]}
-                  min={0}
-                  max={1}
+                  min={range.min}
+                  max={range.max}
                   onChange={this.xSlideHandleChange}
                 />
               </Form.Group>
@@ -125,8 +126,8 @@ export default connect(null, {
                   allowCross={false}
                   step={0.0009}
                   defaultValue={[0, 1]}
-                  min={0}
-                  max={1}
+                  min={range.min}
+                  max={range.max}
                   onChange={this.ySlideHandleChange}
                 />
               </Form.Group>
@@ -136,8 +137,8 @@ export default connect(null, {
                   allowCross={false}
                   step={0.0009}
                   defaultValue={[0, 1]}
-                  min={0}
-                  max={1}
+                  min={range.min}
+                  max={range.max}
                   onChange={this.zSlideHandleChange}
                 />
               </Form.Group>
