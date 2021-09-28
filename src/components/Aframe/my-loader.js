@@ -16,7 +16,6 @@ AFRAME.registerComponent("collider-check", {
 
   onCollide: function (event) {
     this.data.intersecting = true;
-    //console.log("ENTITY COLLIDED");
   },
 });
 
