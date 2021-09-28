@@ -1,6 +1,7 @@
 import { createContext, useContext, useReducer } from "react";
 import config from "../assets/config.json";
-// import { myChangeColorMapAction as changeColorMap } from "../redux/AppActions";
+
+import { myChangeColorMapAction as changeColorMap } from "../redux/AppActions";
 
 const VolumeContext = createContext();
 
@@ -39,12 +40,6 @@ function useVolumeContext() {
 function volumeReducer(state, action) {
   switch (action.type) {
     case "TOGGLE_MEASUREMENT": {
-      // Change color map
-      const haline = config.colorMaps[0]
-      const thermal = config.colorMaps[1]
-      console.log(haline, thermal)
-      // changeColorMap(action.payload === "salt" ? haline : thermal)
-
       return {
         selection: {
           ...state.selection,

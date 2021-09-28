@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { Sidebar } from "primereact/sidebar";
 import {
   Col,
@@ -11,9 +12,12 @@ import {
 
 import Controls from "./Controls";
 import { useVolumeContext } from "../../context/volume-context";
+import { myChangeColorMapAction as changeColorMap } from "../../redux/AppActions";
+import {colorMaps} from "../../assets/config.json"
 
 export default function ControlPanel(props) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
+  const reduxDispatch = useDispatch(changeColorMap);
 
   const {
     state: { selection },
@@ -33,12 +37,18 @@ export default function ControlPanel(props) {
             type="radio"
             name="measurement"
             value={selection.measurement}
-            onChange={(val) =>
+            onChange={(val) => {
+              // Change model
               dispatch({
                 type: "TOGGLE_MEASUREMENT",
                 payload: val,
               })
-            }
+              // Change color map
+              reduxDispatch(
+                changeColorMap(val === "salt" ? 
+                              colorMaps[0] : colorMaps[1])
+              )
+            }}
           >
             <ToggleButton value="salt">Salinity</ToggleButton>
             <ToggleButton value="temp">Temperature</ToggleButton>
