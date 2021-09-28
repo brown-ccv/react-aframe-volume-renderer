@@ -56,7 +56,6 @@ AFRAME.registerComponent("myloader", {
     myMeshPosition: { type: "vec3", default: "" },
     path: { type: "string", default: "" },
     slices: { type: "number", default: 55 },
-    extension: { type: "string", default: "png" },
     x_spacing: { type: "number", default: 2.0 },
     y_spacing: { type: "number", default: 2.0 },
     z_spacing: { type: "number", default: 1.0 },

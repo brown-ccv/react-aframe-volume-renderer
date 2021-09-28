@@ -95,7 +95,6 @@ export default connect(mapStateToProps)(
                     cameraState: this.props.cameraState,
                     path: `./assets/models/${state.selection.season}-${state.selection.tide}-${state.selection.measurement}.png`,
                     slices: state.slices,
-                    extension: state.extension,
                     x_spacing: state.x_spacing,
                     y_spacing: state.y_spacing,
                     z_spacing: state.z_spacing,

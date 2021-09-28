@@ -13,7 +13,6 @@ function VolumeProvider(props) {
       measurement: config.measurement[0],
     },
     slices: config.slices,
-    // extension: ".png",
     x_spacing: config.x_spacing,
     y_spacing: config.y_spacing,
     z_spacing: config.z_spacing,
