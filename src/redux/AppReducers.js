@@ -1,15 +1,15 @@
-import config from "../assets/config.json";
+import {colorMaps, range} from "../assets/config.json";
 
 const initialState = {
   checkBoxValue: false,
-  xSlideValueMin: config.range.min,
-  xSlideValueMax: config.range.max,
-  ySlideValueMin: config.range.min,
-  ySlideValueMax: config.range.max,
-  zSlideValueMin: config.range.min,
-  zSlideValueMax: config.range.max,
+  xSlideValueMin: range.min,
+  xSlideValueMax: range.max,
+  ySlideValueMin: range.min,
+  ySlideValueMax: range.max,
+  zSlideValueMin: range.min,
+  zSlideValueMax: range.max,
   transferFunction: false,
-  colorMap: config.colorMaps[0],
+  colorMap: colorMaps[0],
   opacity1: 0,
   opacity2: 1,
   lowNode: 0,

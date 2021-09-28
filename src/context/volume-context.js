@@ -1,8 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 import config from "../assets/config.json";
 
-import { myChangeColorMapAction as changeColorMap } from "../redux/AppActions";
-
 const VolumeContext = createContext();
 
 // Custom component to provide the Volume context
