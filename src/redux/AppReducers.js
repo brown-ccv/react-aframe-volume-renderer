@@ -3,11 +3,11 @@ import config from "../assets/config.json";
 const initialState = {
   checkBoxValue: false,
   xSlideValueMin: 0,
-  xSlideValueMax: 0,
+  xSlideValueMax: 1,
   ySlideValueMin: 0,
-  ySlideValueMax: 0,
+  ySlideValueMax: 1,
   zSlideValueMin: 0,
-  zSlideValueMax: 0,
+  zSlideValueMax: 1,
   transferFunction: false,
   colorMap: config.colorMaps[0],
   opacity1: 0,
@@ -93,12 +93,6 @@ export const myReducer = function readCheckBox(state = initialState, action) {
         alphaYDataArray: action.payload2,
       };
     }
-    case "SAVE_COLOR_DATA": {
-      return {
-        ...state,
-        currentColorMap: action.payload,
-      };
-    }
     case "CHANNEL_CHANGED": {
       return {
         ...state,
@@ -106,25 +100,7 @@ export const myReducer = function readCheckBox(state = initialState, action) {
       };
     }
     default: {
-      return {
-        checkBoxValue: state.checkBoxValue,
-        xSlideValueMin: 0,
-        xSlideValueMax: 1,
-        ySlideValueMin: 0,
-        ySlideValueMax: 1,
-        zSlideValueMin: 0,
-        zSlideValueMax: 1,
-        transferFunction: state.transferFunction,
-        colorMap: state.colorMap,
-        opacity1: state.opacity1,
-        opacity2: state.opacity2,
-        lowNode: state.lowNode,
-        highNode: state.highNode,
-        alphaXDataArray: state.alphaXDataArray,
-        alphaYDataArray: state.alphaYDataArray,
-        currentColorMap: state.currentColorMap,
-        channel: state.channel,
-      };
+      return { ...state };
     }
   }
 };
