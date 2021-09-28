@@ -78,7 +78,6 @@ AFRAME.registerComponent("myloader", {
     this.updateOpacityData = this.updateOpacityData.bind(this);
     this.colorMapNeedsUpdate = false;
     this.currentColorMap = this.data.colorMap;
-    console.log("Current color map:", this.currentColorMap);
 
     this.el.addEventListener("raycaster-intersected", this.onCollide);
     this.el.addEventListener(
