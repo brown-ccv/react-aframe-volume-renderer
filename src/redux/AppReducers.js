@@ -1,4 +1,4 @@
-import config from "../assets/config.json"
+import config from "../assets/config.json";
 
 const initialState = {
   checkBoxValue: false,
@@ -20,10 +20,7 @@ const initialState = {
   channel: 6,
 };
 
-export const myReducer = function readCheckBox(
-  state = initialState,
-  action
-) {
+export const myReducer = function readCheckBox(state = initialState, action) {
   switch (action.type) {
     case "CHECKBOX_CHANGED": {
       return {

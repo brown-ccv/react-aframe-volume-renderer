@@ -6,10 +6,7 @@ export const myCheckButtonAction = function fetchCheckBox(value, value2) {
   };
 };
 
-export const myXSlideAction = function fetchXSlide(
-  valueMin,
-  valueMax,
-) {
+export const myXSlideAction = function fetchXSlide(valueMin, valueMax) {
   return {
     type: "XSLIDE_CHANGED",
     payload: valueMin,
@@ -17,10 +14,7 @@ export const myXSlideAction = function fetchXSlide(
   };
 };
 
-export const myYSlideAction = function fetchYSlide(
-  valueMin,
-  valueMax,
-) {
+export const myYSlideAction = function fetchYSlide(valueMin, valueMax) {
   return {
     type: "YSLIDE_CHANGED",
     payload: valueMin,
@@ -28,10 +22,7 @@ export const myYSlideAction = function fetchYSlide(
   };
 };
 
-export const myZSlideAction = function fetchZSlide(
-  valueMin,
-  valueMax,
-) {
+export const myZSlideAction = function fetchZSlide(valueMin, valueMax) {
   return {
     type: "ZSLIDE_CHANGED",
     payload: valueMin,
@@ -47,9 +38,7 @@ export const myChangeVolumeAction = function changeVolume(value1, value2) {
   };
 };
 
-export const myChangeColorMapAction = function changeColorMap(
-  value,
-) {
+export const myChangeColorMapAction = function changeColorMap(value) {
   return {
     type: "COLOR_MAP_CHANGED",
     payload: value,
@@ -86,7 +75,7 @@ export const myChangeHighNode = function changeHighNode(value) {
 
 export const mySendAlphaPoints = function mySendAlphaPoints(
   xPosArray,
-  yPosArray,
+  yPosArray
 ) {
   return {
     type: "UPDATED_APLHA_DATA",
@@ -104,9 +93,7 @@ export const mySaveColorMappingState = function mySaveColorMappingState(
   };
 };
 
-export const myChannelChanged = function myChannelChanged(
-  channel,
-) {
+export const myChannelChanged = function myChannelChanged(channel) {
   return {
     type: "CHANNEL_CHANGED",
     payload: channel,

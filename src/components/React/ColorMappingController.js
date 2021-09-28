@@ -7,11 +7,9 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 
 import { connect } from "react-redux";
-import {
-  myChangeColorMapAction as changeColorMap,
-} from "../../redux/AppActions";
+import { myChangeColorMapAction as changeColorMap } from "../../redux/AppActions";
 
-import { colorMaps } from "../../assets/config.json"
+import { colorMaps } from "../../assets/config.json";
 
 const mapStateToProps = (state) => {
   return { colorMap: state.colorMap };
@@ -48,7 +46,7 @@ export default connect(mapStateToProps, { changeColorMap })(
               {this.props.colorMap.name}
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              {colorMaps.map(color => {
+              {colorMaps.map((color) => {
                 return (
                   <Dropdown.Item
                     key={color.name}

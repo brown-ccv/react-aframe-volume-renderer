@@ -40,7 +40,10 @@ AFRAME.registerComponent("myloader", {
     rayCollided: { type: "boolean", default: false },
     modelLoaded: { type: "boolean", default: false },
     transferFunction: { type: "string", default: "false" },
-    colorMap: { type: "string", default: "./assets/images/colormaps/haline.png" },
+    colorMap: {
+      type: "string",
+      default: "./assets/images/colormaps/haline.png",
+    },
     opacity1: { type: "number", default: 0 },
     opacity2: { type: "number", default: 0 },
     lowNode: { type: "number", default: 0 },
@@ -75,7 +78,7 @@ AFRAME.registerComponent("myloader", {
     this.updateOpacityData = this.updateOpacityData.bind(this);
     this.colorMapNeedsUpdate = false;
     this.currentColorMap = this.data.colorMap;
-    console.log("Current color map:", this.currentColorMap)
+    console.log("Current color map:", this.currentColorMap);
 
     this.el.addEventListener("raycaster-intersected", this.onCollide);
     this.el.addEventListener(
