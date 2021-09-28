@@ -1,151 +1,73 @@
 import React, { Component } from "react";
-import ReactModal from "react-modal";
-import { connect } from "react-redux";
-import {
-  myChangeColorMapAction,
-  mySaveColorMappingState,
-} from "../../redux/AppActions";
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
+// import ReactModal from "react-modal";
+import { Dropdown } from "react-bootstrap";
+
 import "primereact/resources/themes/nova/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 
+import { connect } from "react-redux";
+import {
+  myChangeColorMapAction as changeColorMap,
+} from "../../redux/AppActions";
+
+import { colorMaps } from "../../assets/config.json"
+
 const mapStateToProps = (state) => {
-  return {
-    volumeData: state.volumeData,
-  };
+  return { colorMap: state.colorMap };
 };
 
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
-
-const data = [
-  {
-    name: "viridis",
-    image: (
-      <img height="15x" width="100px" src="./colormaps/viridis.png" alt="" />
-    ),
-  },
-  {
-    name: "natural",
-    image: (
-      <img height="15x" width="100px" src="./colormaps/natural.png" alt="" />
-    ),
-  },
-  {
-    name: "colors",
-    image: (
-      <img height="15x" width="100px" src="./colormaps/colors.png" alt="" />
-    ),
-  },
-  {
-    name: "white black",
-    image: (
-      <img height="15x" width="100px" src="./colormaps/whiteblack.png" alt="" />
-    ),
-  },
-];
-
-// const columnsData = [
-//     {
-//       name: 'Color Map',
-//       selector: 'colormap',
-//       cell: d => <img height="15x" width="100px"  src={d.image} alt=""/>,
-//     },
-//     {
-//       name: 'Name',
-//       selector: 'name',
-//     },
-//   ];
-
-export default connect(mapStateToProps, {
-  myChangeColorMapAction,
-  mySaveColorMappingState,
-})(
+export default connect(mapStateToProps, { changeColorMap })(
   class ControlMappingController extends Component {
     constructor(props) {
       super(props);
 
-      this.state = {
-        colorMapSelected: "",
-        colorMapModal: false,
-        currentMapColor: "./colormaps/thermal.png",
-      };
+      this.handleClick = this.handleClick.bind(this);
 
-      this.showModal = this.showModal.bind(this);
-      this.datatable = this.datatable.bind(this);
-      this.handleDataTableSelected = this.handleDataTableSelected.bind(this);
-      this.handleCloseModal = this.handleCloseModal.bind(this);
-
-      ReactModal.setAppElement("body");
+      // ReactModal.setAppElement("body");
     }
 
-    componentWillUnmount() {
-      //-- save state
-      // console.log("componentWillUnmount: " +this.state.currentMapColor);
-      this.props.mySaveColorMappingState(this.state.currentMapColor);
+    handleClick(color) {
+      this.props.changeColorMap(color);
     }
-
-    showModal = () => {
-      this.setState({ colorMapModal: true });
-    };
-
-    handleCloseModal() {
-      this.props.myChangeColorMapAction(
-        this.state.currentMapColor,
-        this.props.volumeData
-      );
-      this.setState({ colorMapModal: false });
-    }
-
-    datatable() {
-      return (
-        <DataTable
-          style={{ width: "350px" }}
-          value={data}
-          selection={this.state.colorMapSelected}
-          onSelectionChange={this.handleDataTableSelected}
-        >
-          <Column selectionMode="single" />
-          <Column field="image" header="Color" />
-          <Column field="name" header="Name" />
-        </DataTable>
-      );
-    }
-
-    handleDataTableSelected = (state) => {
-      this.setState({
-        colorMapSelected: state.value,
-        currentMapColor: state.value.image.props.src,
-      });
-    };
 
     render() {
       return (
-        <div>
-          <button type="button" onClick={this.showModal}>
-            color map
-          </button>
-          <br />
+        <div className="fullWidth">
+          <h4>Color Map</h4>
 
-          <ReactModal
-            isOpen={this.state.colorMapModal}
-            style={customStyles}
-            contentLabel="Color pick Modal"
-          >
-            {(this.BasicSelectable = this.datatable())}
-            <br />
-            <button onClick={this.handleCloseModal}>Apply</button>
-          </ReactModal>
+          <Dropdown>
+            <Dropdown.Toggle variant="outline-primary" className="fullWidth">
+              <img
+                // src={this.props.colorMap.src}
+                alt="Selected color map"
+                height="15"
+                width="65%"
+                className="mr-2"
+              />
+              {/* {this.props.colorMap.name} */}
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              {colorMaps.map(color => {
+                return (
+                  <Dropdown.Item
+                    key={color.name}
+                    // active={this.props.colorMap === color}
+                    onClick={() => this.handleClick(color)}
+                  >
+                    <img
+                      src={color.src}
+                      alt={color.name}
+                      height="15"
+                      width="65%"
+                      className="mr-2"
+                    />
+                    {color.name}
+                  </Dropdown.Item>
+                );
+              })}
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       );
     }
