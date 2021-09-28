@@ -2,12 +2,12 @@ import config from "../assets/config.json";
 
 const initialState = {
   checkBoxValue: false,
-  xSlideValueMin: 0,
-  xSlideValueMax: 1,
-  ySlideValueMin: 0,
-  ySlideValueMax: 1,
-  zSlideValueMin: 0,
-  zSlideValueMax: 1,
+  xSlideValueMin: config.range.min,
+  xSlideValueMax: config.range.max,
+  ySlideValueMin: config.range.min,
+  ySlideValueMax: config.range.max,
+  zSlideValueMin: config.range.min,
+  zSlideValueMax: config.range.max,
   transferFunction: false,
   colorMap: config.colorMaps[0],
   opacity1: 0,
