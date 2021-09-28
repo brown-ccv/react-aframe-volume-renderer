@@ -13,7 +13,7 @@ import {
 import Controls from "./Controls";
 import { useVolumeContext } from "../../context/volume-context";
 import { myChangeColorMapAction as changeColorMap } from "../../redux/AppActions";
-import {colorMaps} from "../../assets/config.json"
+import { colorMaps } from "../../assets/config.json";
 
 export default function ControlPanel(props) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -42,12 +42,11 @@ export default function ControlPanel(props) {
               dispatch({
                 type: "TOGGLE_MEASUREMENT",
                 payload: val,
-              })
+              });
               // Change color map
               reduxDispatch(
-                changeColorMap(val === "salt" ? 
-                              colorMaps[0] : colorMaps[1])
-              )
+                changeColorMap(val === "salt" ? colorMaps[0] : colorMaps[1])
+              );
             }}
           >
             <ToggleButton value="salt">Salinity</ToggleButton>

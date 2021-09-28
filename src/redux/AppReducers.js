@@ -1,4 +1,4 @@
-import {colorMaps, range} from "../assets/config.json";
+import { colorMaps, range } from "../assets/config.json";
 
 const initialState = {
   checkBoxValue: false,

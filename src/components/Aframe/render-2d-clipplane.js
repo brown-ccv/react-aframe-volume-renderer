@@ -69,9 +69,6 @@ AFRAME.registerComponent("render-2d-clipplane", {
     this.data.currenAxisAngle.y = this.tempVec.y;
     this.data.currenAxisAngle.z = this.tempVec.z;
 
-    //console.log("this.data.rotateAngle " + this.data.rotateAngle.x);
-    //console.log("this.data.currentRotAngle.x: " + this.data.currenAxisAngle.x);
-
     if (this.keys.KeyQ && !this.active) {
       this.active = true;
     }
