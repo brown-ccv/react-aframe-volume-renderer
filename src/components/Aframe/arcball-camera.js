@@ -28,8 +28,6 @@ AFRAME.registerComponent("arcball-camera", {
     this.debugPosition = false;
 
     this.bindMethods();
-    // this.onEnterVR = this.onEnterVR.bind(this);
-    // this.onExitVR = this.onExitVR.bind(this);
     this.onWindowResize = this.onWindowResize.bind(this);
 
     el.sceneEl.addEventListener("enter-vr", this.onEnterVR);
@@ -51,9 +49,7 @@ AFRAME.registerComponent("arcball-camera", {
     });
   },
 
-  onWindowResize() {
-    // this.controls.handleResize();
-  },
+  onWindowResize() {},
 
   bindMethods: function () {
     this.onEnterVR = bind(this.onEnterVR, this);
@@ -80,7 +76,6 @@ AFRAME.registerComponent("arcball-camera", {
 
   update: function (oldData) {
     var controls = this.controls;
-    // var data = this.data;
     controls.rotateSpeed = 1.0;
     controls.zoomSpeed = 1.2;
     controls.panSpeed = 0.8;
@@ -116,7 +111,6 @@ AFRAME.registerComponent("arcball-camera", {
       this.controls.update();
     }
     if (this.debugPosition) {
-      // console.log(this.meshObjectHandler.position);
     }
   },
 

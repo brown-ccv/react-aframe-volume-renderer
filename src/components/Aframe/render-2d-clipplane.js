@@ -43,30 +43,7 @@ AFRAME.registerComponent("render-2d-clipplane", {
     window.addEventListener("keyup", this.onKeyUp);
   },
 
-  update: function () {
-    /*var xRot = this.data.xCLipPlaneRotation - this.oldRotation.x ;
-    var yRot = this.data.yCLipPlaneRotation - this.oldRotation.y ;
-    var zRot = this.data.zCLipPlaneRotation - this.oldRotation.z ;
-
-    this.oldRotation.x = this.data.xCLipPlaneRotation;
-    this.oldRotation.y = this.data.yCLipPlaneRotation;
-    this.oldRotation.z = this.data.zCLipPlaneRotation;
-
-    this.data.currentRotAngle = { x: xRot, y:yRot, z:zRot} ;*/
-    //this.oldyRotation.y = this.data.yCLipPlaneRotation;
-    //this.oldzRotation.z = this.data.zCLipPlaneRotation;
-    //console.log("this.data.currentRotAngle:" +this.data.currentRotAngle.x + " " +this.data.currentRotAngle.y +" "+ this.data.currentRotAngle.z);
-    //console.log(data.currentRotAngle);
-    /*if (data.event) {
-      // This will log the `message` when the entity emits the `event`.
-      el.addEventListener(data.event, function () {
-        console.log(data.message);
-      });
-    } else {
-      // `event` not specified, just log the message.
-      console.log(data.message);
-    }*/
-  },
+  update: function () {},
 
   tick: function (time, timeDelta) {
     this.tempVec.x = this.data.xCLipPlaneRotation;
