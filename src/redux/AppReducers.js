@@ -124,12 +124,12 @@ export const myReducer = function readCheckBox(
     default: {
       return {
         checkBoxValue: state.checkBoxValue,
-        // xSlideValueMin: 0,
-        // xSlideValueMax: 0,
-        // ySlideValueMin: 0,
-        // ySlideValueMax: 0,
-        // zSlideValueMin: 0,
-        // zSlideValueMax: 0,
+        xSlideValueMin: 0,
+        xSlideValueMax: 1,
+        ySlideValueMin: 0,
+        ySlideValueMax: 1,
+        zSlideValueMin: 0,
+        zSlideValueMax: 1,
         volumeData: state.volumeData,
         transferFunction: state.transferFunction,
         colorMap: state.colorMap,
@@ -141,13 +141,6 @@ export const myReducer = function readCheckBox(
         alphaYDataArray: state.alphaYDataArray,
         currentColorMap: state.currentColorMap,
         channel: state.channel,
-
-        // checkBoxValue: false,
-        // transferFunction: false,
-        // volumeData: "",
-        // currentColorMap: "",
-        // alphaXDataArray: [0, 0.11739130434782609, 0.34782608695652173, 1],
-        // alphaYDataArray: [0, 0.11739130434782609, 0.34782608695652173, 1],
       };
     }
   }

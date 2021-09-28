@@ -30,9 +30,9 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps)(
   class VolumeRenderer extends Component {
-    colorMap(cm) {
-      console.log("COLOR MAP:", cm);
-      return cm;
+    colorMap() {
+      console.log("COLOR MAP:", this.props.colorMap);
+      return this.props.colorMap.src;
     }
     path(state) {
       console.log("STATE:", state);
