@@ -12,7 +12,6 @@
     { "name": "Thermal", "src": "assets/images/colormaps/thermal.png" },
     { "name": "Grayscale", "src": "assets/images/colormaps/grayscale.png" },
     { "name": "Natural", "src": "assets/images/colormaps/natural.png" },
-    { "name": "Plasma", "src": "assets/images/colormaps/plasma.png" },
     { "name": "RGB", "src": "assets/images/colormaps/rgb.png" },
     { "name": "Viridis", "src": "assets/images/colormaps/viridis.png" }
   ],
