@@ -16,7 +16,7 @@ import {
 
 import OpacityControl from "./OpacityControl";
 import ColorMapControl from "./ColorMappingController";
-import { range } from "../../assets/config.json"
+import { range } from "../../assets/config.json";
 
 const Range = Slider.Range;
 
