@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import ReactModal from "react-modal";
 import { Dropdown } from "react-bootstrap";
 
 import "primereact/resources/themes/nova/theme.css";
@@ -19,10 +18,7 @@ export default connect(mapStateToProps, { changeColorMap })(
   class ControlMappingController extends Component {
     constructor(props) {
       super(props);
-
       this.handleClick = this.handleClick.bind(this);
-
-      // ReactModal.setAppElement("body");
     }
 
     handleClick(color) {
@@ -33,7 +29,6 @@ export default connect(mapStateToProps, { changeColorMap })(
       return (
         <div className="fullWidth">
           <h4>Color Map</h4>
-
           <Dropdown>
             <Dropdown.Toggle variant="outline-primary" className="fullWidth">
               <img
