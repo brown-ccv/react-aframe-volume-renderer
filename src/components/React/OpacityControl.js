@@ -1,9 +1,10 @@
 import React, { Component } from "react";
+import { Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { mySendAlphaPoints } from "../../redux/AppActions";
 
 const mapStateToProps = (state) => {
-  return { volumeData: state.volumeData };
+  return { colorMap: state.colorMap };
 };
 
 export default connect(mapStateToProps, { mySendAlphaPoints })(
@@ -28,8 +29,6 @@ export default connect(mapStateToProps, { mySendAlphaPoints })(
       // distance where clicks and hovering near control nodes are registered
       this.hoverRadius = 15;
       this.width = 0;
-
-      //this.nodesY =[];
 
       this.lowNodeX = ~~(this.width * this.lowNode) + this.padding;
       this.highNodeX = ~~(this.width * this.highNode) + this.padding;
@@ -116,7 +115,6 @@ export default connect(mapStateToProps, { mySendAlphaPoints })(
       }
 
       if (this.nodesCanvasSpace.length > 1) {
-        // console.log("this.nodesCanvasSpace.length: " + this.nodesCanvasSpace.length);
         this.opContext.beginPath();
         this.opContext.moveTo(this.padding, this.minLevelY);
         this.opContext.lineTo(
@@ -175,8 +173,7 @@ export default connect(mapStateToProps, { mySendAlphaPoints })(
 
       this.props.mySendAlphaPoints(
         this.normalizedXCanvasSpace,
-        this.normalizedYCanvasSpace,
-        this.props.volumeData
+        this.normalizedYCanvasSpace
       );
     }
 
@@ -208,7 +205,6 @@ export default connect(mapStateToProps, { mySendAlphaPoints })(
         x: evt.offsetX - this.padding,
         y: this.height - evt.offsetY + this.padding,
       };
-      //console.log("newPoint: " +newPoint.x + " "+newPoint.y)
 
       var indexToBeInserted = -1;
       for (let i = 0; i < this.nodes.length; i++) {
@@ -220,10 +216,6 @@ export default connect(mapStateToProps, { mySendAlphaPoints })(
 
       if (indexToBeInserted === -1) this.nodes.push(newPoint);
       else this.nodes.splice(indexToBeInserted, 0, newPoint);
-
-      //  for(let i = 0; i< this.nodes.length; i++) {
-      //   console.log(this.nodes[i].x + " " + this.nodes[i].y)
-      //  }
 
       this.updateCanvas();
     }
@@ -328,8 +320,18 @@ export default connect(mapStateToProps, { mySendAlphaPoints })(
       return (
         <div>
           <canvas ref="canvas" id="opacityControls" />
-          <br />
-          <button onClick={this.resetOpacityPoints}>Reset</button>
+          <img
+            src={this.props.colorMap.src}
+            alt="Selected color map"
+            height="15"
+            width="250px"
+            className="border border-dark"
+          />
+          <p>
+            Double-click to add a point to the transfer function. Drag points to
+            change the function.
+          </p>
+          <Button onClick={this.resetOpacityPoints}> Reset </Button>
         </div>
       );
     }

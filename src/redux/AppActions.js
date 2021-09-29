@@ -6,42 +6,27 @@ export const myCheckButtonAction = function fetchCheckBox(value, value2) {
   };
 };
 
-export const myXSlideAction = function fetchXSlide(
-  valueMin,
-  valueMax,
-  volumeDataName
-) {
+export const myXSlideAction = function fetchXSlide(valueMin, valueMax) {
   return {
     type: "XSLIDE_CHANGED",
     payload: valueMin,
     payload2: valueMax,
-    payload3: volumeDataName,
   };
 };
 
-export const myYSlideAction = function fetchYSlide(
-  valueMin,
-  valueMax,
-  volumeDataName
-) {
+export const myYSlideAction = function fetchYSlide(valueMin, valueMax) {
   return {
     type: "YSLIDE_CHANGED",
     payload: valueMin,
     payload2: valueMax,
-    payload3: volumeDataName,
   };
 };
 
-export const myZSlideAction = function fetchZSlide(
-  valueMin,
-  valueMax,
-  volumeDataName
-) {
+export const myZSlideAction = function fetchZSlide(valueMin, valueMax) {
   return {
     type: "ZSLIDE_CHANGED",
     payload: valueMin,
     payload2: valueMax,
-    payload3: volumeDataName,
   };
 };
 
@@ -53,14 +38,10 @@ export const myChangeVolumeAction = function changeVolume(value1, value2) {
   };
 };
 
-export const myChangeColorMapAction = function changeColorMap(
-  value,
-  volumeDataName
-) {
+export const myChangeColorMapAction = function changeColorMap(value) {
   return {
     type: "COLOR_MAP_CHANGED",
     payload: value,
-    payload2: volumeDataName,
   };
 };
 
@@ -94,14 +75,12 @@ export const myChangeHighNode = function changeHighNode(value) {
 
 export const mySendAlphaPoints = function mySendAlphaPoints(
   xPosArray,
-  yPosArray,
-  volumeDataName
+  yPosArray
 ) {
   return {
     type: "UPDATED_APLHA_DATA",
     payload: xPosArray,
     payload2: yPosArray,
-    payload3: volumeDataName,
   };
 };
 
@@ -114,14 +93,10 @@ export const mySaveColorMappingState = function mySaveColorMappingState(
   };
 };
 
-export const myChannelChanged = function myChannelChanged(
-  channel,
-  volumeDataName
-) {
+export const myChannelChanged = function myChannelChanged(channel) {
   return {
     type: "CHANNEL_CHANGED",
     payload: channel,
-    payload2: volumeDataName,
   };
 };
 

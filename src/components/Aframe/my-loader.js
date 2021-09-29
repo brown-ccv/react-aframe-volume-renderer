@@ -2,11 +2,6 @@
 import "../../shaders/ccvLibVolumeShader.js";
 var bind = AFRAME.utils.bind;
 
-// var KEYS = [
-// 	'KeyW', 'KeyA', 'KeyS', 'KeyD', 'KeyQ', 'KeyP',
-// 	'ArrowUp', 'ArrowLeft', 'ArrowRight', 'ArrowDown'
-// ];
-
 AFRAME.registerComponent("collider-check", {
   dependencies: ["raycaster", "my-buttons-check"],
 
@@ -21,7 +16,6 @@ AFRAME.registerComponent("collider-check", {
 
   onCollide: function (event) {
     this.data.intersecting = true;
-    //console.log("ENTITY COLLIDED");
   },
 });
 
@@ -46,7 +40,10 @@ AFRAME.registerComponent("myloader", {
     rayCollided: { type: "boolean", default: false },
     modelLoaded: { type: "boolean", default: false },
     transferFunction: { type: "string", default: "false" },
-    colorMap: { type: "string", default: "./colormaps/haline.png" },
+    colorMap: {
+      type: "string",
+      default: "./assets/images/colormaps/haline.png",
+    },
     opacity1: { type: "number", default: 0 },
     opacity2: { type: "number", default: 0 },
     lowNode: { type: "number", default: 0 },
@@ -57,6 +54,11 @@ AFRAME.registerComponent("myloader", {
     channel: { type: "number", default: 6 },
     cameraState: { type: "string", default: "" },
     myMeshPosition: { type: "vec3", default: "" },
+    path: { type: "string", default: "" },
+    slices: { type: "number", default: 55 },
+    x_spacing: { type: "number", default: 2.0 },
+    y_spacing: { type: "number", default: 2.0 },
+    z_spacing: { type: "number", default: 1.0 },
   },
 
   init: function () {
@@ -92,7 +94,7 @@ AFRAME.registerComponent("myloader", {
     this.sceneHandler = this.el.sceneEl;
     this.group = new THREE.Group();
 
-    this.controllerHandler = document.getElementById("rhand").object3D; //.getAttribute('my-buttons-check');
+    this.controllerHandler = document.getElementById("rhand").object3D;
     this.controllerHandler.el.addEventListener(
       "selectstart",
       this.onSelectStart
@@ -366,7 +368,7 @@ AFRAME.registerComponent("myloader", {
           material.needsUpdate = true;
 
           hiddenLabel.style.display = "none";
-          console.log("MODEL LOADED");
+          console.log("MODEL LOADED:", path);
 
           updateColorMapping();
         },
@@ -487,8 +489,6 @@ AFRAME.registerComponent("myloader", {
   tick: function (time, timeDelta) {
     // Do something on every scene tick or frame.
     if (this.debugVRPos) {
-      console.log("tick this.data.myMeshPosition");
-      console.log(this.data.myMeshPosition);
       this.debugVRPos = false;
     }
 

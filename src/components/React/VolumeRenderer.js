@@ -1,9 +1,15 @@
-import { Entity, Scene } from "aframe-react";
 import React, { Component } from "react";
+import { Entity, Scene } from "aframe-react";
 import { connect } from "react-redux";
-import Spinner from "./Spinner";
+
 import "../Aframe/arcball-camera";
 import { VolumeConsumer } from "../../context/volume-context";
+import Spinner from "./Spinner";
+import {
+  volumePosition,
+  volumeRotation,
+  volumeScale,
+} from "../../assets/config.json";
 
 const mapStateToProps = (state) => {
   return {
@@ -14,7 +20,6 @@ const mapStateToProps = (state) => {
     ySlideValueMax: state.ySlideValueMax,
     zSlideValueMin: state.zSlideValueMin,
     zSlideValueMax: state.zSlideValueMax,
-    volumeData: state.volumeData,
     transferFunction: state.transferFunction,
     colorMap: state.colorMap,
     opacity1: state.opacity1,
@@ -78,7 +83,7 @@ export default connect(mapStateToProps)(
                   myloader={{
                     rayCollided: false,
                     transferFunction: this.props.transferFunction,
-                    colorMap: this.props.colorMap,
+                    colorMap: this.props.colorMap.src,
                     opacity1: this.props.opacity1,
                     opacity2: this.props.opacity2,
                     lowNode: this.props.lowNode,
@@ -90,14 +95,13 @@ export default connect(mapStateToProps)(
                     cameraState: this.props.cameraState,
                     path: `./assets/models/${state.selection.season}-${state.selection.tide}-${state.selection.measurement}.png`,
                     slices: state.slices,
-                    extension: state.extension,
                     x_spacing: state.x_spacing,
                     y_spacing: state.y_spacing,
                     z_spacing: state.z_spacing,
                   }}
-                  position="0 0 0"
-                  rotation="-55 0 0"
-                  scale="1 -1 1"
+                  position={volumePosition}
+                  rotation={volumeRotation}
+                  scale={volumeScale}
                 />
               )}
             </VolumeConsumer>
