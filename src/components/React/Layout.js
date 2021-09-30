@@ -52,6 +52,7 @@ export default function Layout(props) {
                 <a
                   href="https://riddc-jupyter-book.web.app/notebooks/fox-kemper/osom_intro.html#"
                   target="_blank"
+                  rel="noreferrer"
                 >
                   Ocean State Oceanographic Model
                 </a>{" "}

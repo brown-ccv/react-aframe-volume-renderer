@@ -1,12 +1,11 @@
-import React, { useState } from "react";
-import { Container, Alert, Button, Row } from "react-bootstrap";
+import React from "react";
+import { Container, Alert, Button } from "react-bootstrap";
 
 import { useVolumeContext } from "../../context/volume-context";
 
 export default function InfoText(props) {
   const {
     state: { selection },
-    dispatch,
   } = useVolumeContext();
 
   return (
@@ -21,6 +20,7 @@ export default function InfoText(props) {
           <a
             href="https://riddc-jupyter-book.web.app/notebooks/fox-kemper/osom_intro.html#"
             target="_blank"
+            rel="noreferrer"
           >
             Ocean State Oceanographic Model
           </a>{" "}
