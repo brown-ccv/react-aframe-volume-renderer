@@ -57,7 +57,7 @@ export default function Footer(props) {
       </section>
       <section className="footer-grid-bottom">
         <span className="copyright-span">© 2021</span>
-        <span className="copyright-span">Narragansett Bay Volume Renderer</span>
+        <span className="copyright-span">Narragansett Bay Volume Viewer</span>
       </section>
     </footer>
   );

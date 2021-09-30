@@ -93,7 +93,7 @@ export default connect(mapStateToProps)(
                     colorMapping: this.props.colorMapping,
                     channel: this.props.channel,
                     cameraState: this.props.cameraState,
-                    path: `./assets/models/${state.selection.season}-${state.selection.tide}-${state.selection.measurement}.png`,
+                    path: `./assets/models/${state.selection.season.value}-${state.selection.tide.value}-${state.selection.measurement.value}.png`,
                     slices: state.slices,
                     x_spacing: state.x_spacing,
                     y_spacing: state.y_spacing,
