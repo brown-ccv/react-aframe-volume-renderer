@@ -1,17 +1,61 @@
 {
-  "season": ["summer", "winter"],
-  "tide": ["low", "high"],
-  "measurement": ["salt", "temp"],
+  "season": [
+    {
+      "value": "summer",
+      "name": "Summer",
+      "date": "July 15, 2018"
+    },
+    {
+      "value": "winter",
+      "name": "Winter",
+      "date": "January 15, 2018"
+    }
+  ],
+  "tide": [
+    {
+      "value": "low",
+      "name": "Low Tide"
+    },
+    {
+      "value": "high",
+      "name": "High Tide"
+    }
+  ],
+  "measurement": [
+    {
+      "value": "salt",
+      "name": "Salinity"
+    },
+    {
+      "value": "temp",
+      "name": "Temperature"
+    }
+  ],
   "slices": 55,
-  "x_spacing": 2.0,
-  "y_spacing": 2.0,
-  "z_spacing": 1.0,
+  "x_spacing": 2,
+  "y_spacing": 2,
+  "z_spacing": 1,
   "colorMaps": [
-    { "name": "Haline", "src": "assets/images/colormaps/haline.png" },
-    { "name": "Thermal", "src": "assets/images/colormaps/thermal.png" },
-    { "name": "Grayscale", "src": "assets/images/colormaps/grayscale.png" },
-    { "name": "Natural", "src": "assets/images/colormaps/natural.png" },
-    { "name": "RGB", "src": "assets/images/colormaps/rgb.png" }
+    {
+      "name": "Haline",
+      "src": "assets/images/colormaps/haline.png"
+    },
+    {
+      "name": "Thermal",
+      "src": "assets/images/colormaps/thermal.png"
+    },
+    {
+      "name": "Grayscale",
+      "src": "assets/images/colormaps/grayscale.png"
+    },
+    {
+      "name": "Natural",
+      "src": "assets/images/colormaps/natural.png"
+    },
+    {
+      "name": "RGB",
+      "src": "assets/images/colormaps/rgb.png"
+    }
   ],
   "volumePosition": "0 0 0",
   "volumeRotation": "-55 0 0",

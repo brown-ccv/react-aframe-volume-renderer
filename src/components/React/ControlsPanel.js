@@ -13,7 +13,7 @@ import {
 import Controls from "./Controls";
 import { useVolumeContext } from "../../context/volume-context";
 import { myChangeColorMapAction as changeColorMap } from "../../redux/AppActions";
-import { colorMaps } from "../../assets/config.json";
+import { colorMaps, season, tide, measurement } from "../../assets/config.json";
 
 export default function ControlPanel(props) {
   const [sidebarVisible, setSidebarVisible] = useState(false);
@@ -45,12 +45,17 @@ export default function ControlPanel(props) {
               });
               // Change color map
               reduxDispatch(
-                changeColorMap(val === "salt" ? colorMaps[0] : colorMaps[1])
+                changeColorMap(
+                  val.value === "salt"
+                    ? colorMaps.find((m) => m.name === "Haline")
+                    : colorMaps.find((m) => m.name === "Thermal")
+                )
               );
             }}
           >
-            <ToggleButton value="salt">Salinity</ToggleButton>
-            <ToggleButton value="temp">Temperature</ToggleButton>
+            {measurement.map((m) => {
+              return <ToggleButton value={m}>{m.name}</ToggleButton>;
+            })}
           </ToggleButtonGroup>
         </Col>
 
@@ -66,8 +71,9 @@ export default function ControlPanel(props) {
               })
             }
           >
-            <ToggleButton value="summer">Summer</ToggleButton>
-            <ToggleButton value="winter">Winter</ToggleButton>
+            {season.map((m) => {
+              return <ToggleButton value={m}>{m.name}</ToggleButton>;
+            })}
           </ToggleButtonGroup>
         </Col>
 
@@ -83,8 +89,9 @@ export default function ControlPanel(props) {
               })
             }
           >
-            <ToggleButton value="low">Low Tide</ToggleButton>
-            <ToggleButton value="high">High Tide</ToggleButton>
+            {tide.map((m) => {
+              return <ToggleButton value={m}>{m.name}</ToggleButton>;
+            })}
           </ToggleButtonGroup>
         </Col>
       </Row>

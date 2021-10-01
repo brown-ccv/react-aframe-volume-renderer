@@ -3,6 +3,7 @@ import { Navbar, Nav, Button, Container, Row, Col } from "react-bootstrap";
 
 import VolumeRenderer from "./VolumeRenderer";
 import ControlsPanel from "./ControlsPanel";
+import InfoText from "./InfoText";
 import Howto from "./Howto";
 import Footer from "./Footer";
 
@@ -32,6 +33,7 @@ export default function Layout(props) {
 
       <Container fluid id="visualizer" className="mb-3">
         <VolumeProvider>
+          <InfoText />
           <ControlsPanel />
           <VolumeRenderer />
         </VolumeProvider>
@@ -41,18 +43,26 @@ export default function Layout(props) {
         <Row className="justify-content-md-center py-5">
           <Col xs={8}>
             <div className="d-flex flex-column">
-              <h1 className="my-4">Narragansett Bay Volume Renderer</h1>
+              <h1 className="my-4">Narragansett Bay Volume Viewer</h1>
 
               <p className="my-4">
                 The main goal of the project is to provide an easily accessible
                 and interactive environment to explore and showcase volumetric
-                Naragansett Bay data with the added benefits of Virtual Reality
-                If VR-capable hardware is available.
+                Naragansett Bay data from the{" "}
+                <a
+                  href="https://riddc-jupyter-book.web.app/notebooks/fox-kemper/osom_intro.html#"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Ocean State Oceanographic Model
+                </a>{" "}
+                with the added benefits of Virtual Reality, if VR-capable
+                hardware is available.
                 <br />
               </p>
 
               <h2 className="mt-4 text-center">
-                Learn How To Use the Volume Renderer
+                Learn How To Use the Volume Viewer
               </h2>
               <Button
                 variant="primary"
